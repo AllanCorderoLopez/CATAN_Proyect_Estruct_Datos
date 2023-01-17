@@ -261,6 +261,7 @@ int main()
     */
 
     Board menu;
+    menu.renderMenu();
 
     /*while (window.isOpen()) {
         sf::Event event;

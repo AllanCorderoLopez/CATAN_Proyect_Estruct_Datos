@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
+using namespace std;
 
 class Board
 {
@@ -12,6 +13,7 @@ private:
 public:
 	Board();
 	RenderWindow getMenuWindow();
+	void drawCircles(vector<CircleShape>);
 	void renderMenu();
 	void createGameBoard();
 	void paintGameBoard();
@@ -19,4 +21,5 @@ public:
 
 
 };
+
 
