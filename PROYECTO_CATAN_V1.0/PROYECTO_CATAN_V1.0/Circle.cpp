@@ -18,7 +18,7 @@ Circle::Circle(float coordX, float coordY, int radio) {
 
 void Circle::DrawCircle( ) {
     
-
+    cout << "holaPerra";
 
 }
 
