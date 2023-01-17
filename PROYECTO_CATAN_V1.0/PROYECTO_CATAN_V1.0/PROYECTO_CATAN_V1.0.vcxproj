@@ -133,11 +133,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="shape.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Board.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="shape.h" />
   </ItemGroup>

@@ -2,7 +2,9 @@
 #include <SFML/Graphics.hpp>
 
 using namespace sf;
-
+using namespace std;
+float RADIUS = 75;
+vector<CircleShape> circles(10);
 
 Circle::Circle() {
 
@@ -14,8 +16,8 @@ Circle::Circle(float coordX, float coordY, int radio) {
     this->radio = radio;
 }
 
-void Circle::DrawCircle() {
-
+void Circle::DrawCircle( ) {
+    
 
 
 }
@@ -28,6 +30,18 @@ void Circle::createCircle(float coordX, float coordY, float RADIUS) {
     circle.setOrigin(RADIUS, RADIUS);
     circle.setOutlineThickness(2);
     circle.setOutlineColor(Color(255, 0, 0));
+
+
+}
+
+void Circle::makeCirclesBackground(float coordX, float coordY) {
+
+
+
+}
+
+void Circle::drawCirclesBackground() {
+
 
 
 }

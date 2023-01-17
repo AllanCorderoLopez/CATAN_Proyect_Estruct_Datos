@@ -1,10 +1,15 @@
 #include <SFML/Graphics.hpp>
+#include "circle.h"
+#include "Board.h"
 #include <vector>
 #include <iostream>
 using namespace sf;
 using namespace std;
-float RADIUS = 75;
-vector<CircleShape> circles(10);
+//float RADIUS = 75;
+//vector<CircleShape> circles(10);
+
+
+
 
 
 
@@ -12,21 +17,21 @@ int main()
 {
 
 
-    RenderWindow window({ 1280, 720 }, "Hexagons");
+    //RenderWindow window({ 1280, 720 }, "Window");
 
 
     //  void drawBoard();
 
 
-    float Pos_Circle_X = 300;
-    float Pos_Circle_Y = 125;
-
+    //float Pos_Circle_X = 300;
+    //float Pos_Circle_Y = 125;
+    
 
     // We're simply abusing a `CircleShape` here,
     // since a circle defined by 6 points IS a hexagon!
     //circle vertice
 
-
+    /*
     CircleShape circleVertice(5);
     circleVertice.setFillColor(Color(0, 98, 117, 0));
     circleVertice.setPosition(350, 156);
@@ -253,10 +258,24 @@ int main()
     }
 
 
+    */
 
+    Board menu;
+
+    /*while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+
+        }
+
+        if (event.type == sf::Event::Closed)
+            window.close();
+        window.clear(sf::Color::White);
+        
+        window.display();
+    }*/
 
 }
-
 
 
 void drawCircle(float radius, float coordX, float coordY) {

@@ -9,5 +9,6 @@ public:
 	Circle(float, float, int);
 	void DrawCircle();
 	void createCircle(float coordX, float coordY, float radio);
-
+	void makeCirclesBackground(float coordX, float coordY);
+	void drawCirclesBackground();
 };
