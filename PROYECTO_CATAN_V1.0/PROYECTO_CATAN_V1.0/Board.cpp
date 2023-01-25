@@ -28,6 +28,7 @@ Board::Board()
 
 	font = new Font();
 	font->loadFromFile("Chickenic.ttf");
+
 	titlePlayers = new Text();
 	titlePlayers->setFont(*font);
 	titlePlayers->setString("Jugador: ");
@@ -212,8 +213,8 @@ void Board::renderMenu(ListCurrentPlayers list)
 	current = list.First();
 
 	playersName->setString(current->player.getName());
-	current->player.getListPlayerCards().showList();
-	GameWindow->display();
+	//current->player.getListPlayerCards().showList();
+	//GameWindow->display();
 	while (GameWindow->isOpen()) {
 
 		sf::Event event;
@@ -228,20 +229,18 @@ void Board::renderMenu(ListCurrentPlayers list)
 				}
 			}
 		}
-		GameWindow->clear(sf::Color::Black);
+		GameWindow->clear(sf::Color::White);
 		renderTerrains();
 		Circle c;
 		c.drawCirclesBackground();
-		drawCircles(c.drawCirclesBackground());
+		drawCircles(c.drawCirclesBackground());		
 		paintFixedElements();
-		createGameBoard();
+		GameWindow->draw(*playersName);
+		//createGameBoard();
 
 		GameWindow->display();
 
 	}
-
-	
-
 
 }
 
@@ -249,14 +248,16 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 {
 	float y = 90;
 
-	Text txt;
-	txt.setString("Jugadores:");
+	Text* txt = new Text();
+	txt->setString("Jugadores:");
 
 	RectangleShape currentPlayer({ 250,75 });
 	currentPlayer.setPosition({ 10,10 });
 	currentPlayer.setFillColor(Color::Blue);
 
 	GameWindow->draw(currentPlayer);
+	GameWindow->draw(*txt); 
+	GameWindow->draw(*titlePlayers);
 
 	for (int i = 0; i < 17; i++) {
 		RectangleShape currentCards({ 50,50 });
@@ -265,7 +266,6 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 		GameWindow->draw(currentCards);
 		y = y + 60;
 	}
-
 
 
 }
