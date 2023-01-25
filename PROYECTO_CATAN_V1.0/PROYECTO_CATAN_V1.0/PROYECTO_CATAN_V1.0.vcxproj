@@ -137,11 +137,17 @@
     <ClCompile Include="BoardEdge.cpp" />
     <ClCompile Include="BoardGraph.cpp" />
     <ClCompile Include="BoardVertex.cpp" />
+    <ClCompile Include="Card.cpp" />
     <ClCompile Include="Circle.cpp" />
     <ClCompile Include="Forest.cpp" />
+    <ClCompile Include="Game.cpp" />
+    <ClCompile Include="ListPlayerCards.cpp" />
     <ClCompile Include="ListTerrain.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NodeCard.cpp" />
     <ClCompile Include="NodeTerrain.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="shape.cpp" />
     <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
@@ -150,10 +156,16 @@
     <ClInclude Include="BoardEdge.h" />
     <ClInclude Include="BoardGraph.h" />
     <ClInclude Include="BoardVertex.h" />
+    <ClInclude Include="Card.h" />
     <ClInclude Include="Circle.h" />
     <ClInclude Include="Forest.h" />
+    <ClInclude Include="Game.h" />
+    <ClInclude Include="ListPlayerCards.h" />
     <ClInclude Include="ListTerrain.h" />
+    <ClInclude Include="NodeCard.h" />
     <ClInclude Include="NodeTerrain.h" />
+    <ClInclude Include="Node.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="shape.h" />
     <ClInclude Include="Terrain.h" />
   </ItemGroup>

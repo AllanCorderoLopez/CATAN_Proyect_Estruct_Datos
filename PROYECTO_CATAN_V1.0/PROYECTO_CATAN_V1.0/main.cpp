@@ -20,20 +20,27 @@ int main()
 {
 
 
-    Board b;
-    b.generateTerrains();
-
-    b.renderTerrains();
 
 
 
 
-
+    Game juego;
+    juego.startGame();
 
 
 
 
     /*
+    * 
+    * 
+    * 
+    * 
+
+
+
+
+
+
 
     BoardGraph* graph = new BoardGraph();
     int op = -1;

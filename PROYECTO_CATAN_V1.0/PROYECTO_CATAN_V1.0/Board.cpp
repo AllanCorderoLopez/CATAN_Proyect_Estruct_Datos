@@ -19,9 +19,29 @@ vector<Terrain*> terrains(20);
 vector<Sprite> spriteTerrains(20);
 vector<Texture> textureTerrains(20);
 
+
+
 Board::Board()
 {
-	Game = new RenderWindow(VideoMode(1280, 720), "Game");
+
+	GameWindow = new RenderWindow(VideoMode(1280, 720), "Game");
+
+	font = new Font();
+	font->loadFromFile("Chickenic.ttf");
+	titlePlayers = new Text();
+	titlePlayers->setFont(*font);
+	titlePlayers->setString("Jugador: ");
+	titlePlayers->setPosition({ 10,5 });
+	titlePlayers->setCharacterSize(25);
+
+	playersName = new Text();
+	playersName->setFont(*font);
+	playersName->setString(" ");
+	playersName->setPosition({ 15,35 });
+	playersName->setCharacterSize(25);
+
+	passTurn = new Event;
+
 	/*RenderWindow window({1280, 720}, "Window");
 	while (window.isOpen()) {
 		sf::Event event;
@@ -53,7 +73,7 @@ void Board::drawCircles(vector<CircleShape> circles)
 {
 	int cont = 0;
 	for (int i = 0; i < 37; i++) {
-		Game->draw(circles[cont]);
+		GameWindow->draw(circles[cont]);
 		cont++;
 	}
 
@@ -120,12 +140,17 @@ void Board::renderTerrains()
 {
 
 
-	loadImages();
-	while (Game->isOpen()) {
-		while (Game->pollEvent(event)) {
-			if (event.type == sf::Event::Closed)
-				Game->close();
-		}
+
+
+	//cargar imagenes en un vector para no tener que cargarlas desde memoria 
+
+	//createGameBoard();
+	//selectTerrain();
+
+
+
+
+
 		//cargar imagenes en un vector para no tener que cargarlas desde memoria 
 
 		//createGameBoard();
@@ -138,32 +163,109 @@ void Board::renderTerrains()
 			Sprite sprite(textureTerrains[i]);
 			sprite.setScale(0.3f, 0.3f);
 			if (i < 3)
-			sprite.setPosition(400 + (i * 130), 50);
-			if(i>=3 && i<7)
-			sprite.setPosition(-55 + (i * 130), 165);
+				sprite.setPosition(400 + (i * 130), 50);
+			if (i >= 3 && i < 7)
+				sprite.setPosition(-55 + (i * 130), 165);
 			if (i >= 7 && i < 12)
-			sprite.setPosition(-640 + (i * 130), 280);
+				sprite.setPosition(-640 + (i * 130), 280);
 			if (i >= 12 && i < 16)
-			sprite.setPosition(-1225 + (i * 130), 395);
+				sprite.setPosition(-1225 + (i * 130), 395);
 			if (i >= 16)
-			sprite.setPosition(-1680 + (i * 130), 510);
+				sprite.setPosition(-1680 + (i * 130), 510);
 
-			Game->draw(sprite);
-			Game->display();
+			GameWindow->draw(sprite);
 		}
 
 
+	
+
+
+
+}
+void Board::renderGame() {
+	generateTerrains();
+	loadImages();
+
+	ListCurrentPlayers list;
+	//Node* current;//prueba
+	//current = list.First();
+
+	//playersName->setString(current->player.getName());
+	//current->player.getListPlayerCards().showList();
+
+
+	while (GameWindow->isOpen()) {
+		while (GameWindow->pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				GameWindow->close();
+		}
+		renderTerrains();
+		GameWindow->display();
+
 	}
+}
+void Board::renderMenu(ListCurrentPlayers list)
+{
+	generateTerrains();
+	loadImages();
+	Node* current;//prueba
+	current = list.First();
+
+	playersName->setString(current->player.getName());
+	current->player.getListPlayerCards().showList();
+	GameWindow->display();
+	while (GameWindow->isOpen()) {
+
+		sf::Event event;
+		while (GameWindow->pollEvent(event)) {
+			if (event.type == sf::Event::Closed)
+				GameWindow->close();
+
+			else if (event.type == sf::Event::KeyPressed) {//esto hace que se pasen los nombres de jugadores
+				if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+					playersName->setString(current->player.getName());
+					current = current->next;
+				}
+			}
+		}
+		GameWindow->clear(sf::Color::Black);
+		renderTerrains();
+		Circle c;
+		c.drawCirclesBackground();
+		drawCircles(c.drawCirclesBackground());
+		paintFixedElements();
+		createGameBoard();
+
+		GameWindow->display();
+
+	}
+
+	
+
 
 }
 
-void Board::renderMenu()
+void Board::paintFixedElements()//pinta los labels y recuadros
 {
-	/*for (int i = 0; i < 4; i++) {
-		Game->draw(*optionsGame[i]);
+	float y = 90;
+
+	Text txt;
+	txt.setString("Jugadores:");
+
+	RectangleShape currentPlayer({ 250,75 });
+	currentPlayer.setPosition({ 10,10 });
+	currentPlayer.setFillColor(Color::Blue);
+
+	GameWindow->draw(currentPlayer);
+
+	for (int i = 0; i < 17; i++) {
+		RectangleShape currentCards({ 50,50 });
+		currentCards.setPosition({ 10,y });
+		currentCards.setFillColor(Color::Green);
+		GameWindow->draw(currentCards);
+		y = y + 60;
 	}
 
-	*/
 
 
 }
@@ -204,7 +306,7 @@ void Board::selectTerrain()
 
 
 	}
-	Game->clear();
+	GameWindow->clear();
 	drawCircles(circlesBoard);
 	drawCircles(c.drawCirclesBackground());
 
@@ -228,7 +330,7 @@ void Board::detectHexHorizontalSegment() {
 	for (int i = 0; i < circlesBoard.size(); i++) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x+50, circlesBoard[i].getPosition().y-3, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION ENTRE CIRCULOS"<<i+1 << " Y " <<i+2 << endl;
 			}
@@ -239,7 +341,7 @@ void Board::detectHexDiagonalLeftSegment() {
 		if (i <= 3) {
 			if (selectedCircle[i] == true && selectedCircle[i + 4] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x -25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -248,7 +350,7 @@ void Board::detectHexDiagonalLeftSegment() {
 		if (i > 3 && i <= 8) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -257,7 +359,7 @@ void Board::detectHexDiagonalLeftSegment() {
 		if (i > 8 && i <= 14) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -266,7 +368,7 @@ void Board::detectHexDiagonalLeftSegment() {
 		if (i > 14 && i <= 21) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -275,7 +377,7 @@ void Board::detectHexDiagonalLeftSegment() {
 		if (i > 21 && i <= 27) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -284,7 +386,7 @@ void Board::detectHexDiagonalLeftSegment() {
 		if (i > 27 && i <= 32) {
 			if (selectedCircle[i] == true && selectedCircle[i + 4] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -292,7 +394,7 @@ void Board::detectHexDiagonalLeftSegment() {
 		if (i > 32 && i <= 36) {
 			if (selectedCircle[i] == true && selectedCircle[i + 4] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -307,7 +409,7 @@ void Board::detectHexDiagonalRightSegment() {
 		if (i <= 3) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y+43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -316,7 +418,7 @@ void Board::detectHexDiagonalRightSegment() {
 		if (i > 3 && i<=8) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -325,7 +427,7 @@ void Board::detectHexDiagonalRightSegment() {
 		if (i > 8 && i <= 14) {
 			if (selectedCircle[i] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -334,7 +436,7 @@ void Board::detectHexDiagonalRightSegment() {
 		if (i > 14 && i <= 21) {
 			if (selectedCircle[i] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -343,7 +445,7 @@ void Board::detectHexDiagonalRightSegment() {
 		if (i > 21 && i <= 27) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -352,7 +454,7 @@ void Board::detectHexDiagonalRightSegment() {
 		if (i > 27 && i <= 32) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -360,7 +462,7 @@ void Board::detectHexDiagonalRightSegment() {
 		if (i > 32 && i <= 36) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -380,7 +482,7 @@ void Board::detectHexVertice() {
 		if (i <= 3) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 50, circlesBoard[i].getPosition().y + 30, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
 			}
@@ -390,7 +492,7 @@ void Board::detectHexVertice() {
 		if (i <= 3) {
 			if (selectedCircle[i] == true && selectedCircle[i + 4] == true && selectedCircle[i + 5] == true ) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x , circlesBoard[i].getPosition().y + 56, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -405,7 +507,7 @@ void Board::detectHexVertice() {
 		if (i > 3 && i <= 8) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 50, circlesBoard[i].getPosition().y + 30, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -416,7 +518,7 @@ void Board::detectHexVertice() {
 		if (i > 3 && i <= 8) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x, circlesBoard[i].getPosition().y + 56, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -429,7 +531,7 @@ void Board::detectHexVertice() {
 		if (i > 8 && i <= 14) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 50, circlesBoard[i].getPosition().y + 30, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -440,7 +542,7 @@ void Board::detectHexVertice() {
 		if (i > 8 && i <= 14) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x, circlesBoard[i].getPosition().y + 56, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -454,7 +556,7 @@ void Board::detectHexVertice() {
 		if (i > 14 && i <= 21) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 50, circlesBoard[i].getPosition().y + 30, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -465,7 +567,7 @@ void Board::detectHexVertice() {
 		if (i > 14 && i <= 21) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x, circlesBoard[i].getPosition().y + 56, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -477,7 +579,7 @@ void Board::detectHexVertice() {
 		if (i > 21 && i <= 27) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 50, circlesBoard[i].getPosition().y + 30, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -488,7 +590,7 @@ void Board::detectHexVertice() {
 		if (i > 21 && i <= 27) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x, circlesBoard[i].getPosition().y + 56, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -501,7 +603,7 @@ void Board::detectHexVertice() {
 		if (i > 27 && i <= 32) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 50, circlesBoard[i].getPosition().y + 30, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -512,7 +614,7 @@ void Board::detectHexVertice() {
 		if (i > 27 && i <= 32) {
 			if (selectedCircle[i] == true && selectedCircle[i + 4] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x, circlesBoard[i].getPosition().y + 56, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
@@ -528,7 +630,7 @@ void Board::detectHexVertice() {
 		if (i > 3 && i <= 8) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -537,7 +639,7 @@ void Board::detectHexVertice() {
 		if (i > 8 && i <= 14) {
 			if (selectedCircle[i] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -546,7 +648,7 @@ void Board::detectHexVertice() {
 		if (i > 14 && i <= 21) {
 			if (selectedCircle[i] == true && selectedCircle[i + 7] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -555,7 +657,7 @@ void Board::detectHexVertice() {
 		if (i > 21 && i <= 27) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -564,7 +666,7 @@ void Board::detectHexVertice() {
 		if (i > 27 && i <= 32) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
@@ -572,7 +674,7 @@ void Board::detectHexVertice() {
 		if (i > 32 && i <= 36) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
-				Game->draw(circleSegment);
+				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}

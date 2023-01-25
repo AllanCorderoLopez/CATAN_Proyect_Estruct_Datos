@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include "listTerrain.h"
 #include "Terrain.h"
+#include "Node.h"
+#include "Game.h"
 using namespace sf;
 using namespace std;
 
@@ -9,8 +11,14 @@ class Board
 {
 private:
 
-	RenderWindow* Game;
+	RenderWindow* GameWindow;
+
 	RectangleShape* optionsMenu[4];
+
+	Font* font;
+	Text* titlePlayers;
+	Text* playersName;
+	Event* passTurn;
 
 public:
 
@@ -20,16 +28,21 @@ public:
 	void paintTerrains();
 	void generateTerrains();
 	void renderTerrains();
-	void renderMenu();
+	void renderMenu(ListCurrentPlayers);
 	void createGameBoard();
 	void paintGameBoard();
 	void selectTerrain();
 	void loadImages();
+	void paintFixedElements(); //M
+
 
 	void detectHexHorizontalSegment();
 	void detectHexDiagonalRightSegment();
 	void detectHexDiagonalLeftSegment();
 	void detectHexVertice();
+
+
+	void renderGame();
 
 };
 
