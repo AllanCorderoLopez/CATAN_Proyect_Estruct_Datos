@@ -14,7 +14,7 @@ public:
 	Circle();
 	Circle(float, float, int);
 	void DrawCircle();
-	void createCircle(float coordX, float coordY, float radio);
+	CircleShape createCircle(float coordX, float coordY, float radio);
 	void makeCirclesBackground(float coordX, float coordY);
 	vector<CircleShape> drawCirclesBackground();
 };

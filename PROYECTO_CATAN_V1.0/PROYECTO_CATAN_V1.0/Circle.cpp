@@ -19,28 +19,16 @@ Circle::Circle(float coordX, float coordY, int radio) {
     this->radio = radio;
 }
 
-<<<<<<< Updated upstream
-void Circle::DrawCircle( ) {
-    
-    cout << "holaPerra";
-=======
-void Circle::DrawCircle() {
 
-
->>>>>>> Stashed changes
-
-}
-
-void Circle::createCircle(float coordX, float coordY, float RADIUS) {
+CircleShape Circle::createCircle(float coordX, float coordY, float RADIUS) {
     CircleShape circle(RADIUS);
-    circle.setFillColor(Color(255, 0, 0, 0));
+    circle.setFillColor(Color(0, 0, 173, 255));
     circle.setPosition(coordX, coordY);
     circle.setRadius(RADIUS);
     circle.setOrigin(RADIUS, RADIUS);
     circle.setOutlineThickness(2);
-    circle.setOutlineColor(Color(255, 0, 0));
-
-
+    circle.setOutlineColor(Color(0, 0, 173, 255));
+    return circle;
 }
 
 void Circle::makeCirclesBackground(float coordX, float coordY) {

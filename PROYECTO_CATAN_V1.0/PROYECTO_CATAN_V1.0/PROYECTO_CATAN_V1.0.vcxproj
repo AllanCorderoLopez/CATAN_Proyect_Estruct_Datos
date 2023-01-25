@@ -134,14 +134,28 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="BoardEdge.cpp" />
+    <ClCompile Include="BoardGraph.cpp" />
+    <ClCompile Include="BoardVertex.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Forest.cpp" />
+    <ClCompile Include="ListTerrain.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="NodeTerrain.cpp" />
     <ClCompile Include="shape.cpp" />
+    <ClCompile Include="Terrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardEdge.h" />
+    <ClInclude Include="BoardGraph.h" />
+    <ClInclude Include="BoardVertex.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Forest.h" />
+    <ClInclude Include="ListTerrain.h" />
+    <ClInclude Include="NodeTerrain.h" />
     <ClInclude Include="shape.h" />
+    <ClInclude Include="Terrain.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
