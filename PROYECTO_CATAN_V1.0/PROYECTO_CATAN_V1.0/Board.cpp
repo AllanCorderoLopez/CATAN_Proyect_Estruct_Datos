@@ -247,7 +247,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 void Board::paintFixedElements()//pinta los labels y recuadros
 {
 	float y = 90;
-
+	float y2 = 90;
 	Text* txt = new Text();
 	txt->setString("Jugadores:");
 
@@ -259,12 +259,20 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 	GameWindow->draw(*txt); 
 	GameWindow->draw(*titlePlayers);
 
-	for (int i = 0; i < 17; i++) {
-		RectangleShape currentCards({ 50,50 });
+	for (int i = 0; i < 9; i++) {
+		RectangleShape currentCards({ 40,60 });
 		currentCards.setPosition({ 10,y });
 		currentCards.setFillColor(Color::Green);
 		GameWindow->draw(currentCards);
-		y = y + 60;
+		y = y + 69;
+	}
+
+	for (int i = 0; i < 8; i++) {
+		RectangleShape currentCards({ 40,60 });
+		currentCards.setPosition({ 130,y2 });
+		currentCards.setFillColor(Color::Red);
+		GameWindow->draw(currentCards);
+		y2 = y2 + 69;
 	}
 
 
