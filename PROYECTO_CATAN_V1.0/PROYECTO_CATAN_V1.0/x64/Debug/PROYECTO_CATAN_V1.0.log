@@ -1,20 +1,2 @@
-﻿  Board.cpp
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(95,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(169,28): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(171,28): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(173,29): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(175,30): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(177,30): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(341,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
-          with
-          [
-              T=float
-          ]
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(342,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
-          with
-          [
-              T=float
-          ]
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(346,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(347,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+﻿  Circle.cpp
   PROYECTO_CATAN_V1.0.vcxproj -> C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\x64\Debug\PROYECTO_CATAN_V1.0.exe
