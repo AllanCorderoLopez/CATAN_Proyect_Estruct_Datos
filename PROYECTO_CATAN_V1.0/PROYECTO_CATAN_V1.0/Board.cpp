@@ -9,7 +9,11 @@
 using namespace sf;
 using namespace std;
 Sprite sprite;
+Sprite sprite2;
+Sprite sprite3;
 Texture texture;
+Texture texture2;
+Texture texture3;
 Event event;
 const float RADIUS = 80;
 vector<CircleShape> circlesBoard(100);
@@ -21,7 +25,11 @@ vector<Terrain*> terrains(20);
 vector<Sprite> spriteTerrains(20);
 vector<Texture> textureTerrains(20);
 
+vector<Sprite> spriteImagesCards(9);
+vector<Texture> textureImagesCards(9);
 
+vector<Sprite> spriteImagesCards2(8);
+vector<Texture> textureImagesCards2(8);
 
 Board::Board()
 {
@@ -42,6 +50,16 @@ Board::Board()
 	playersName->setString(" ");
 	playersName->setPosition({ 15,35 });
 	playersName->setCharacterSize(25);
+
+	x = new Text();
+	x->setFont(*font);
+	x->setString("x ");
+	x->setCharacterSize(19);
+
+	numberPlayersCards = new Text();
+	numberPlayersCards->setFont(*font);
+	numberPlayersCards->setString(" 5");
+	numberPlayersCards->setCharacterSize(19);
 
 	passTurn = new Event;
 
@@ -123,7 +141,6 @@ void Board::loadImages() {
 		texture.loadFromFile(pathImage);
 		textureTerrains[i]=texture;
 		cout << terrains[i]->getPathTerrain() << endl;
-		
 	}
 
 
@@ -134,6 +151,19 @@ void Board::loadImages() {
 
 
 
+	}
+	string vecImages1[9] = { "RECURSOS/CARTAS NUEVAS/TABLA-COSTES.png","RECURSOS/CARTAS NUEVAS/CARTA-ARCILLA.png","RECURSOS/CARTAS NUEVAS/CARTA-LANA.png","RECURSOS/CARTAS NUEVAS/CARTA-MADERA.png","RECURSOS/CARTAS NUEVAS/CARTA-ROCA.png","RECURSOS/CARTAS NUEVAS/CARTA-TRIGO.png","RECURSOS/CARTAS NUEVAS/DESAROLLO-CABALLERO.png","RECURSOS/CARTAS NUEVAS/PROGRESO-CARRETERA.png","RECURSOS/CARTAS NUEVAS/PROGRESO-INVENTO.png" };
+	string vecImages2[8] = { "RECURSOS/CARTAS NUEVAS/PROGRESO-MONOPOLIO.png","RECURSOS/CARTAS NUEVAS/PTS-AYUNTAMIENTO.png","RECURSOS/CARTAS NUEVAS/PTS-BIBLIOTECA.png","RECURSOS/CARTAS NUEVAS/PTS-IGLESIA.png","RECURSOS/CARTAS NUEVAS/PTS-MERCADO.png","RECURSOS/CARTAS NUEVAS/PTS-UNIVERSIDAD.png","RECURSOS/CARTAS NUEVAS/ESPECIAL-EJERCITO.png","RECURSOS/CARTAS NUEVAS/ESPECIAL-RUTA.png"};
+	
+	for (int i = 0; i < 9; i++) {
+		string pathImageCard = vecImages1[i];
+		texture2.loadFromFile(pathImageCard);
+	    textureImagesCards[i] = texture2;
+	}
+	for (int i = 0; i < 8; i++) {
+		string pathImageCard = vecImages2[i];
+		texture3.loadFromFile(pathImageCard);
+		textureImagesCards2[i] = texture3;
 	}
 
 
@@ -160,7 +190,8 @@ void Board::renderTerrains()
 		//selectTerrain();
 
 
-
+	    float y = 70;
+		float y2 = 70;
 		for (int i = 0; i < 19; i++)
 		{
 			Sprite sprite(textureTerrains[i]);
@@ -179,12 +210,32 @@ void Board::renderTerrains()
 			GameWindow->draw(sprite);
 		}
 
+		for (int i = 0; i < 9; i++)
+		{
+			Sprite spriteImagesCards(textureImagesCards[i]);
+			spriteImagesCards.setScale(85.f / spriteImagesCards.getTexture()->getSize().x, 90.f / spriteImagesCards.getTexture()->getSize().y);
+			spriteImagesCards.setPosition(5, y);
 
 	
 		terrains2 = terrains;
+			y = y + 80;
+
+			GameWindow->draw(spriteImagesCards);
+		}
+		for (int i = 0; i < 8; i++)
+		{
+			Sprite spriteImagesCards(textureImagesCards2[i]);
+			spriteImagesCards.setScale(85.f / spriteImagesCards.getTexture()->getSize().x, 90.f / spriteImagesCards.getTexture()->getSize().y);
+			spriteImagesCards.setPosition(120, y2);
+
+			y2 = y2 + 80;
+
+			GameWindow->draw(spriteImagesCards);
+		}
 
 
 }
+
 void Board::renderGame() {
 	generateTerrains();
 	loadImages();
@@ -272,7 +323,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 				}
 			}
 		}
-		GameWindow->clear(sf::Color::White);
+		GameWindow->clear(sf::Color::Black);
 		renderTerrains();
 		
 
@@ -280,42 +331,49 @@ void Board::renderMenu(ListCurrentPlayers list)
 		GameWindow->draw(*playersName);
 		createGameBoard();
 		selectTerrain();
+		//createGameBoard();
+		
 		GameWindow->display();
 
 	}
-
+	
 }
 
 void Board::paintFixedElements()//pinta los labels y recuadros
 {
-	float y = 90;
-	float y2 = 90;
-	Text* txt = new Text();
-	txt->setString("Jugadores:");
-
-	RectangleShape currentPlayer({ 250,75 });
+	float y = 95;
+	float y2 = 95;
+	RectangleShape currentPlayer({ 150,60 });
 	currentPlayer.setPosition({ 10,10 });
 	currentPlayer.setFillColor(Color::Blue);
+	for (int i = 0; i < 9; i++) {
 
+		x->setPosition({90,y});
+		numberPlayersCards->setPosition({100,y});
+
+		GameWindow->draw(*numberPlayersCards);
+		GameWindow->draw(*x);
+		y = y + 85;
+	}
+	for (int i = 0; i < 8; i++) {
+
+		x->setPosition({ 200,y2 });
+		numberPlayersCards->setPosition({210,y2});
+
+		GameWindow->draw(*numberPlayersCards);
+		GameWindow->draw(*x);
+		y2 = y2 + 85;
+	}
 	GameWindow->draw(currentPlayer);
-	GameWindow->draw(*txt); 
 	GameWindow->draw(*titlePlayers);
 
-	for (int i = 0; i < 9; i++) {
-		RectangleShape currentCards({ 40,60 });
-		currentCards.setPosition({ 10,y });
-		currentCards.setFillColor(Color::Green);
-		GameWindow->draw(currentCards);
-		y = y + 69;
-	}
 
-	for (int i = 0; i < 8; i++) {
-		RectangleShape currentCards({ 40,60 });
-		currentCards.setPosition({ 130,y2 });
-		currentCards.setFillColor(Color::Red);
-		GameWindow->draw(currentCards);
-		y2 = y2 + 69;
-	}
+
+}
+
+void Board::paintCards()
+{
+
 
 
 }

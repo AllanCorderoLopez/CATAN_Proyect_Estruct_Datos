@@ -22,6 +22,8 @@ private:
 	Text* titlePlayers;
 	Text* playersName;
 	Event* passTurn;
+	Text* x;
+	Text* numberPlayersCards;
 
 public:
 
@@ -37,6 +39,8 @@ public:
 	void selectTerrain();
 	void loadImages();
 	void paintFixedElements(); //M
+	void paintCards();
+
 
 
 	void detectHexHorizontalSegment();
