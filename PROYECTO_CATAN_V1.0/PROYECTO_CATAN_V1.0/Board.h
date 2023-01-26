@@ -4,6 +4,9 @@
 #include "Terrain.h"
 #include "Node.h"
 #include "Game.h"
+#include "BoardGraph.h"
+#include "BoardVertex.h"
+
 using namespace sf;
 using namespace std;
 
@@ -42,7 +45,11 @@ public:
 	void detectHexVertice();
 
 
+	void buildTerrainOnVertexBoard();
+
 	void renderGame();
+	vector<Terrain*> terrains2;
+
 
 };
 

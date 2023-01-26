@@ -1,6 +1,7 @@
 #pragma once
 #include "BoardEdge.h"
 #include "BoardVertex.h"
+#include"Board.h"
 
 class BoardGraph
 {
@@ -35,6 +36,8 @@ public:
 	bool hasSettlement(int indexVertex);
 	bool hasCity(int indexVertex);
 	bool hasRoad(BoardEdge* edge);
+	bool hasTerrain(int indexVertex);
+
 	void hasneighbors();
 
 
@@ -42,6 +45,12 @@ public:
 	void buildSettlementOnVertex();
 	void buildCityOnVertex();
 	void buildRoadOnEdge();
+
+	void buildTerrainOnVertex(int indexVertex, int terrain);
+
+
+	int getTerrainVertex(int indexVertex);
+
 
 	//carreteras
 	void getRoadOnEdge();

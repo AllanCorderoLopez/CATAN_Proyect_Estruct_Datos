@@ -64,7 +64,7 @@ void ListTerrain::showTerrains() {
 	current = first;
 	while (current && current->getDataTerrain() != NULL) {
 
-		cout << "Terreno: " << current;
+		cout << "Terreno: " << current->getDataTerrain()->getId();
 		current = current->getNextNode();
 
 	}

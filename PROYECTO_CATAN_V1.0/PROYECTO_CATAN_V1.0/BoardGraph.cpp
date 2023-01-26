@@ -1,4 +1,7 @@
 #include "BoardGraph.h"
+#include "Board.h"
+
+
 bool firstTime = true;
 
 BoardGraph::BoardGraph() {
@@ -51,7 +54,18 @@ bool BoardGraph::hasCity(int indexVertex) {
 	}
 	return false;
 }
-	
+bool BoardGraph::hasTerrain(int indexVertex) {
+	BoardVertex* i = first;
+	while (i != NULL) {
+		if (i->indexVertex == indexVertex) {
+			if (i->isTerrain == true) {
+				return true;
+			}
+		}
+		i = i->nextVextex;
+	}
+	return false;
+}
 bool BoardGraph::settlementConnectToRoad(BoardVertex* vertex, int player) {
 
 	BoardVertex* i = vertex;
@@ -317,6 +331,40 @@ bool BoardGraph::roadConnectToSettlement(int initial, int terminal, int player) 
 
 	return false;
 }
+
+int BoardGraph::getTerrainVertex(int indexVertex) {
+
+	BoardVertex* i = first;
+	while (i != NULL) {
+		if (i->indexVertex == indexVertex) {
+			if (i->isTerrain == true) {
+				return i->terrain;
+			}
+		}
+		i = i->nextVextex;
+	}
+	return -1;
+}
+
+void BoardGraph::buildTerrainOnVertex(int indexVertex, int terrain)
+{
+
+	BoardVertex* i = first;
+
+	while (i != NULL) {
+		if (i->indexVertex == indexVertex) {
+			if (i->isTerrain == true) {
+				i->terrain = terrain;
+				i->isTerrain = true;
+				cout << "el vertice: " << indexVertex << " se convirtió en terreno"<<endl;
+			}
+		}
+		i = i->nextVextex;
+	}
+
+
+}
+
 
 void BoardGraph::buildCityOnVertex() {
 	int indexVertex;

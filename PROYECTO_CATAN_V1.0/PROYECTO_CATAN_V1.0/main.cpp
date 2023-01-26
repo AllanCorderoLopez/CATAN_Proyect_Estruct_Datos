@@ -19,11 +19,6 @@ using namespace std;
 int main()
 {
 
-
-
-
-
-
     Game juego;
     juego.startGame();
 

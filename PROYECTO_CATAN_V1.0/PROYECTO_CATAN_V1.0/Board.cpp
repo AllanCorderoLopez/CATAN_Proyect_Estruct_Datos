@@ -4,6 +4,8 @@
 #include<stdlib.h>
 #include<time.h>
 #include <dos.h>
+#include <iostream>
+#include <vector>
 using namespace sf;
 using namespace std;
 Sprite sprite;
@@ -179,7 +181,7 @@ void Board::renderTerrains()
 
 
 	
-
+		terrains2 = terrains;
 
 
 }
@@ -200,15 +202,56 @@ void Board::renderGame() {
 			if (event.type == sf::Event::Closed)
 				GameWindow->close();
 		}
-		renderTerrains();
+		//renderTerrains();
+		createGameBoard();
+		selectTerrain();
 		GameWindow->display();
 
 	}
 }
+
+void Board::buildTerrainOnVertexBoard() {
+
+
+	BoardGraph bg;
+
+	bg.generateBoard();
+	bg.generateVertices();
+	bg.generateRoadsEdges();
+
+	for (int i = 0; i < 19; i++){
+		bg.buildTerrainOnVertex(i+1, terrains[i]->getId());
+	}
+
+	for (int i = 0; i < 25; i++) {
+		cout<<"Terreno en vertice: "<<i+1;
+		if (bg.hasTerrain(i + 1) == true) {
+			cout << " TRUE " << " Terreno: ";
+
+
+
+			if (terrains[i]->getId() == bg.getTerrainVertex(i + 1)) {
+				cout << terrains[i]->getNameTerrain() << endl;
+
+			}
+
+		}
+
+		else
+			cout << "FALSE";
+
+		cout << endl;
+
+	}
+}
+
+
 void Board::renderMenu(ListCurrentPlayers list)
 {
+
 	generateTerrains();
 	loadImages();
+	buildTerrainOnVertexBoard();
 	Node* current;//prueba
 	current = list.First();
 
@@ -217,8 +260,8 @@ void Board::renderMenu(ListCurrentPlayers list)
 	//GameWindow->display();
 	while (GameWindow->isOpen()) {
 
-		sf::Event event;
 		while (GameWindow->pollEvent(event)) {
+
 			if (event.type == sf::Event::Closed)
 				GameWindow->close();
 
@@ -231,13 +274,12 @@ void Board::renderMenu(ListCurrentPlayers list)
 		}
 		GameWindow->clear(sf::Color::White);
 		renderTerrains();
-		Circle c;
-		c.drawCirclesBackground();
-		drawCircles(c.drawCirclesBackground());		
+		
+
 		paintFixedElements();
 		GameWindow->draw(*playersName);
-		//createGameBoard();
-
+		createGameBoard();
+		selectTerrain();
 		GameWindow->display();
 
 	}
@@ -283,16 +325,16 @@ void Board::createGameBoard()
 	Circle c;
 	c.drawCirclesBackground();
 	drawCircles(c.drawCirclesBackground());
+
 }
 
 void Board::selectTerrain()
 {
-
-
 	circlesBoard = c.drawCirclesBackground();
 
 	for (int i = 0; i < circlesBoard.size(); i++) {
 		selectedCircle[i] = false;
+
 	}
 
 	for (int i = 0; i < circlesBoard.size(); i++) {
@@ -307,16 +349,14 @@ void Board::selectTerrain()
 		float d = sqrt(d3);
 
 		if (d <= RADIUS) {
-			circlesBoard[i].setOutlineColor(Color(255, 181, 0, 255));
-			circlesBoard[i].setFillColor(Color(255, 181, 0, 255));
+			circlesBoard[i].setOutlineColor(Color(255, 181, 0, 0));
+			circlesBoard[i].setFillColor(Color(255, 181, 0, 0));
 			selectedCircle[i] = true;
 		}
 
 
 	}
-	GameWindow->clear();
-	drawCircles(circlesBoard);
-	drawCircles(c.drawCirclesBackground());
+
 
 
 	detectHexVertice();
@@ -327,10 +367,15 @@ void Board::selectTerrain()
 		detectHexDiagonalRightSegment();
 		detectHexDiagonalLeftSegment();
 	}
+
+
+
 }
 
 void Board::paintGameBoard()
 {
+
+
 }
 
 void Board::detectHexHorizontalSegment() {
