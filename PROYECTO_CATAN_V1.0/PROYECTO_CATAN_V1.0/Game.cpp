@@ -205,9 +205,9 @@ void Game::Register(int numberOfPlayers)
 	cout << " Edad: ";
 	cin >> player1Age;
 	ListPlayerCards listP1;
-	listP1.addCard(1, "roca", "mineral");
-	listP1.addCard(1, "tronco", "madera");
-	listP1.addCard(1, "ladrillo", "arcilla");
+	listP1.addCard(4, "roca", "mineral");
+	listP1.addCard(3, "tronco", "madera");
+	listP1.addCard(2, "ladrillo", "arcilla");
 	listCurrentPlayers.AddPlayerName(player1Name, player1Age, listP1);
 	cout << endl;
 
@@ -218,8 +218,8 @@ void Game::Register(int numberOfPlayers)
 	cin >> player2Age;
 	ListPlayerCards listP2;
 	listP2.addCard(1, "oveja", "Lana");
-	listP2.addCard(1, "tronco", "madera");
-	listP2.addCard(1, "roca", "mineral");
+	listP2.addCard(3, "tronco", "madera");
+	listP2.addCard(4, "roca", "mineral");
 	listCurrentPlayers.AddPlayerName(player2Name, player2Age, listP2);
 	cout << endl;
 

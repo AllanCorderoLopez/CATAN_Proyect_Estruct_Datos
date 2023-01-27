@@ -6,14 +6,19 @@
 #include <dos.h>
 #include <iostream>
 #include <vector>
+#include <list>
 using namespace sf;
 using namespace std;
 Sprite sprite;
 Sprite sprite2;
 Sprite sprite3;
+Sprite sprite4;
+
 Texture texture;
 Texture texture2;
 Texture texture3;
+Texture texture4;
+
 Event event;
 const float RADIUS = 80;
 vector<CircleShape> circlesBoard(100);
@@ -25,17 +30,20 @@ vector<Terrain*> terrains(20);
 vector<Sprite> spriteTerrains(20);
 vector<Texture> textureTerrains(20);
 
-vector<Sprite> spriteImagesCards(9);
-vector<Texture> textureImagesCards(9);
+vector<Sprite> spriteImagesCards(6);
+vector<Texture> textureImagesCards(6);
 
-vector<Sprite> spriteImagesCards2(8);
-vector<Texture> textureImagesCards2(8);
+vector<Sprite> spriteImagesCards2(6);
+vector<Texture> textureImagesCards2(6);
+
+vector<Sprite> spriteImagesCards3(5);
+vector<Texture> textureImagesCards3(5);
 
 Board::Board()
 {
 
 	GameWindow = new RenderWindow(VideoMode(1280, 720), "Game");
-
+	
 	font = new Font();
 	font->loadFromFile("Chickenic.ttf");
 
@@ -56,10 +64,86 @@ Board::Board()
 	x->setString("x ");
 	x->setCharacterSize(19);
 
-	numberPlayersCards = new Text();
-	numberPlayersCards->setFont(*font);
-	numberPlayersCards->setString(" 5");
-	numberPlayersCards->setCharacterSize(19);
+	numberPlayersCardsWool = new Text();
+	numberPlayersCardsWool->setFont(*font);
+	numberPlayersCardsWool->setString(" 0");
+	numberPlayersCardsWool->setCharacterSize(19);
+
+	numberPlayersCardsClay = new Text();
+	numberPlayersCardsClay->setFont(*font);
+	numberPlayersCardsClay->setString(" 0");
+	numberPlayersCardsClay->setCharacterSize(19);
+
+	numberPlayersCardsWood = new Text();
+	numberPlayersCardsWood->setFont(*font);
+	numberPlayersCardsWood->setString(" 0");
+	numberPlayersCardsWood->setCharacterSize(19);
+
+	numberPlayersCardsStone = new Text();
+	numberPlayersCardsStone->setFont(*font);
+	numberPlayersCardsStone->setString(" 0");
+	numberPlayersCardsStone->setCharacterSize(19);
+
+	numberPlayersCardsWheat = new Text();
+	numberPlayersCardsWheat->setFont(*font);
+	numberPlayersCardsWheat->setString(" 0");
+	numberPlayersCardsWheat->setCharacterSize(19);
+
+	numberPlayersCardsKnight = new Text();
+	numberPlayersCardsKnight->setFont(*font);
+	numberPlayersCardsKnight->setString(" 0");
+	numberPlayersCardsKnight->setCharacterSize(19);
+
+	numberPlayersCardsArmy = new Text();
+	numberPlayersCardsArmy->setFont(*font);
+	numberPlayersCardsArmy->setString(" 0");
+	numberPlayersCardsArmy->setCharacterSize(19);
+
+	numberPlayersCardsRoute = new Text();
+	numberPlayersCardsRoute->setFont(*font);
+	numberPlayersCardsRoute->setString(" 0");
+	numberPlayersCardsRoute->setCharacterSize(19);
+
+	numberPlayersCardsRoad = new Text();
+	numberPlayersCardsRoad->setFont(*font);
+	numberPlayersCardsRoad->setString(" 0");
+	numberPlayersCardsRoad->setCharacterSize(19);
+
+	numberPlayersCardsInvention = new Text();
+	numberPlayersCardsInvention->setFont(*font);
+	numberPlayersCardsInvention->setString(" 0");
+	numberPlayersCardsInvention->setCharacterSize(19);
+
+	numberPlayersCardsMonopoly = new Text();
+	numberPlayersCardsMonopoly->setFont(*font);
+	numberPlayersCardsMonopoly->setString(" 0");
+	numberPlayersCardsMonopoly->setCharacterSize(19);
+
+	numberPlayersCardsTownHall = new Text();
+	numberPlayersCardsTownHall->setFont(*font);
+	numberPlayersCardsTownHall->setString(" 0");
+	numberPlayersCardsTownHall->setCharacterSize(19);
+
+	numberPlayersCardsLibrary = new Text();
+	numberPlayersCardsLibrary->setFont(*font);
+	numberPlayersCardsLibrary->setString(" 0");
+	numberPlayersCardsLibrary->setCharacterSize(19);
+
+	numberPlayersCardsChurch = new Text();
+	numberPlayersCardsChurch->setFont(*font);
+	numberPlayersCardsChurch->setString(" 0");
+	numberPlayersCardsChurch->setCharacterSize(19);
+
+	numberPlayersCardsMarket = new Text();
+	numberPlayersCardsMarket->setFont(*font);
+	numberPlayersCardsMarket->setString(" 0");
+	numberPlayersCardsMarket->setCharacterSize(19);
+
+	numberPlayersCardsUniversity = new Text();
+	numberPlayersCardsUniversity->setFont(*font);
+	numberPlayersCardsUniversity->setString(" 0");
+	numberPlayersCardsUniversity->setCharacterSize(19);
+
 
 	passTurn = new Event;
 
@@ -152,20 +236,26 @@ void Board::loadImages() {
 
 
 	}
-	string vecImages1[9] = { "RECURSOS/CARTAS NUEVAS/TABLA-COSTES.png","RECURSOS/CARTAS NUEVAS/CARTA-ARCILLA.png","RECURSOS/CARTAS NUEVAS/CARTA-LANA.png","RECURSOS/CARTAS NUEVAS/CARTA-MADERA.png","RECURSOS/CARTAS NUEVAS/CARTA-ROCA.png","RECURSOS/CARTAS NUEVAS/CARTA-TRIGO.png","RECURSOS/CARTAS NUEVAS/DESAROLLO-CABALLERO.png","RECURSOS/CARTAS NUEVAS/PROGRESO-CARRETERA.png","RECURSOS/CARTAS NUEVAS/PROGRESO-INVENTO.png" };
-	string vecImages2[8] = { "RECURSOS/CARTAS NUEVAS/PROGRESO-MONOPOLIO.png","RECURSOS/CARTAS NUEVAS/PTS-AYUNTAMIENTO.png","RECURSOS/CARTAS NUEVAS/PTS-BIBLIOTECA.png","RECURSOS/CARTAS NUEVAS/PTS-IGLESIA.png","RECURSOS/CARTAS NUEVAS/PTS-MERCADO.png","RECURSOS/CARTAS NUEVAS/PTS-UNIVERSIDAD.png","RECURSOS/CARTAS NUEVAS/ESPECIAL-EJERCITO.png","RECURSOS/CARTAS NUEVAS/ESPECIAL-RUTA.png"};
-	
-	for (int i = 0; i < 9; i++) {
+	string vecImages1[6] = { "RECURSOS/CARTAS NUEVAS/TABLA-COSTES.png","RECURSOS/CARTAS NUEVAS/CARTA-ARCILLA.png","RECURSOS/CARTAS NUEVAS/CARTA-LANA.png","RECURSOS/CARTAS NUEVAS/CARTA-MADERA.png","RECURSOS/CARTAS NUEVAS/CARTA-ROCA.png","RECURSOS/CARTAS NUEVAS/CARTA-TRIGO.png"};
+	string vecImages2[6] = { "RECURSOS/CARTAS NUEVAS/PROGRESO-MONOPOLIO.png","RECURSOS/CARTAS NUEVAS/PTS-AYUNTAMIENTO.png","RECURSOS/CARTAS NUEVAS/PTS-BIBLIOTECA.png","RECURSOS/CARTAS NUEVAS/PTS-IGLESIA.png","RECURSOS/CARTAS NUEVAS/PTS-MERCADO.png","RECURSOS/CARTAS NUEVAS/PTS-UNIVERSIDAD.png"};
+	string vecImages3[5] = { "RECURSOS/CARTAS NUEVAS/PROGRESO-CARRETERA.png","RECURSOS/CARTAS NUEVAS/PROGRESO-INVENTO.png","RECURSOS/CARTAS NUEVAS/DESAROLLO-CABALLERO.png","RECURSOS/CARTAS NUEVAS/ESPECIAL-EJERCITO.png","RECURSOS/CARTAS NUEVAS/ESPECIAL-RUTA.png" };
+
+
+	for (int i = 0; i < 6; i++) {
 		string pathImageCard = vecImages1[i];
 		texture2.loadFromFile(pathImageCard);
 	    textureImagesCards[i] = texture2;
 	}
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 6; i++) {
 		string pathImageCard = vecImages2[i];
 		texture3.loadFromFile(pathImageCard);
 		textureImagesCards2[i] = texture3;
 	}
-
+	for (int i = 0; i < 5; i++) {
+		string pathImageCard = vecImages3[i];
+		texture4.loadFromFile(pathImageCard);
+		textureImagesCards3[i] = texture4;
+	}
 
 	cout<<"Imagenes cargadas"<<endl;
 }
@@ -192,6 +282,7 @@ void Board::renderTerrains()
 
 	    float y = 70;
 		float y2 = 70;
+		float y3 = 70;
 		for (int i = 0; i < 19; i++)
 		{
 			Sprite sprite(textureTerrains[i]);
@@ -210,25 +301,36 @@ void Board::renderTerrains()
 			GameWindow->draw(sprite);
 		}
 
-		for (int i = 0; i < 9; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			Sprite spriteImagesCards(textureImagesCards[i]);
-			spriteImagesCards.setScale(85.f / spriteImagesCards.getTexture()->getSize().x, 90.f / spriteImagesCards.getTexture()->getSize().y);
+			spriteImagesCards.setScale(100.f / spriteImagesCards.getTexture()->getSize().x, 115.f / spriteImagesCards.getTexture()->getSize().y);
 			spriteImagesCards.setPosition(5, y);
 
 	
-		terrains2 = terrains;
-			y = y + 80;
+			terrains2 = terrains;
+
+			y = y + 100;
 
 			GameWindow->draw(spriteImagesCards);
 		}
-		for (int i = 0; i < 8; i++)
+		for (int i = 0; i < 6; i++)
 		{
 			Sprite spriteImagesCards(textureImagesCards2[i]);
-			spriteImagesCards.setScale(85.f / spriteImagesCards.getTexture()->getSize().x, 90.f / spriteImagesCards.getTexture()->getSize().y);
+			spriteImagesCards.setScale(100.f / spriteImagesCards.getTexture()->getSize().x, 115.f / spriteImagesCards.getTexture()->getSize().y);
 			spriteImagesCards.setPosition(120, y2);
 
-			y2 = y2 + 80;
+			y2 = y2 + 100;
+
+			GameWindow->draw(spriteImagesCards);
+		}
+		for (int i = 0; i < 5; i++)
+		{
+			Sprite spriteImagesCards(textureImagesCards3[i]);
+			spriteImagesCards.setScale(100.f / spriteImagesCards.getTexture()->getSize().x, 115.f / spriteImagesCards.getTexture()->getSize().y);
+			spriteImagesCards.setPosition(230, y3);
+
+			y3 = y3 + 100;
 
 			GameWindow->draw(spriteImagesCards);
 		}
@@ -299,7 +401,6 @@ void Board::buildTerrainOnVertexBoard() {
 
 void Board::renderMenu(ListCurrentPlayers list)
 {
-
 	generateTerrains();
 	loadImages();
 	buildTerrainOnVertexBoard();
@@ -310,17 +411,53 @@ void Board::renderMenu(ListCurrentPlayers list)
 	//current->player.getListPlayerCards().showList();
 	//GameWindow->display();
 	while (GameWindow->isOpen()) {
-
+	    positionMouse = Mouse::getPosition(*GameWindow);
 		while (GameWindow->pollEvent(event)) {
 
-			if (event.type == sf::Event::Closed)
+			switch (event.type)
+			{
+			case Event::Closed:
 				GameWindow->close();
-
-			else if (event.type == sf::Event::KeyPressed) {//esto hace que se pasen los nombres de jugadores
+				break;
+			case Event::KeyPressed:
 				if (Keyboard::isKeyPressed(Keyboard::Enter)) {
 					playersName->setString(current->player.getName());
+					numberPlayersCardsWool->setString(to_string(countCardsWool(current)[0]));
+					numberPlayersCardsClay->setString(to_string(countCardsWool(current)[1]));
+					numberPlayersCardsWood->setString(to_string(countCardsWool(current)[2]));
+					numberPlayersCardsStone->setString(to_string(countCardsWool(current)[3]));
+					numberPlayersCardsWheat->setString(to_string(countCardsWool(current)[4]));
+					numberPlayersCardsMonopoly->setString(to_string(countCardsWool(current)[5]));
+					numberPlayersCardsTownHall->setString(to_string(countCardsWool(current)[6]));
+					numberPlayersCardsLibrary->setString(to_string(countCardsWool(current)[7]));
+					numberPlayersCardsChurch->setString(to_string(countCardsWool(current)[8]));
+					numberPlayersCardsMarket->setString(to_string(countCardsWool(current)[9]));
+					numberPlayersCardsUniversity->setString(to_string(countCardsWool(current)[10]));
+					numberPlayersCardsRoad->setString(to_string(countCardsWool(current)[11]));
+					numberPlayersCardsInvention->setString(to_string(countCardsWool(current)[12]));
+					numberPlayersCardsKnight->setString(to_string(countCardsWool(current)[13]));
+					numberPlayersCardsArmy->setString(to_string(countCardsWool(current)[14]));
+					numberPlayersCardsRoute->setString(to_string(countCardsWool(current)[15]));
 					current = current->next;
 				}
+				break;
+			case Event::MouseButtonPressed:
+				Texture t;
+				t.loadFromFile("RECURSOS/CARTAS GRANDES/TABLA-COSTES.png");
+				Sprite ss(t);
+				Sprite s(textureImagesCards[0]);
+				s.setPosition(5, 70);
+				s.setScale(100.f / s.getTexture()->getSize().x, 115.f / s.getTexture()->getSize().y);
+
+				if (Mouse::isButtonPressed(Mouse::Left) && s.getGlobalBounds().contains((Vector2f)positionMouse)) {
+					cout << "HOLA PERRAS----------------" << endl;
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					window->clear();
+					window->draw(ss);
+					window->display();
+					
+				}
+				break;
 			}
 		}
 		GameWindow->clear(sf::Color::Black);
@@ -341,29 +478,79 @@ void Board::renderMenu(ListCurrentPlayers list)
 
 void Board::paintFixedElements()//pinta los labels y recuadros
 {
-	float y = 95;
-	float y2 = 95;
+	float y = 210;
+	float y2 = 110;
+	float y3 = 110;
 	RectangleShape currentPlayer({ 150,60 });
 	currentPlayer.setPosition({ 10,10 });
 	currentPlayer.setFillColor(Color::Blue);
-	for (int i = 0; i < 9; i++) {
+	
+	for (int i = 0; i < 5; i++) {
 
 		x->setPosition({90,y});
-		numberPlayersCards->setPosition({100,y});
+	    numberPlayersCardsWool->setPosition({ 100,210 });
+		numberPlayersCardsClay->setPosition({ 100,310 });
+		numberPlayersCardsWood->setPosition({ 100,410 });
+		numberPlayersCardsStone->setPosition({ 100,510 });
+		numberPlayersCardsWheat->setPosition({ 100,610 });
+		
+		/*numberPlayersCardsArmy->setPosition({100,y});
+		numberPlayersCardsRoute->setPosition({ 100,y });
+		numberPlayersCardsRoad->setPosition({ 100,y });
+		numberPlayersCardsInvention->setPosition({ 100,y });
+		numberPlayersCardsMonopoly->setPosition({ 100,y });
+		numberPlayersCardsTownHall->setPosition({ 100,y });
+		numberPlayersCardsLibrary->setPosition({ 100,y });
+		numberPlayersCardsChurch->setPosition({ 100,y });
+		numberPlayersCardsMarket->setPosition({ 100,y });
+		numberPlayersCardsUniversity->setPosition({ 100,y });*/
 
-		GameWindow->draw(*numberPlayersCards);
+		GameWindow->draw(*numberPlayersCardsClay);
+		GameWindow->draw(*numberPlayersCardsWool);
+		GameWindow->draw(*numberPlayersCardsWood);
+		GameWindow->draw(*numberPlayersCardsStone);
+		GameWindow->draw(*numberPlayersCardsWheat);
 		GameWindow->draw(*x);
-		y = y + 85;
+		y = y + 100;
 	}
-	for (int i = 0; i < 8; i++) {
+	for (int i = 0; i < 6; i++) {
 
 		x->setPosition({ 200,y2 });
-		numberPlayersCards->setPosition({210,y2});
+		numberPlayersCardsMonopoly->setPosition({ 210,110 });
+		numberPlayersCardsTownHall->setPosition({ 210,210 });
+		numberPlayersCardsLibrary->setPosition({ 210,310 });
+		numberPlayersCardsChurch->setPosition({ 210,410 });
+		numberPlayersCardsMarket->setPosition({ 210,510 });
+		numberPlayersCardsUniversity->setPosition({ 210,610 });
 
-		GameWindow->draw(*numberPlayersCards);
+		GameWindow->draw(*numberPlayersCardsMonopoly);
+		GameWindow->draw(*numberPlayersCardsTownHall);
+		GameWindow->draw(*numberPlayersCardsUniversity);
+		GameWindow->draw(*numberPlayersCardsChurch);
+		GameWindow->draw(*numberPlayersCardsMarket);
+		GameWindow->draw(*numberPlayersCardsLibrary);
 		GameWindow->draw(*x);
-		y2 = y2 + 85;
+		y2 = y2 + 100;
 	}
+	for (int i = 0; i < 5; i++) {
+
+		x->setPosition({ 310,y3 });
+		numberPlayersCardsRoad->setPosition({ 320,110 });
+		numberPlayersCardsInvention->setPosition({ 320,210 });
+		numberPlayersCardsKnight->setPosition({ 320,310 });
+		numberPlayersCardsArmy->setPosition({ 320,410 });
+		numberPlayersCardsRoute->setPosition({ 320,510 });
+
+		GameWindow->draw(*numberPlayersCardsRoad);
+		GameWindow->draw(*numberPlayersCardsInvention);
+		GameWindow->draw(*numberPlayersCardsKnight);
+		GameWindow->draw(*numberPlayersCardsArmy);
+		GameWindow->draw(*numberPlayersCardsRoute);
+
+		GameWindow->draw(*x);
+		y3 = y3 + 100;
+	}
+
 	GameWindow->draw(currentPlayer);
 	GameWindow->draw(*titlePlayers);
 
@@ -376,6 +563,75 @@ void Board::paintCards()
 
 
 
+}
+
+vector<int> Board::countCardsWool(Node* nodePlayer)
+{
+	vector<int> vecCards(17);
+
+	ListPlayerCards list;
+	list = nodePlayer->player.getListPlayerCards();
+
+	NodeCard* aux;
+	aux = list.First();
+	while (aux != NULL) {
+//posiciones del vector [lana, arcilla, madera, roca, trigo, monopolio, ayuntamiento, biblioteca, iglesia, mercado, universidad, carretera, invento, caballero, mayorEjercito, mayorRuta]
+		if (aux->card.getIdCard() == 1) {
+			vecCards[0] = vecCards[0] + 1;			
+		}
+		if (aux->card.getIdCard() == 2) {
+			vecCards[1] = vecCards[1] + 1;
+		}
+		if (aux->card.getIdCard() == 3) {
+			vecCards[2] = vecCards[2] + 1;
+		}
+		if (aux->card.getIdCard() == 4) {
+			vecCards[3] = vecCards[3] + 1;
+		}
+		if (aux->card.getIdCard() == 5) {
+			vecCards[4] = vecCards[4] + 1;
+		}
+		if (aux->card.getIdCard() == 6) {
+			vecCards[5] = vecCards[5] + 1;
+		}
+		if (aux->card.getIdCard() == 7) {
+			vecCards[6] = vecCards[6] + 1;
+		}
+		if (aux->card.getIdCard() == 8) {
+			vecCards[7] = vecCards[7] + 1;
+		}
+		if (aux->card.getIdCard() == 9) {
+			vecCards[8] = vecCards[8] + 1;
+		}
+		if (aux->card.getIdCard() == 10) {
+			vecCards[9] = vecCards[9] + 1;
+		}
+		if (aux->card.getIdCard() == 11) {
+			vecCards[10] = vecCards[10] + 1;
+		}
+		if (aux->card.getIdCard() == 12) {
+			vecCards[11] = vecCards[11] + 1;
+		}
+		if (aux->card.getIdCard() == 13) {
+			vecCards[12] = vecCards[12] + 1;
+		}
+		if (aux->card.getIdCard() == 14) {
+			vecCards[13] = vecCards[13] + 1;
+		}
+		if (aux->card.getIdCard() == 15) {
+			vecCards[14] = vecCards[14] + 1;
+		}
+		if (aux->card.getIdCard() == 16) {
+			vecCards[15] = vecCards[15] + 1;
+		}
+		if (aux->next != NULL) {
+			aux = aux->next;
+		}
+		else {
+			aux = NULL;
+		}
+	}
+	return vecCards;
 }
 
 void Board::createGameBoard()

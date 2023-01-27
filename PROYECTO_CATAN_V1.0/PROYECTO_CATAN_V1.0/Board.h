@@ -17,13 +17,31 @@ private:
 	RenderWindow* GameWindow;
 
 	RectangleShape* optionsMenu[4];
+	Vector2i positionMouse;
 
 	Font* font;
 	Text* titlePlayers;
 	Text* playersName;
 	Event* passTurn;
 	Text* x;
-	Text* numberPlayersCards;
+
+	Text* numberPlayersCardsWool;
+	Text* numberPlayersCardsClay;
+	Text* numberPlayersCardsWood;
+	Text* numberPlayersCardsStone;
+	Text* numberPlayersCardsWheat;
+	Text* numberPlayersCardsKnight;
+	Text* numberPlayersCardsArmy;
+	Text* numberPlayersCardsRoute;
+	Text* numberPlayersCardsRoad;
+	Text* numberPlayersCardsInvention;
+	Text* numberPlayersCardsMonopoly;
+	Text* numberPlayersCardsTownHall;
+	Text* numberPlayersCardsLibrary;
+	Text* numberPlayersCardsChurch;
+	Text* numberPlayersCardsMarket;
+	Text* numberPlayersCardsUniversity;
+
 
 public:
 
@@ -40,7 +58,7 @@ public:
 	void loadImages();
 	void paintFixedElements(); //M
 	void paintCards();
-
+	vector<int> countCardsWool(Node*);
 
 
 	void detectHexHorizontalSegment();
