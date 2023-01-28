@@ -42,6 +42,10 @@ private:
 	Text* numberPlayersCardsMarket;
 	Text* numberPlayersCardsUniversity;
 
+	Clock* reloj;
+	Time* tiempo;
+
+
 
 public:
 
@@ -58,12 +62,11 @@ public:
 	void loadImages();
 	void paintFixedElements(); //M
 	void paintCards();
-<<<<<<< Updated upstream
 	vector<int> countCardsWool(Node*);
-=======
 	void paintSettlemetsOnBoard();
->>>>>>> Stashed changes
 
+	void paintTransparentRectangles();
+	void dices();
 
 	void detectHexHorizontalSegment();
 	void detectHexDiagonalRightSegment();

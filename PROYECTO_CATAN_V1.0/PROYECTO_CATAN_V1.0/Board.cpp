@@ -9,6 +9,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <windows.h>
 using namespace sf;
 using namespace std;
 Sprite sprite;
@@ -43,12 +44,18 @@ vector<Texture> textureImagesCards3(5);
 
 BoardGraph gph;
 
+RectangleShape* transparentRectangles[17];
+vector<Sprite> spritesImageDetection(17);
+vector<Texture> texturedetection(17);
 
 Board::Board()
 {
 
 	GameWindow = new RenderWindow(VideoMode(1280, 720), "Game");
 	
+	reloj = new Clock();
+	tiempo = new Time();
+
 	font = new Font();
 	font->loadFromFile("Chickenic.ttf");
 
@@ -406,12 +413,14 @@ void Board::buildTerrainOnVertexBoard() {
 
 void Board::renderMenu(ListCurrentPlayers list)
 {
+
 	generateTerrains();
 	loadImages();
 	buildTerrainOnVertexBoard();
 	gph.generateVertices();
 	gph.generateRoadsEdges();
 
+	paintTransparentRectangles();
 	Node* current;//prueba
 	current = list.First();
 
@@ -429,6 +438,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 				break;
 			case Event::KeyPressed:
 				if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+					
 					playersName->setString(current->player.getName());
 					numberPlayersCardsWool->setString(to_string(countCardsWool(current)[0]));
 					numberPlayersCardsClay->setString(to_string(countCardsWool(current)[1]));
@@ -447,36 +457,346 @@ void Board::renderMenu(ListCurrentPlayers list)
 					numberPlayersCardsArmy->setString(to_string(countCardsWool(current)[14]));
 					numberPlayersCardsRoute->setString(to_string(countCardsWool(current)[15]));
 					current = current->next;
+					
 				}
 				break;
 			case Event::MouseButtonPressed:
-				Texture t;
-				t.loadFromFile("RECURSOS/CARTAS GRANDES/TABLA-COSTES.png");
-				Sprite ss(t);
-				Sprite s(textureImagesCards[0]);
-				s.setPosition(5, 70);
-				s.setScale(100.f / s.getTexture()->getSize().x, 115.f / s.getTexture()->getSize().y);
-
-				if (Mouse::isButtonPressed(Mouse::Left) && s.getGlobalBounds().contains((Vector2f)positionMouse)) {
-					cout << "HOLA PERRAS----------------" << endl;
+				
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[0]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[0]);
 					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
-					window->clear();
-					window->draw(ss);
-					window->display();
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[1]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[1]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[2]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[2]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[3]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[3]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[4]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[4]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[5]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[5]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[6]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[6]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[7]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[7]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[8]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[8]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[9]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[9]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[10]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[10]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[11]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[11]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[12]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[12]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[13]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[13]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[14]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[14]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[15]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[15]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
+
+				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[16]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					Sprite s(texturedetection[16]);
+					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
+					while (window->isOpen()) {
+						while (window->pollEvent(event)) {
+
+							switch (event.type)
+							{
+							case Event::Closed:
+								window->close();
+								break;
+							}
+							window->clear();
+							window->draw(s);
+							window->display();
+						}
+					}
 					
 				}
+
 				break;
 			}
 		}
 		GameWindow->clear(sf::Color::Black);
 		renderTerrains();
 		
-
 		paintFixedElements();
 		GameWindow->draw(*playersName);
 		createGameBoard();
-		paintSettlemetsOnBoard();
+		//paintSettlemetsOnBoard();
 		selectTerrain();
+		
 		//createGameBoard();
 		
 		GameWindow->display();
@@ -502,17 +822,6 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 		numberPlayersCardsWood->setPosition({ 100,410 });
 		numberPlayersCardsStone->setPosition({ 100,510 });
 		numberPlayersCardsWheat->setPosition({ 100,610 });
-		
-		/*numberPlayersCardsArmy->setPosition({100,y});
-		numberPlayersCardsRoute->setPosition({ 100,y });
-		numberPlayersCardsRoad->setPosition({ 100,y });
-		numberPlayersCardsInvention->setPosition({ 100,y });
-		numberPlayersCardsMonopoly->setPosition({ 100,y });
-		numberPlayersCardsTownHall->setPosition({ 100,y });
-		numberPlayersCardsLibrary->setPosition({ 100,y });
-		numberPlayersCardsChurch->setPosition({ 100,y });
-		numberPlayersCardsMarket->setPosition({ 100,y });
-		numberPlayersCardsUniversity->setPosition({ 100,y });*/
 
 		GameWindow->draw(*numberPlayersCardsClay);
 		GameWindow->draw(*numberPlayersCardsWool);
@@ -641,6 +950,57 @@ vector<int> Board::countCardsWool(Node* nodePlayer)
 		}
 	}
 	return vecCards;
+}
+
+void Board::paintTransparentRectangles()
+{
+	string vectorCardsImages[17]{ "RECURSOS/CARTAS GRANDES/TABLA-COSTES.png","RECURSOS/CARTAS GRANDES/CARTA-ARCILLA.png","RECURSOS/CARTAS GRANDES/CARTA-LANA.png","RECURSOS/CARTAS GRANDES/CARTA-MADERA.png","RECURSOS/CARTAS GRANDES/CARTA-ROCA.png","RECURSOS/CARTAS GRANDES/CARTA-TRIGO.png","RECURSOS/CARTAS GRANDES/PROGRESO-MONOPOLIO.png","RECURSOS/CARTAS GRANDES/PTS-AYUNTAMIENTO.png","RECURSOS/CARTAS GRANDES/PTS-BIBLIOTECA.png","RECURSOS/CARTAS GRANDES/PTS-IGLESIA.png","RECURSOS/CARTAS GRANDES/PTS-MERCADO.png","RECURSOS/CARTAS GRANDES/PTS-UNIVERSIDAD.png"
+	,"RECURSOS/CARTAS GRANDES/PROGRESO-CARRETERA.png","RECURSOS/CARTAS GRANDES/PROGRESO-INVENTO.png","RECURSOS/CARTAS GRANDES/DESAROLLO-CABALLERO.png","RECURSOS/CARTAS GRANDES/ESPECIAL-EJERCITO.png","RECURSOS/CARTAS GRANDES/ESPECIAL-RUTA.png" };
+	
+	
+	float x = 20;
+	float y = 80;
+	for (int i = 0; i < 17; i++) {
+		if (i == 6) {
+			x = 130;
+			y = 80;
+		}
+		if (i == 12) {
+			x = 240;
+			y = 80;
+		}
+		transparentRectangles[i] = new RectangleShape({ 70,95 });
+		transparentRectangles[i]->setFillColor(Color::Transparent);
+		transparentRectangles[i]->setPosition({ x,y });
+		GameWindow->draw(*transparentRectangles[i]);
+		y = y + 100;
+		string path = vectorCardsImages[i];
+		texturedetection[i].loadFromFile(path);
+		
+	}
+	
+
+}
+
+
+void Board::dices()
+{
+	int num = 0;
+	Texture* texture = new Texture();
+	Sprite* sprite = new Sprite();
+	string vecDices[6]{"RECURSOS/DADOS/dado1.png","RECURSOS/DADOS/dado2.png","RECURSOS/DADOS/dado3.png","RECURSOS/DADOS/dado4.png","RECURSOS/DADOS/dado5.png","RECURSOS/DADOS/dado6.png" };
+	RectangleShape* rectangle = new RectangleShape({ 70,70 });
+	
+	for (int i = 0; i < 6; i++) {
+		num = rand() % 6;
+		texture->loadFromFile(vecDices[num]);
+		rectangle->setTexture(texture);
+		rectangle->setPosition(100, 100);
+		GameWindow->draw(*rectangle);
+		//Sleep(1000);
+	}
+	
+	//return num;
 }
 
 void Board::createGameBoard()
