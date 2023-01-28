@@ -58,7 +58,11 @@ public:
 	void loadImages();
 	void paintFixedElements(); //M
 	void paintCards();
+<<<<<<< Updated upstream
 	vector<int> countCardsWool(Node*);
+=======
+	void paintSettlemetsOnBoard();
+>>>>>>> Stashed changes
 
 
 	void detectHexHorizontalSegment();

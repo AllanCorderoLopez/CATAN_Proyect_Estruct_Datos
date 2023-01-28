@@ -1,5 +1,7 @@
 #include "Board.h"
 #include "circle.h"
+#include "BoardGraph.h"
+
 #include <sstream>
 #include<stdlib.h>
 #include<time.h>
@@ -38,6 +40,9 @@ vector<Texture> textureImagesCards2(6);
 
 vector<Sprite> spriteImagesCards3(5);
 vector<Texture> textureImagesCards3(5);
+
+BoardGraph gph;
+
 
 Board::Board()
 {
@@ -404,6 +409,9 @@ void Board::renderMenu(ListCurrentPlayers list)
 	generateTerrains();
 	loadImages();
 	buildTerrainOnVertexBoard();
+	gph.generateVertices();
+	gph.generateRoadsEdges();
+
 	Node* current;//prueba
 	current = list.First();
 
@@ -467,6 +475,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 		paintFixedElements();
 		GameWindow->draw(*playersName);
 		createGameBoard();
+		paintSettlemetsOnBoard();
 		selectTerrain();
 		//createGameBoard();
 		
@@ -698,10 +707,144 @@ void Board::detectHexHorizontalSegment() {
 
 	for (int i = 0; i < circlesBoard.size(); i++) {
 			if (selectedCircle[i] == true && selectedCircle[i + 1] == true) {
+
+
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x+60, circlesBoard[i].getPosition().y, 10);
 				GameWindow->draw(circleSegment);
+			
+				
+				
+				if (selectedCircle[4] == true && selectedCircle[5] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(23, 27, 0);
+					}
+				}
+				if (selectedCircle[5] == true && selectedCircle[6] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(24, 28, 0);
+					}
+				}
+				if (selectedCircle[6] == true && selectedCircle[7] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(25, 29, 0);
+					}
+				}
+				if (selectedCircle[7] == true && selectedCircle[8] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(26, 30, 0);
+					}
+				}
 
-				cout << "INTERSECCION ENTRE CIRCULOS"<<i+1 << " Y " <<i+2 << endl;
+
+				if (selectedCircle[8] == true && selectedCircle[9] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(25, 29, 0);
+					}
+				}
+				if (selectedCircle[9] == true && selectedCircle[10] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(31, 36, 0);
+					}
+				}
+				if (selectedCircle[10] == true && selectedCircle[11] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(32, 37, 0);
+					}
+				}
+				if (selectedCircle[11] == true && selectedCircle[12] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(33, 38, 0);
+					}
+				}
+				if (selectedCircle[12] == true && selectedCircle[13] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(34, 39, 0);
+					}
+				}
+				if (selectedCircle[13] == true && selectedCircle[14] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(35, 40, 0);
+					}
+				}
+				if (selectedCircle[15] == true && selectedCircle[16] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(41, 47, 0);
+					}
+				}
+				if (selectedCircle[16] == true && selectedCircle[17] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(42, 48, 0);
+					}
+				}
+				if (selectedCircle[17] == true && selectedCircle[18] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(43, 49, 0);
+					}
+				}
+				if (selectedCircle[18] == true && selectedCircle[19] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(44, 50, 0);
+					}
+				}
+				if (selectedCircle[19] == true && selectedCircle[20] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(45, 51, 0);
+
+					}
+				}
+
+				if (selectedCircle[21] == true && selectedCircle[22] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(46, 52, 0);
+					}
+				}
+				if (selectedCircle[22] == true && selectedCircle[23] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(53, 58, 0);
+					}
+				}
+				if (selectedCircle[23] == true && selectedCircle[24] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(54, 59, 0);
+					}
+				}
+				if (selectedCircle[24] == true && selectedCircle[25] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(55, 60, 0);
+					}
+				}
+				if (selectedCircle[25] == true && selectedCircle[26] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(56, 61, 0);
+					}
+				}
+				if (selectedCircle[26] == true && selectedCircle[27] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(57, 62, 0);
+					}
+				}
+				if (selectedCircle[28] == true && selectedCircle[29] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(63, 67, 0);
+					}
+				}
+				if (selectedCircle[29] == true && selectedCircle[30] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(64, 68, 0);
+					}
+				}
+				if (selectedCircle[30] == true && selectedCircle[31] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(65, 69, 0);
+					}
+				}
+				if (selectedCircle[31] == true && selectedCircle[32] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(66, 70, 0);
+					}
+				}
+
+					cout << "INTERSECCION ENTRE CIRCULOS"<<i+1 << " Y " <<i+2 << endl;
 			}
 	}
 }
@@ -713,6 +856,22 @@ void Board::detectHexDiagonalLeftSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[1] == true && selectedCircle[5] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(20, 24, 0);
+					}
+				}
+				if (selectedCircle[2] == true && selectedCircle[6] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(21,25, 0);
+					}
+				}
+				if (selectedCircle[3] == true && selectedCircle[7] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(22,26, 0);
+					}
+				}
+
 			}
 		}
 
@@ -722,6 +881,26 @@ void Board::detectHexDiagonalLeftSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[5] == true && selectedCircle[10] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(27, 32, 0);
+					}
+				}
+				if (selectedCircle[6] == true && selectedCircle[11] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(28, 33, 0);
+					}
+				}
+				if (selectedCircle[7] == true && selectedCircle[12] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(29, 34, 0);
+					}
+				}
+				if (selectedCircle[8] == true && selectedCircle[13] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(30, 35, 0);
+					}
+				}
 			}
 		}
 
@@ -731,6 +910,31 @@ void Board::detectHexDiagonalLeftSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[10] == true && selectedCircle[16] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(36, 42, 0);
+					}
+				}
+				if (selectedCircle[11] == true && selectedCircle[17] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(37, 43, 0);
+					}
+				}
+				if (selectedCircle[12] == true && selectedCircle[18] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(38, 44, 0);
+					}
+				}
+				if (selectedCircle[13] == true && selectedCircle[19] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(39, 45, 0);
+					}
+				}
+				if (selectedCircle[14] == true && selectedCircle[20] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(40, 46, 0);
+					}
+				}
 			}
 		}
 
@@ -740,6 +944,31 @@ void Board::detectHexDiagonalLeftSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[16] == true && selectedCircle[22] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(47, 53, 0);
+					}
+				}
+				if (selectedCircle[17] == true && selectedCircle[23] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(48,54 , 0);
+					}
+				}
+				if (selectedCircle[18] == true && selectedCircle[24] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(49, 55, 0);
+					}
+				}
+				if (selectedCircle[19] == true && selectedCircle[25] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(50, 56, 0);
+					}
+				}
+				if (selectedCircle[20] == true && selectedCircle[26] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(51, 57, 0);
+					}
+				}
 			}
 		}
 
@@ -749,6 +978,27 @@ void Board::detectHexDiagonalLeftSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[23] == true && selectedCircle[28] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(58, 63, 0);
+					}
+				}
+				if (selectedCircle[24] == true && selectedCircle[29] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(59, 64, 0);
+					}
+				}
+				if (selectedCircle[25] == true && selectedCircle[30] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(60, 65, 0);
+					}
+				}
+				if (selectedCircle[26] == true && selectedCircle[31] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(61, 66, 0);
+					}
+				}
+
 			}
 		}
 
@@ -758,6 +1008,22 @@ void Board::detectHexDiagonalLeftSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+
+				if (selectedCircle[29] == true && selectedCircle[33] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(67,71 , 0);
+					}
+				}
+				if (selectedCircle[30] == true && selectedCircle[34] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(68, 72, 0);
+					}
+				}
+				if (selectedCircle[31] == true && selectedCircle[35] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(69,73 , 0);
+					}
+				}
 			}
 		}
 		if (i > 32 && i <= 36) {
@@ -781,6 +1047,53 @@ void Board::detectHexDiagonalRightSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+
+				if (selectedCircle[0] == true && selectedCircle[5] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(23, 20, 0);
+					}
+				}
+				if (selectedCircle[1] == true && selectedCircle[6] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(24, 21, 0);
+					}
+				}
+				if (selectedCircle[2] == true && selectedCircle[7] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(25, 22, 0);
+					}
+				}
+
+
+
+
+
+
+
+
+				if (selectedCircle[29] == true && selectedCircle[34] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(71, 68, 0);
+					}
+				}
+
+				if (selectedCircle[30] == true && selectedCircle[35] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(72, 69, 0);
+					}
+				}
+				if (selectedCircle[31] == true && selectedCircle[36] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(73, 70, 0);
+					}
+				}
+
+
+
+				
+
+
+
 			}
 		}
 
@@ -790,6 +1103,26 @@ void Board::detectHexDiagonalRightSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[4] == true && selectedCircle[10] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(31, 27, 0);
+					}
+				}
+				if (selectedCircle[5] == true && selectedCircle[11] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(32, 28, 0);
+					}
+				}
+				if (selectedCircle[6] == true && selectedCircle[12] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(33, 29, 0);
+					}
+				}
+				if (selectedCircle[7] == true && selectedCircle[13] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(34, 30, 0);
+					}
+				}
 			}
 		}
 
@@ -799,6 +1132,32 @@ void Board::detectHexDiagonalRightSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[9] == true && selectedCircle[16] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(41, 36, 0);
+					}
+				}
+				if (selectedCircle[10] == true && selectedCircle[17] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(42, 37, 0);
+					}
+				}
+				if (selectedCircle[11] == true && selectedCircle[18] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(43, 38, 0);
+					}
+				}
+				if (selectedCircle[12] == true && selectedCircle[19] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(44, 39, 0);
+					}
+				}
+
+				if (selectedCircle[13] == true && selectedCircle[20] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(45, 40, 0);
+					}
+				}
 			}
 		}
 
@@ -808,6 +1167,31 @@ void Board::detectHexDiagonalRightSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[16] == true && selectedCircle[23] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(53, 48, 0);
+					}
+				}
+				if (selectedCircle[17] == true && selectedCircle[24] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(54, 49, 0);
+					}
+				}
+				if (selectedCircle[18] == true && selectedCircle[25] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(55, 50, 0);
+					}
+				}
+				if (selectedCircle[19] == true && selectedCircle[26] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(56, 51, 0);
+					}
+				}
+				if (selectedCircle[20] == true && selectedCircle[27] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(57, 52, 0);
+					}
+				}
 			}
 		}
 
@@ -817,6 +1201,27 @@ void Board::detectHexDiagonalRightSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[23] == true && selectedCircle[29] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(63, 59, 0);
+					}
+				}
+				if (selectedCircle[24] == true && selectedCircle[30] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(64, 60, 0);
+					}
+				}
+				if (selectedCircle[25] == true && selectedCircle[31] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(65, 61, 0);
+					}
+				}
+				if (selectedCircle[26] == true && selectedCircle[32] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(66, 62, 0);
+					}
+				}
+
 			}
 		}
 
@@ -826,6 +1231,29 @@ void Board::detectHexDiagonalRightSegment() {
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
+
+				if (selectedCircle[29] == true && selectedCircle[34] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(71, 68, 0);
+					}
+				}
+
+				if (selectedCircle[30] == true && selectedCircle[35] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(72, 69, 0);
+					}
+				}
+				if (selectedCircle[31] == true && selectedCircle[36] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildRoadOnEdge(73, 70, 0);
+					}
+				}
+
+
+
+
+
+
 			}
 		}
 		if (i > 32 && i <= 36) {
@@ -844,6 +1272,7 @@ void Board::detectHexDiagonalRightSegment() {
 
 void Board::detectHexVertice() {
 	vertFound = false;
+
 	for (int i = 0; i < circlesBoard.size(); i++) {
 		//first circles line
 
@@ -853,7 +1282,35 @@ void Board::detectHexVertice() {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 60, circlesBoard[i].getPosition().y + 30, 10);
 				GameWindow->draw(circleSegment);
 				vertFound = true;
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 1 << " Y " << i + 5 << endl;
+
+					while (GameWindow->pollEvent(event)) {
+						switch (event.type)
+						{
+
+						case Event::MouseButtonPressed:
+							if (selectedCircle[0] == true && selectedCircle[1] == true && selectedCircle[5] == true) {
+								if (Mouse::isButtonPressed(Mouse::Left)) {
+									gph.buildSettlementOnVertex(20, 0);//Se contruye un poblado en el vertice 20
+								}
+							}
+							if (selectedCircle[1] == true && selectedCircle[2] == true && selectedCircle[6] == true) {
+								if (Mouse::isButtonPressed(Mouse::Left)) {
+									gph.buildSettlementOnVertex(21, 0);//Se contruye un poblado en el vertice 20
+								}
+							}
+							if (selectedCircle[2] == true && selectedCircle[3] == true && selectedCircle[7] == true) {
+								if (Mouse::isButtonPressed(Mouse::Left)) {
+									gph.buildSettlementOnVertex(22, 0);//Se contruye un poblado en el vertice 20
+								}
+							}
+							break;
+						}
+					}
+					
+				
+
+				
 			}
 		}
 
@@ -865,6 +1322,26 @@ void Board::detectHexVertice() {
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				if (selectedCircle[0] == true && selectedCircle[4] == true && selectedCircle[5] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(23, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[1] == true && selectedCircle[5] == true && selectedCircle[6] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(24, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[2] == true && selectedCircle[6] == true && selectedCircle[7] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(25, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[3] == true && selectedCircle[7] == true && selectedCircle[8] == true) {
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(26, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 
@@ -878,8 +1355,33 @@ void Board::detectHexVertice() {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 60, circlesBoard[i].getPosition().y + 40, 10);
 				GameWindow->draw(circleSegment);
 				vertFound = true;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 1 << " Y " << i + 6 << endl;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				if (selectedCircle[4] == true && selectedCircle[5] == true && selectedCircle[10] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(27, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[5] == true && selectedCircle[6] == true && selectedCircle[11] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(28, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[6] == true && selectedCircle[7] == true && selectedCircle[12] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(29, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[7] == true && selectedCircle[8] == true && selectedCircle[13] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(30, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+
 			}
 		}
 
@@ -890,8 +1392,40 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 5 << " Y " << i + 6 << endl;
+
+				if (selectedCircle[4] == true && selectedCircle[9] == true && selectedCircle[10] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(31, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[5] == true && selectedCircle[10] == true && selectedCircle[11] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(32, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[6] == true && selectedCircle[11] == true && selectedCircle[12] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(33, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[7] == true && selectedCircle[12] == true && selectedCircle[13] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(34, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[8] == true && selectedCircle[13] == true && selectedCircle[14] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(35, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
+
 		}
 
 		//three circles line
@@ -903,7 +1437,37 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 1 << " Y " << i + 7 << endl;
+				if (selectedCircle[9] == true && selectedCircle[10] == true && selectedCircle[16] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(36, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[10] == true && selectedCircle[11] == true && selectedCircle[17] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(37, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[11] == true && selectedCircle[12] == true && selectedCircle[18] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(38, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[12] == true && selectedCircle[13] == true && selectedCircle[19] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(39, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[13] == true && selectedCircle[14] == true && selectedCircle[20] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(40, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 
@@ -914,7 +1478,43 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 6 << " Y " << i + 7 << endl;
+				if (selectedCircle[9] == true && selectedCircle[15] == true && selectedCircle[16] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(41, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[10] == true && selectedCircle[16] == true && selectedCircle[17] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(42, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[11] == true && selectedCircle[17] == true && selectedCircle[18] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(43, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[12] == true && selectedCircle[18] == true && selectedCircle[19] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(44, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[13] == true && selectedCircle[19] == true && selectedCircle[20] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(45, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[14] == true && selectedCircle[20] == true && selectedCircle[21] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(46, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 
@@ -928,7 +1528,43 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 1 << " Y " << i + 7 << endl;
+				if (selectedCircle[15] == true && selectedCircle[16] == true && selectedCircle[22] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(47, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[16] == true && selectedCircle[17] == true && selectedCircle[23] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(48, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[17] == true && selectedCircle[18] == true && selectedCircle[24] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(49, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[18] == true && selectedCircle[19] == true && selectedCircle[25] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(50, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[19] == true && selectedCircle[20] == true && selectedCircle[26] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(51, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[20] == true && selectedCircle[21] == true && selectedCircle[27] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(52, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 
@@ -939,7 +1575,38 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 6 << " Y " << i + 7 << endl;
+				if (selectedCircle[16] == true && selectedCircle[22] == true && selectedCircle[23] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(53, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[17] == true && selectedCircle[23] == true && selectedCircle[24] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(54, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[18] == true && selectedCircle[24] == true && selectedCircle[25] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(55, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[19] == true && selectedCircle[25] == true && selectedCircle[26] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(56, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[20] == true && selectedCircle[26] == true && selectedCircle[27] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(57, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+			
 			}
 		}
 		//five circles line
@@ -951,7 +1618,37 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 1 << " Y " << i + 6 << endl;
+				if (selectedCircle[22] == true && selectedCircle[23] == true && selectedCircle[28] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(58, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[23] == true && selectedCircle[24] == true && selectedCircle[29] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(59, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[24] == true && selectedCircle[25] == true && selectedCircle[30] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(60, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[25] == true && selectedCircle[26] == true && selectedCircle[31] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(61, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[26] == true && selectedCircle[27] == true && selectedCircle[32] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(62, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 
@@ -962,7 +1659,31 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 5 << " Y " << i + 6 << endl;
+				if (selectedCircle[23] == true && selectedCircle[28] == true && selectedCircle[29] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(63, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[24] == true && selectedCircle[29] == true && selectedCircle[30] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(64, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[25] == true && selectedCircle[30] == true && selectedCircle[31] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(65, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[26] == true && selectedCircle[31] == true && selectedCircle[32] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(66, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 
@@ -975,7 +1696,31 @@ void Board::detectHexVertice() {
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
-				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 1 << " Y " << i + 5 << endl;
+				if (selectedCircle[28] == true && selectedCircle[29] == true && selectedCircle[33] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(67, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[29] == true && selectedCircle[30] == true && selectedCircle[34] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(68, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[30] == true && selectedCircle[31] == true && selectedCircle[35] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(69, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[31] == true && selectedCircle[32] == true && selectedCircle[36] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(70, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 
@@ -987,6 +1732,24 @@ void Board::detectHexVertice() {
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
+				if (selectedCircle[29] == true && selectedCircle[33] == true && selectedCircle[34] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(71, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[30] == true && selectedCircle[34] == true && selectedCircle[35] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(72, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
+				if (selectedCircle[31] == true && selectedCircle[35] == true && selectedCircle[36] == true) {
+
+					if (Mouse::isButtonPressed(Mouse::Left)) {
+						gph.buildSettlementOnVertex(73, 0);//Se contruye un poblado en el vertice 20
+					}
+				}
 			}
 		}
 

@@ -106,23 +106,16 @@ bool BoardGraph::roadMinimumDistance(BoardVertex* vertex) {//determina si del ve
 }
 
 
-void BoardGraph::buildSettlementOnVertex() {
-	int indexVertex;
-	int player;
-	
-	cout << "Ingrese el vertice para agregarle un asentamiento: "<<endl;
-	cin >> indexVertex;
-	cout << "Ingrese el jugador que pone el asentamiento: " << endl;
-	cin >> player;
+void BoardGraph::buildSettlementOnVertex(int indexVertex, int player) {
 
 	BoardVertex* i = first;
 	while (i != NULL) {
 		if (i->indexVertex == indexVertex) {
-			if (firstTime == true) {
+			if (true) {//first time == true
 				if (!hasSettlement(indexVertex)) {
 					i->hasSettlement = true;
 					i->player = player;
-					cout << "Se ha colocado un asentamiento en este lugar del jugador: " << i->player << endl;
+					cout << "Se ha colocado un asentamiento en el vertice: "<<indexVertex<<" del jugador: " << i->player << endl;
 
 				}
 				else {
@@ -192,16 +185,10 @@ void BoardGraph::getRoadOnEdge() {
 
 
 
-void BoardGraph::buildRoadOnEdge() {
-	int initial, terminal;
+void BoardGraph::buildRoadOnEdge(int initial, int terminal, int player) {
 	bool cloggedRoad;
-	int player;
 	int indexVertex;
 
-	cout << "Ingrese el vertice de partida: " << endl;
-	cin >> initial;
-	cout << "Ingrese el vertice de llegada: " << endl;
-	cin >> terminal;
 
 	BoardVertex* vIni = getVertex(initial);
 	BoardVertex* vTer = getVertex(terminal);
@@ -212,12 +199,6 @@ void BoardGraph::buildRoadOnEdge() {
 	if (vTer == NULL)
 		cout << "El vertice de llegada ingresado no existe" << endl;
 
-
-
-
-
-	cout << "Ingrese el jugador que pone la carretera: " << endl;
-	cin >> player;
 	BoardEdge* i = getEdge(initial, terminal);
 	BoardEdge* j = getEdge(terminal, initial);
 
@@ -228,7 +209,7 @@ void BoardGraph::buildRoadOnEdge() {
 			cout << "Ya existe una carretera entre los vertices: " << initial << " -> " << terminal << endl;
 		}
 		else {
-			if (firstTime == false) {
+			if (true) {//firstTime == false
 				if (roadConnect(initial, terminal, player)) {
 					cout << "Se agrego una carretera entre: " << initial << " -> " << terminal << endl;
 					cout << "Se agrego una carretera entre: " << terminal << " -> " << initial << endl;
@@ -288,7 +269,7 @@ bool BoardGraph::roadConnect(int initial, int terminal, int player) {
 	while (vIni->edge != NULL) {
 
 		i = vIni->edge;
-		if (i->cloggedRoad == true && i->player==player) {
+		if (i->cloggedRoad == false && i->player==player) {
 			return true;
 		}
 		vIni->edge = vIni->edge->next;
@@ -301,7 +282,7 @@ bool BoardGraph::roadConnect(int initial, int terminal, int player) {
 	while (vTer->edge != NULL) {
 
 		j = vTer->edge;
-		if (j->cloggedRoad == true && j->player == player) {
+		if (j->cloggedRoad == false && j->player == player) {
 			return true;
 		}
 		vTer->edge = vTer->edge->next;

@@ -40,7 +40,7 @@ void Circle::makeCirclesBackground(float coordX, float coordY) {
     circles[cont_Board_Circles].setRadius(RADIUS);
     circles[cont_Board_Circles].setOrigin(RADIUS, RADIUS);
     circles[cont_Board_Circles].setOutlineThickness(2);
-    circles[cont_Board_Circles].setOutlineColor(Color(255, 0, 0,0));
+    circles[cont_Board_Circles].setOutlineColor(Color(255, 0, 0,255));
 
 
 }
