@@ -10,6 +10,10 @@
 #include <vector>
 #include <list>
 #include <windows.h>
+#include <chrono>
+#include <thread>
+using namespace std::this_thread;
+
 using namespace sf;
 using namespace std;
 Sprite sprite;
@@ -474,10 +478,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 				}
 				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[1]->getGlobalBounds().contains((Vector2f)positionMouse)) {
@@ -492,10 +497,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -511,10 +517,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -530,10 +537,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -549,10 +557,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -568,10 +577,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -587,10 +597,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -606,10 +617,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -625,10 +637,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -644,10 +657,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -663,10 +677,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -682,10 +697,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -701,10 +717,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -720,10 +737,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -739,10 +757,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
@@ -758,15 +777,17 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
+						}
 							window->clear();
 							window->draw(s);
 							window->display();
-						}
+						
 					}
 
 				}
 				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[16]->getGlobalBounds().contains((Vector2f)positionMouse)) {
 					Sprite s(texturedetection[16]);
+					int cc = 0;
 					RenderWindow* window = new RenderWindow(VideoMode(500, 500), "----");
 					while (window->isOpen()) {
 						while (window->pollEvent(event)) {
@@ -777,9 +798,14 @@ void Board::renderMenu(ListCurrentPlayers list)
 								window->close();
 								break;
 							}
-							window->clear();
-							window->draw(s);
-							window->display();
+							
+						}
+						window->clear();
+						window->draw(s);
+						window->display();
+						while (cc < 5000) {
+							cout << "Hola perras" << endl;
+							cc++;
 						}
 					}
 					
@@ -796,6 +822,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 		createGameBoard();
 		//paintSettlemetsOnBoard();
 		selectTerrain();
+		dices();
 		
 		//createGameBoard();
 		
@@ -969,8 +996,9 @@ void Board::paintTransparentRectangles()
 			x = 240;
 			y = 80;
 		}
+
 		transparentRectangles[i] = new RectangleShape({ 70,95 });
-		transparentRectangles[i]->setFillColor(Color::Transparent);
+		transparentRectangles[i]->setFillColor(Color::Yellow);
 		transparentRectangles[i]->setPosition({ x,y });
 		GameWindow->draw(*transparentRectangles[i]);
 		y = y + 100;
@@ -989,18 +1017,16 @@ void Board::dices()
 	Texture* texture = new Texture();
 	Sprite* sprite = new Sprite();
 	string vecDices[6]{"RECURSOS/DADOS/dado1.png","RECURSOS/DADOS/dado2.png","RECURSOS/DADOS/dado3.png","RECURSOS/DADOS/dado4.png","RECURSOS/DADOS/dado5.png","RECURSOS/DADOS/dado6.png" };
-	RectangleShape* rectangle = new RectangleShape({ 70,70 });
-	
-	for (int i = 0; i < 6; i++) {
+	RectangleShape* rectangle = new RectangleShape({ 50,50 });
+
+	//for (int i = 0; i < 6; i++) {
 		num = rand() % 6;
 		texture->loadFromFile(vecDices[num]);
 		rectangle->setTexture(texture);
-		rectangle->setPosition(100, 100);
+		rectangle->setPosition(250, 590);
 		GameWindow->draw(*rectangle);
-		//Sleep(1000);
-	}
-	
-	//return num;
+	//}
+
 }
 
 void Board::createGameBoard()
