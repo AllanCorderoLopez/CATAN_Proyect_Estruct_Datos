@@ -66,7 +66,7 @@ public:
 	void paintSettlemetsOnBoard();
 
 	void paintTransparentRectangles();
-	void dices();
+	int dices();
 
 	void detectHexHorizontalSegment();
 	void detectHexDiagonalRightSegment();

@@ -48,9 +48,14 @@ vector<Texture> textureImagesCards3(5);
 
 BoardGraph gph;
 
-RectangleShape* transparentRectangles[17];
+RectangleShape* transparentRectangles[18];
 vector<Sprite> spritesImageDetection(17);
 vector<Texture> texturedetection(17);
+
+bool dicePlayer = false;
+int diceRoll = 0;
+RectangleShape* rectangleDice1 = new RectangleShape({ 40,40 });
+RectangleShape* rectangleDice2 = new RectangleShape({ 40,40 });
 
 Board::Board()
 {
@@ -433,6 +438,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 	//GameWindow->display();
 	while (GameWindow->isOpen()) {
 	    positionMouse = Mouse::getPosition(*GameWindow);
+		
 		while (GameWindow->pollEvent(event)) {
 
 			switch (event.type)
@@ -442,7 +448,8 @@ void Board::renderMenu(ListCurrentPlayers list)
 				break;
 			case Event::KeyPressed:
 				if (Keyboard::isKeyPressed(Keyboard::Enter)) {
-					
+					dicePlayer = false;
+					diceRoll = 0;
 					playersName->setString(current->player.getName());
 					numberPlayersCardsWool->setString(to_string(countCardsWool(current)[0]));
 					numberPlayersCardsClay->setString(to_string(countCardsWool(current)[1]));
@@ -810,6 +817,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 					}
 					
 				}
+				if (Mouse::isButtonPressed(Mouse::Left) && transparentRectangles[17]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					dicePlayer = true;
+					
+
+				}
 
 				break;
 			}
@@ -822,8 +834,11 @@ void Board::renderMenu(ListCurrentPlayers list)
 		createGameBoard();
 		//paintSettlemetsOnBoard();
 		selectTerrain();
-		dices();
-		
+		if (diceRoll < 100 && dicePlayer == true) {
+			
+			dices();
+			diceRoll++;
+		}
 		//createGameBoard();
 		
 		GameWindow->display();
@@ -831,6 +846,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 	}
 	
 }
+
 
 void Board::paintFixedElements()//pinta los labels y recuadros
 {
@@ -899,7 +915,12 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 	GameWindow->draw(currentPlayer);
 	GameWindow->draw(*titlePlayers);
 
+	rectangleDice1->setPosition(260, 590);
+	rectangleDice2->setPosition(260, 632);
+	
 
+	GameWindow->draw(*rectangleDice1);
+	GameWindow->draw(*rectangleDice2);
 
 }
 
@@ -981,6 +1002,11 @@ vector<int> Board::countCardsWool(Node* nodePlayer)
 
 void Board::paintTransparentRectangles()
 {
+	Texture* t1 = new Texture();
+	t1->loadFromFile("RECURSOS/DADOS/dado1.png");
+	rectangleDice1->setTexture(t1);
+	rectangleDice2->setTexture(t1);
+
 	string vectorCardsImages[17]{ "RECURSOS/CARTAS GRANDES/TABLA-COSTES.png","RECURSOS/CARTAS GRANDES/CARTA-ARCILLA.png","RECURSOS/CARTAS GRANDES/CARTA-LANA.png","RECURSOS/CARTAS GRANDES/CARTA-MADERA.png","RECURSOS/CARTAS GRANDES/CARTA-ROCA.png","RECURSOS/CARTAS GRANDES/CARTA-TRIGO.png","RECURSOS/CARTAS GRANDES/PROGRESO-MONOPOLIO.png","RECURSOS/CARTAS GRANDES/PTS-AYUNTAMIENTO.png","RECURSOS/CARTAS GRANDES/PTS-BIBLIOTECA.png","RECURSOS/CARTAS GRANDES/PTS-IGLESIA.png","RECURSOS/CARTAS GRANDES/PTS-MERCADO.png","RECURSOS/CARTAS GRANDES/PTS-UNIVERSIDAD.png"
 	,"RECURSOS/CARTAS GRANDES/PROGRESO-CARRETERA.png","RECURSOS/CARTAS GRANDES/PROGRESO-INVENTO.png","RECURSOS/CARTAS GRANDES/DESAROLLO-CABALLERO.png","RECURSOS/CARTAS GRANDES/ESPECIAL-EJERCITO.png","RECURSOS/CARTAS GRANDES/ESPECIAL-RUTA.png" };
 	
@@ -1006,26 +1032,45 @@ void Board::paintTransparentRectangles()
 		texturedetection[i].loadFromFile(path);
 		
 	}
-	
-
+	transparentRectangles[17] = new RectangleShape({ 70,95 });
+	transparentRectangles[17]->setFillColor(Color::Yellow);
+	transparentRectangles[17]->setPosition({ x,y });
+	GameWindow->draw(*transparentRectangles[17]);
+	GameWindow->draw(*rectangleDice1);
+	GameWindow->draw(*rectangleDice2);
 }
 
 
-void Board::dices()
+int Board::dices()
 {
 	int num = 0;
-	Texture* texture = new Texture();
-	Sprite* sprite = new Sprite();
-	string vecDices[6]{"RECURSOS/DADOS/dado1.png","RECURSOS/DADOS/dado2.png","RECURSOS/DADOS/dado3.png","RECURSOS/DADOS/dado4.png","RECURSOS/DADOS/dado5.png","RECURSOS/DADOS/dado6.png" };
-	RectangleShape* rectangle = new RectangleShape({ 50,50 });
+	int num2 = 0;
 
-	//for (int i = 0; i < 6; i++) {
+	Texture* texture = new Texture();
+	Texture* texture2 = new Texture();
+	string vecDices[6]{"RECURSOS/DADOS/dado1.png","RECURSOS/DADOS/dado2.png","RECURSOS/DADOS/dado3.png","RECURSOS/DADOS/dado4.png","RECURSOS/DADOS/dado5.png","RECURSOS/DADOS/dado6.png" };
+	RectangleShape* rectangle1 = new RectangleShape({ 40,40 });
+	RectangleShape* rectangle2 = new RectangleShape({ 40,40 });
+	//for (int i = 0; i < 305; i++) {
 		num = rand() % 6;
 		texture->loadFromFile(vecDices[num]);
-		rectangle->setTexture(texture);
-		rectangle->setPosition(250, 590);
-		GameWindow->draw(*rectangle);
+		rectangle1->setTexture(texture);
+		rectangle1->setPosition(260, 590);
+		GameWindow->draw(*rectangle1);
+
+		num2 = rand() % 6;
+		texture2->loadFromFile(vecDices[num2]);
+		rectangle2->setTexture(texture);
+		rectangle2->setPosition(260, 632);
+		GameWindow->draw(*rectangle2);
+
+
+		if (diceRoll == 99) {
+			rectangleDice1->setTexture(texture);
+			rectangleDice2->setTexture(texture2);
+		}
 	//}
+		return num + num2;
 
 }
 
