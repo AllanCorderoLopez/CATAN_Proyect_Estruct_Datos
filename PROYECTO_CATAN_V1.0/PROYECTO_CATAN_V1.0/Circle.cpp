@@ -31,6 +31,8 @@ CircleShape Circle::createCircle(float coordX, float coordY, float RADIUS) {
     return circle;
 }
 
+
+
 void Circle::makeCirclesBackground(float coordX, float coordY) {
     CircleShape circle(RADIUS);
 

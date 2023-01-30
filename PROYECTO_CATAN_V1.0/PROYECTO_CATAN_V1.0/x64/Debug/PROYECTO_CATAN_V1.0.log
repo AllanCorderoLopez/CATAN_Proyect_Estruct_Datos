@@ -1,29 +1,31 @@
 ﻿  Board.cpp
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(218,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(312,28): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(314,27): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(316,33): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(318,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(320,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(1095,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(221,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(315,28): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(317,27): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(319,33): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(321,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(323,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2319,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
           with
           [
               T=float
           ]
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(1096,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2320,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
           with
           [
               T=float
           ]
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(1100,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(1101,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2324,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2325,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
   BoardGraph.cpp
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(152,7): warning C4101: 'cloggedRoad': variable local sin referencia
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(154,6): warning C4101: 'indexVertex': variable local sin referencia
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(153,6): warning C4101: 'player': variable local sin referencia
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(189,7): warning C4101: 'cloggedRoad': variable local sin referencia
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(190,6): warning C4101: 'indexVertex': variable local sin referencia
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(166,7): warning C4101: 'cloggedRoad': variable local sin referencia
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(168,6): warning C4101: 'indexVertex': variable local sin referencia
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(167,6): warning C4101: 'player': variable local sin referencia
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(203,7): warning C4101: 'cloggedRoad': variable local sin referencia
+C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\BoardGraph.cpp(204,6): warning C4101: 'indexVertex': variable local sin referencia
   Game.cpp
   main.cpp
+  Terrain.cpp
   Generando código...
-  PROYECTO_CATAN_V1.0.vcxproj -> D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\x64\Debug\PROYECTO_CATAN_V1.0.exe
+  LINK : no se encontró C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\x64\Debug\PROYECTO_CATAN_V1.0.exe o no lo generó el último vínculo incremental; ejecutando vínculo completo
+  PROYECTO_CATAN_V1.0.vcxproj -> C:\Users\allco\OneDrive\Escritorio\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\x64\Debug\PROYECTO_CATAN_V1.0.exe

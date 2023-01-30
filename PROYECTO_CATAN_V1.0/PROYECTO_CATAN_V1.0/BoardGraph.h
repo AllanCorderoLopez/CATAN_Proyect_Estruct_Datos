@@ -43,7 +43,7 @@ public:
 
 	//costrucciones
 	void buildSettlementOnVertex(int, int);
-	void buildCityOnVertex();
+	void buildCityOnVertex(int,int);
 	void buildRoadOnEdge(int,int,int);
 
 	void buildTerrainOnVertex(int indexVertex, int terrain);

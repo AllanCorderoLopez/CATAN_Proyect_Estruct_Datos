@@ -139,6 +139,7 @@
     <ClCompile Include="BoardVertex.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Construction.cpp" />
     <ClCompile Include="Forest.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="ListPlayerCards.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="BoardVertex.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="Circle.h" />
+    <ClInclude Include="Construction.h" />
     <ClInclude Include="Forest.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="ListPlayerCards.h" />

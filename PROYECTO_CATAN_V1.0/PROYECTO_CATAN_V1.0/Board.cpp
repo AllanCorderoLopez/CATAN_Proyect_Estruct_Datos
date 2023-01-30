@@ -1,6 +1,7 @@
 #include "Board.h"
 #include "circle.h"
 #include "BoardGraph.h"
+#include "Construction.h"
 
 #include <sstream>
 #include<stdlib.h>
@@ -25,12 +26,14 @@ Texture texture;
 Texture texture2;
 Texture texture3;
 Texture texture4;
-
+ListCurrentPlayers currentPlayerList;
 Event event;
 const float RADIUS = 80;
 vector<CircleShape> circlesBoard(100);
 vector<bool> selectedCircle(100);
 Circle c;
+Construction Const;
+
 bool vertFound = false;
 int num = 0;
 vector<Terrain*> terrains(20);
@@ -286,10 +289,10 @@ void Board::renderTerrains()
 
 
 
-	//cargar imagenes en un vector para no tener que cargarlas desde memoria 
+		//cargar imagenes en un vector para no tener que cargarlas desde memoria 
 
-	//createGameBoard();
-	//selectTerrain();
+		//createGameBoard();
+		//selectTerrain();
 
 
 
@@ -428,8 +431,12 @@ void Board::renderMenu(ListCurrentPlayers list)
 	buildTerrainOnVertexBoard();
 	gph.generateVertices();
 	gph.generateRoadsEdges();
+ 
 
 	paintTransparentRectangles();
+ 
+	currentPlayerList = list;
+ 
 	Node* current;//prueba
 	current = list.First();
 
@@ -832,7 +839,13 @@ void Board::renderMenu(ListCurrentPlayers list)
 		paintFixedElements();
 		GameWindow->draw(*playersName);
 		createGameBoard();
+ 
 		//paintSettlemetsOnBoard();
+ 
+		paintSettlemetsOnBoard();
+		paintCityOnBoard();
+		paintRoadsOnBoard();
+ 
 		selectTerrain();
 		if (diceRoll < 100 && dicePlayer == true) {
 			
@@ -1048,29 +1061,360 @@ int Board::dices()
 
 	Texture* texture = new Texture();
 	Texture* texture2 = new Texture();
-	string vecDices[6]{"RECURSOS/DADOS/dado1.png","RECURSOS/DADOS/dado2.png","RECURSOS/DADOS/dado3.png","RECURSOS/DADOS/dado4.png","RECURSOS/DADOS/dado5.png","RECURSOS/DADOS/dado6.png" };
+	string vecDices[6]{ "RECURSOS/DADOS/dado1.png","RECURSOS/DADOS/dado2.png","RECURSOS/DADOS/dado3.png","RECURSOS/DADOS/dado4.png","RECURSOS/DADOS/dado5.png","RECURSOS/DADOS/dado6.png" };
 	RectangleShape* rectangle1 = new RectangleShape({ 40,40 });
 	RectangleShape* rectangle2 = new RectangleShape({ 40,40 });
 	//for (int i = 0; i < 305; i++) {
-		num = rand() % 6;
-		texture->loadFromFile(vecDices[num]);
-		rectangle1->setTexture(texture);
-		rectangle1->setPosition(260, 590);
-		GameWindow->draw(*rectangle1);
+	num = rand() % 6;
+	texture->loadFromFile(vecDices[num]);
+	rectangle1->setTexture(texture);
+	rectangle1->setPosition(260, 590);
+	GameWindow->draw(*rectangle1);
 
-		num2 = rand() % 6;
-		texture2->loadFromFile(vecDices[num2]);
-		rectangle2->setTexture(texture);
-		rectangle2->setPosition(260, 632);
-		GameWindow->draw(*rectangle2);
+	num2 = rand() % 6;
+	texture2->loadFromFile(vecDices[num2]);
+	rectangle2->setTexture(texture);
+	rectangle2->setPosition(260, 632);
+	GameWindow->draw(*rectangle2);
 
 
-		if (diceRoll == 99) {
-			rectangleDice1->setTexture(texture);
-			rectangleDice2->setTexture(texture2);
-		}
+	if (diceRoll == 99) {
+		rectangleDice1->setTexture(texture);
+		rectangleDice2->setTexture(texture2);
+	}
 	//}
-		return num + num2;
+	return num + num2;
+
+
+}
+int Board::currentPlayer(string nameCurrentPlayer)
+{
+	int cont = 0;
+
+
+
+	Node* player;
+	player = currentPlayerList.First();
+
+	while (player != NULL) {
+			if (player->PlayerName().getName() == nameCurrentPlayer) {
+				return cont;
+			}
+			cont++;
+
+	
+		player = player->next;
+
+	}
+
+
+
+
+	return -1;
+}
+
+void Board::paintSettlemetsOnBoard()
+{
+	int Player = -1;
+	if (gph.hasSettlement(20)) {
+		Player = gph.getVertex(20)->player;
+
+
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[0].getPosition().x + 60, circlesBoard[0].getPosition().y + 30, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(21)) {
+		Player = gph.getVertex(21)->player;
+
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[1].getPosition().x + 60, circlesBoard[1].getPosition().y + 30, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(22)) {
+		Player = gph.getVertex(22)->player;
+
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[2].getPosition().x + 60, circlesBoard[2].getPosition().y + 30, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(23)) {
+		Player = gph.getVertex(23)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[0].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(24)) {
+		Player = gph.getVertex(24)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[1].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(25)) {
+		Player = gph.getVertex(25)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[2].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+
+	}
+	if (gph.hasSettlement(26)) {
+		Player = gph.getVertex(26)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[3].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(27)) {
+		Player = gph.getVertex(27)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[4].getPosition().x + 60, circlesBoard[4].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(28)) {
+		Player = gph.getVertex(28)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[5].getPosition().x + 60, circlesBoard[5].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(29)) {
+		Player = gph.getVertex(29)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[6].getPosition().x + 60, circlesBoard[6].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(30)) {
+		Player = gph.getVertex(30)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[7].getPosition().x + 60, circlesBoard[7].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(31)) {
+		Player = gph.getVertex(31)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[4].getPosition().x, circlesBoard[4].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(32)) {
+		Player = gph.getVertex(32)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[5].getPosition().x, circlesBoard[5].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(33)) {
+		Player = gph.getVertex(33)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[6].getPosition().x, circlesBoard[6].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(34)) {
+		Player = gph.getVertex(34)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[7].getPosition().x, circlesBoard[7].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(35)) {
+		Player = gph.getVertex(35)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[8].getPosition().x, circlesBoard[8].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasSettlement(36)) {
+		Player = gph.getVertex(36)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[9].getPosition().x + 60, circlesBoard[9].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(37)) {
+		Player = gph.getVertex(37)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[10].getPosition().x + 60, circlesBoard[10].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(38)) {
+		Player = gph.getVertex(38)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[11].getPosition().x + 60, circlesBoard[11].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(39)) {
+		Player = gph.getVertex(39)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[12].getPosition().x + 60, circlesBoard[12].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(40)) {
+		Player = gph.getVertex(40)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[13].getPosition().x + 60, circlesBoard[13].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasSettlement(41)) {
+		Player = gph.getVertex(41)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[9].getPosition().x + 3, circlesBoard[9].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(42)) {
+		Player = gph.getVertex(42)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[10].getPosition().x + 3, circlesBoard[10].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(43)) {
+		Player = gph.getVertex(43)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[11].getPosition().x + 3, circlesBoard[11].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(44)) {
+		Player = gph.getVertex(44)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[12].getPosition().x + 3, circlesBoard[12].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(45)) {
+		Player = gph.getVertex(45)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[13].getPosition().x + 3, circlesBoard[13].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(46)) {
+		Player = gph.getVertex(46)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[14].getPosition().x + 3, circlesBoard[14].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasSettlement(47)) {
+		Player = gph.getVertex(47)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[15].getPosition().x + 65, circlesBoard[15].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(48)) {
+		Player = gph.getVertex(48)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[16].getPosition().x + 65, circlesBoard[16].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(49)) {
+		Player = gph.getVertex(49)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[17].getPosition().x + 65, circlesBoard[17].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(50)) {
+		Player = gph.getVertex(50)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[18].getPosition().x + 65, circlesBoard[18].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(51)) {
+		Player = gph.getVertex(51)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[19].getPosition().x + 65, circlesBoard[19].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(52)) {
+		Player = gph.getVertex(52)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[20].getPosition().x + 65, circlesBoard[20].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	if (gph.hasSettlement(53)) {
+		Player = gph.getVertex(53)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[16].getPosition().x + 5, circlesBoard[16].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	if (gph.hasSettlement(54)) {
+		Player = gph.getVertex(54)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[17].getPosition().x + 5, circlesBoard[17].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(55)) {
+		Player = gph.getVertex(55)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[18].getPosition().x + 5, circlesBoard[18].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(56)) {
+		Player = gph.getVertex(56)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[19].getPosition().x + 5, circlesBoard[19].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(57)) {
+		Player = gph.getVertex(57)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[20].getPosition().x + 5, circlesBoard[20].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasSettlement(58)) {
+		Player = gph.getVertex(58)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[22].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(59)) {
+		Player = gph.getVertex(59)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[23].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(60)) {
+		Player = gph.getVertex(60)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[24].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(61)) {
+		Player = gph.getVertex(61)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[25].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(62)) {
+		Player = gph.getVertex(62)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[26].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	if (gph.hasSettlement(63)) {
+		Player = gph.getVertex(63)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[23].getPosition().x + 2, circlesBoard[23].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(64)) {
+		Player = gph.getVertex(64)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[24].getPosition().x + 2, circlesBoard[24].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(65)) {
+		Player = gph.getVertex(65)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[25].getPosition().x + 2, circlesBoard[25].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(66)) {
+		Player = gph.getVertex(66)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[26].getPosition().x + 2, circlesBoard[26].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasSettlement(67)) {
+		Player = gph.getVertex(67)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[28].getPosition().x + 60, circlesBoard[28].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(68)) {
+		Player = gph.getVertex(68)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[29].getPosition().x + 60, circlesBoard[29].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(69)) {
+		Player = gph.getVertex(69)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[30].getPosition().x + 60, circlesBoard[30].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(70)) {
+		Player = gph.getVertex(70)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[31].getPosition().x + 60, circlesBoard[31].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+
+
+	if (gph.hasSettlement(71)) {
+		Player = gph.getVertex(71)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[29].getPosition().x + 2, circlesBoard[29].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(72)) {
+		Player = gph.getVertex(72)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[30].getPosition().x + 2, circlesBoard[30].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasSettlement(73)) {
+		Player = gph.getVertex(73)->player;
+		CircleShape circleSegment = Const.renderSettlement(circlesBoard[31].getPosition().x + 2, circlesBoard[31].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+ 
 
 }
 
@@ -1079,6 +1423,886 @@ void Board::createGameBoard()
 	Circle c;
 	c.drawCirclesBackground();
 	drawCircles(c.drawCirclesBackground());
+
+}
+
+void Board::paintCityOnBoard()
+{
+
+	int Player = -1;
+
+
+	if (gph.hasCity(20)) {
+		Player = gph.getVertex(20)->player;
+
+
+		CircleShape circleSegment = Const.renderCity(circlesBoard[0].getPosition().x + 60, circlesBoard[0].getPosition().y + 30, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	if (gph.hasCity(21)) {
+		Player = gph.getVertex(21)->player;
+
+		CircleShape circleSegment = Const.renderCity(circlesBoard[1].getPosition().x + 60, circlesBoard[1].getPosition().y + 30, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(22)) {
+		Player = gph.getVertex(22)->player;
+
+		CircleShape circleSegment = Const.renderCity(circlesBoard[2].getPosition().x + 60, circlesBoard[2].getPosition().y + 30, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(23)) {
+		Player = gph.getVertex(23)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[0].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(24)) {
+		Player = gph.getVertex(24)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[1].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(25)) {
+		Player = gph.getVertex(25)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[2].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+
+	}
+	if (gph.hasCity(26)) {
+		Player = gph.getVertex(26)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[3].getPosition().x - 5, circlesBoard[0].getPosition().y + 56, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(27)) {
+		Player = gph.getVertex(27)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[4].getPosition().x + 60, circlesBoard[4].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(28)) {
+		Player = gph.getVertex(28)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[5].getPosition().x + 60, circlesBoard[5].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(29)) {
+		Player = gph.getVertex(29)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[6].getPosition().x + 60, circlesBoard[6].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(30)) {
+		Player = gph.getVertex(30)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[7].getPosition().x + 60, circlesBoard[7].getPosition().y + 40, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(31)) {
+		Player = gph.getVertex(31)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[4].getPosition().x, circlesBoard[4].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(32)) {
+		Player = gph.getVertex(32)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[5].getPosition().x, circlesBoard[5].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(33)) {
+		Player = gph.getVertex(33)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[6].getPosition().x, circlesBoard[6].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(34)) {
+		Player = gph.getVertex(34)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[7].getPosition().x, circlesBoard[7].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(35)) {
+		Player = gph.getVertex(35)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[8].getPosition().x, circlesBoard[8].getPosition().y + 70, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasCity(36)) {
+		Player = gph.getVertex(36)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[9].getPosition().x + 60, circlesBoard[9].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(37)) {
+		Player = gph.getVertex(37)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[10].getPosition().x + 60, circlesBoard[10].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(38)) {
+		Player = gph.getVertex(38)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[11].getPosition().x + 60, circlesBoard[11].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(39)) {
+		Player = gph.getVertex(39)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[12].getPosition().x + 60, circlesBoard[12].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(40)) {
+		Player = gph.getVertex(40)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[13].getPosition().x + 60, circlesBoard[13].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasCity(41)) {
+		Player = gph.getVertex(41)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[9].getPosition().x + 3, circlesBoard[9].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(42)) {
+		Player = gph.getVertex(42)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[10].getPosition().x + 3, circlesBoard[10].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(43)) {
+		Player = gph.getVertex(43)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[11].getPosition().x + 3, circlesBoard[11].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(44)) {
+		Player = gph.getVertex(44)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[12].getPosition().x + 3, circlesBoard[12].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(45)) {
+		Player = gph.getVertex(45)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[13].getPosition().x + 3, circlesBoard[13].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(46)) {
+		Player = gph.getVertex(46)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[14].getPosition().x + 3, circlesBoard[14].getPosition().y + 65, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasCity(47)) {
+		Player = gph.getVertex(47)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[15].getPosition().x + 65, circlesBoard[15].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(48)) {
+		Player = gph.getVertex(48)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[16].getPosition().x + 65, circlesBoard[16].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(49)) {
+		Player = gph.getVertex(49)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[17].getPosition().x + 65, circlesBoard[17].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(50)) {
+		Player = gph.getVertex(50)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[18].getPosition().x + 65, circlesBoard[18].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(51)) {
+		Player = gph.getVertex(51)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[19].getPosition().x + 65, circlesBoard[19].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(52)) {
+		Player = gph.getVertex(52)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[20].getPosition().x + 65, circlesBoard[20].getPosition().y + 35, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	if (gph.hasCity(53)) {
+		Player = gph.getVertex(53)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[16].getPosition().x + 5, circlesBoard[16].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	if (gph.hasCity(54)) {
+		Player = gph.getVertex(54)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[17].getPosition().x + 5, circlesBoard[17].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(55)) {
+		Player = gph.getVertex(55)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[18].getPosition().x + 5, circlesBoard[18].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(56)) {
+		Player = gph.getVertex(56)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[19].getPosition().x + 5, circlesBoard[19].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(57)) {
+		Player = gph.getVertex(57)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[20].getPosition().x + 5, circlesBoard[20].getPosition().y + 73, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasCity(58)) {
+		Player = gph.getVertex(58)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[22].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(59)) {
+		Player = gph.getVertex(59)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[23].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(60)) {
+		Player = gph.getVertex(60)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[24].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(61)) {
+		Player = gph.getVertex(61)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[25].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(62)) {
+		Player = gph.getVertex(62)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[26].getPosition().x + 60, circlesBoard[22].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	if (gph.hasCity(63)) {
+		Player = gph.getVertex(63)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[23].getPosition().x + 2, circlesBoard[23].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(64)) {
+		Player = gph.getVertex(64)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[24].getPosition().x + 2, circlesBoard[24].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(65)) {
+		Player = gph.getVertex(65)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[25].getPosition().x + 2, circlesBoard[25].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(66)) {
+		Player = gph.getVertex(66)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[26].getPosition().x + 2, circlesBoard[26].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	if (gph.hasCity(67)) {
+		Player = gph.getVertex(67)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[28].getPosition().x + 60, circlesBoard[28].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(68)) {
+		Player = gph.getVertex(68)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[29].getPosition().x + 60, circlesBoard[29].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(69)) {
+		Player = gph.getVertex(69)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[30].getPosition().x + 60, circlesBoard[30].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(70)) {
+		Player = gph.getVertex(70)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[31].getPosition().x + 60, circlesBoard[31].getPosition().y + 32, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+
+
+	if (gph.hasCity(71)) {
+		Player = gph.getVertex(71)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[29].getPosition().x + 2, circlesBoard[29].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(72)) {
+		Player = gph.getVertex(72)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[30].getPosition().x + 2, circlesBoard[30].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasCity(73)) {
+		Player = gph.getVertex(73)->player;
+		CircleShape circleSegment = Const.renderCity(circlesBoard[31].getPosition().x + 2, circlesBoard[31].getPosition().y + 66, 10, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+}
+
+
+void Board::paintVerticalRoads() {
+
+	BoardEdge* edge;
+
+	int Player = -1;
+
+	if (gph.hasRoad(gph.getEdge(23, 27))) {
+		Player = gph.getEdge(23, 27)->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[4].getPosition().x + 71, circlesBoard[4].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasRoad(gph.getEdge(24, 28))) {
+		Player = gph.getEdge(24, 28)->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[5].getPosition().x + 72, circlesBoard[5].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	if (gph.hasRoad(gph.getEdge(25, 29))) {
+		Player = gph.getEdge(24, 28)->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[6].getPosition().x + 71, circlesBoard[6].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(26, 30);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[7].getPosition().x + 71, circlesBoard[7].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	//-----------
+
+
+
+
+	edge = gph.getEdge(31, 36);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[9].getPosition().x + 71, circlesBoard[9].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(32, 37);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[10].getPosition().x + 71, circlesBoard[10].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(33, 38);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[11].getPosition().x + 71, circlesBoard[11].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(34, 39);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[12].getPosition().x + 71, circlesBoard[12].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(35, 40);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[13].getPosition().x + 71, circlesBoard[13].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+
+
+	//-----------
+
+
+	edge = gph.getEdge(41, 47);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[15].getPosition().x + 71, circlesBoard[15].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(42, 48);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[16].getPosition().x + 71, circlesBoard[16].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(43, 49);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[17].getPosition().x + 71, circlesBoard[17].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(44, 50);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[18].getPosition().x + 71, circlesBoard[18].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(45, 51);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[19].getPosition().x + 71, circlesBoard[19].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(46, 52);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[20].getPosition().x + 71, circlesBoard[20].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	//-----------
+
+
+	edge = gph.getEdge(53, 58);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[22].getPosition().x + 71, circlesBoard[22].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(54, 59);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[23].getPosition().x + 71, circlesBoard[23].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(55, 60);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[24].getPosition().x + 71, circlesBoard[24].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(56, 61);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[25].getPosition().x + 71, circlesBoard[25].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(57, 62);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[26].getPosition().x + 71, circlesBoard[26].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	//----------
+
+
+	edge = gph.getEdge(63, 67);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[28].getPosition().x + 71, circlesBoard[28].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(64, 68);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[29].getPosition().x + 71, circlesBoard[29].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(65, 69);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[30].getPosition().x + 71, circlesBoard[30].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(66, 70);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderVecticalRoad(circlesBoard[31].getPosition().x + 71, circlesBoard[31].getPosition().y - 12, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+}
+
+void Board::paintDiagonalRightRoads()
+{
+
+
+
+
+	BoardEdge* edge;
+
+	int Player = -1;
+
+
+	edge = gph.getEdge(20, 24);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[0].getPosition().x + 93, circlesBoard[0].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	edge = gph.getEdge(21, 25);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[1].getPosition().x + 93, circlesBoard[1].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(22, 26);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[2].getPosition().x + 93, circlesBoard[2].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	//--------
+	edge = gph.getEdge(27, 32);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[4].getPosition().x + 93, circlesBoard[4].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(28, 33);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[5].getPosition().x + 93, circlesBoard[5].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(29, 34);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[6].getPosition().x + 93, circlesBoard[6].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(30, 35);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[7].getPosition().x + 93, circlesBoard[7].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	//----------
+
+	edge = gph.getEdge(36, 42);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[9].getPosition().x + 93, circlesBoard[9].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(37, 43);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[10].getPosition().x + 93, circlesBoard[10].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(38, 44);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[11].getPosition().x + 93, circlesBoard[11].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(39, 45);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[12].getPosition().x + 93, circlesBoard[12].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(40, 46);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[13].getPosition().x + 93, circlesBoard[13].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	//---------
+
+	edge = gph.getEdge(47, 53);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[16].getPosition().x-18, circlesBoard[16].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(48, 54);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[17].getPosition().x -18, circlesBoard[17].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(49, 55);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[18].getPosition().x -18, circlesBoard[18].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(50, 56);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[19].getPosition().x -18, circlesBoard[19].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(51, 57);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[20].getPosition().x -18, circlesBoard[20].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	//-----------
+
+
+	edge = gph.getEdge(58, 63);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[23].getPosition().x -18, circlesBoard[23].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	edge = gph.getEdge(59, 64);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[24].getPosition().x -18, circlesBoard[24].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(60, 65);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[25].getPosition().x -18, circlesBoard[25].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(61, 66);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[26].getPosition().x -18, circlesBoard[26].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	//-------------------
+
+	edge = gph.getEdge(67, 71);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[29].getPosition().x -18, circlesBoard[29].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(68, 72);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[30].getPosition().x -18, circlesBoard[30].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(69, 73);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalRightRoad(circlesBoard[31].getPosition().x -18, circlesBoard[31].getPosition().y + 65, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+}
+
+void Board::paintDiagonalLeftRoads()
+{
+
+
+
+	BoardEdge* edge;
+
+	int Player = -1;
+
+
+	edge = gph.getEdge(23, 20);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[0].getPosition().x + 45, circlesBoard[0].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	edge = gph.getEdge(24, 21);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[1].getPosition().x + 45, circlesBoard[1].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(25, 22);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[2].getPosition().x + 45, circlesBoard[2].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+
+	//--------
+	edge = gph.getEdge(31, 27);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[4].getPosition().x + 50, circlesBoard[4].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(32, 28);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[5].getPosition().x + 50, circlesBoard[5].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(33, 29);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[6].getPosition().x + 50, circlesBoard[6].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(34, 30);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[7].getPosition().x + 50, circlesBoard[7].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	//----------
+
+	edge = gph.getEdge(41, 36);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[9].getPosition().x + 50, circlesBoard[9].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(42, 37);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[10].getPosition().x + 50, circlesBoard[10].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(43, 38);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[11].getPosition().x + 50, circlesBoard[11].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(44, 39);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[12].getPosition().x + 50, circlesBoard[12].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(45, 40);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[13].getPosition().x + 50, circlesBoard[13].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	//---------
+
+	edge = gph.getEdge(53, 48);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[16].getPosition().x + 50, circlesBoard[16].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(54, 49);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[17].getPosition().x + 50, circlesBoard[17].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(55, 50);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[18].getPosition().x + 50, circlesBoard[18].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(56, 51);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[19].getPosition().x + 50, circlesBoard[19].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(57, 52);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[20].getPosition().x + 50, circlesBoard[20].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	//-----------
+
+
+	edge = gph.getEdge(63, 59);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[23].getPosition().x + 50, circlesBoard[23].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+
+	edge = gph.getEdge(64, 60);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[24].getPosition().x + 50, circlesBoard[24].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(65, 61);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[25].getPosition().x + 50, circlesBoard[25].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	edge = gph.getEdge(66, 62);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[26].getPosition().x + 50, circlesBoard[26].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+	//-------------------
+
+	edge = gph.getEdge(71, 68);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[29].getPosition().x + 50, circlesBoard[29].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(72, 69);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[30].getPosition().x + 50, circlesBoard[30].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+	edge = gph.getEdge(73, 70);
+	if (gph.hasRoad(edge)) {
+		Player = edge->player;
+		RectangleShape circleSegment = Const.renderDiagonalLeftRoad(circlesBoard[31].getPosition().x + 50, circlesBoard[31].getPosition().y + 50, Player);
+		GameWindow->draw(circleSegment);
+	}
+
+}
+
+
+
+void Board::paintRoadsOnBoard()
+{
+	paintVerticalRoads();
+	paintDiagonalLeftRoads();
+	paintDiagonalRightRoads();
+
 
 }
 
@@ -1114,14 +2338,14 @@ void Board::selectTerrain()
 
 
 
-
-	detectHexVertice();
+	string a = playersName->getString();
+	detectHexVertice(currentPlayer(playersName->getString()));
 
 
 	if (vertFound == false) {
-		detectHexHorizontalSegment();
-		detectHexDiagonalRightSegment();
-		detectHexDiagonalLeftSegment();
+		detectHexHorizontalSegment(currentPlayer(playersName->getString()));
+		detectHexDiagonalRightSegment(currentPlayer(playersName->getString()));
+		detectHexDiagonalLeftSegment(currentPlayer(playersName->getString()));
 	}
 
 
@@ -1134,172 +2358,173 @@ void Board::paintGameBoard()
 
 }
 
-void Board::detectHexHorizontalSegment() {
+void Board::detectHexHorizontalSegment(int currentPlayer) {
 
 	for (int i = 0; i < circlesBoard.size(); i++) {
-			if (selectedCircle[i] == true && selectedCircle[i + 1] == true) {
+		if (selectedCircle[i] == true && selectedCircle[i + 1] == true) {
 
 
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x+60, circlesBoard[i].getPosition().y, 10);
-				GameWindow->draw(circleSegment);
-			
-				
-				
-				if (selectedCircle[4] == true && selectedCircle[5] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(23, 27, 0);
-					}
-				}
-				if (selectedCircle[5] == true && selectedCircle[6] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(24, 28, 0);
-					}
-				}
-				if (selectedCircle[6] == true && selectedCircle[7] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(25, 29, 0);
-					}
-				}
-				if (selectedCircle[7] == true && selectedCircle[8] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(26, 30, 0);
-					}
-				}
+			CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 60, circlesBoard[i].getPosition().y, 10);
+			GameWindow->draw(circleSegment);
 
 
-				if (selectedCircle[8] == true && selectedCircle[9] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(25, 29, 0);
-					}
-				}
-				if (selectedCircle[9] == true && selectedCircle[10] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(31, 36, 0);
-					}
-				}
-				if (selectedCircle[10] == true && selectedCircle[11] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(32, 37, 0);
-					}
-				}
-				if (selectedCircle[11] == true && selectedCircle[12] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(33, 38, 0);
-					}
-				}
-				if (selectedCircle[12] == true && selectedCircle[13] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(34, 39, 0);
-					}
-				}
-				if (selectedCircle[13] == true && selectedCircle[14] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(35, 40, 0);
-					}
-				}
-				if (selectedCircle[15] == true && selectedCircle[16] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(41, 47, 0);
-					}
-				}
-				if (selectedCircle[16] == true && selectedCircle[17] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(42, 48, 0);
-					}
-				}
-				if (selectedCircle[17] == true && selectedCircle[18] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(43, 49, 0);
-					}
-				}
-				if (selectedCircle[18] == true && selectedCircle[19] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(44, 50, 0);
-					}
-				}
-				if (selectedCircle[19] == true && selectedCircle[20] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(45, 51, 0);
 
-					}
+			if (selectedCircle[4] == true && selectedCircle[5] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(23, 27, currentPlayer);
 				}
-
-				if (selectedCircle[21] == true && selectedCircle[22] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(46, 52, 0);
-					}
-				}
-				if (selectedCircle[22] == true && selectedCircle[23] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(53, 58, 0);
-					}
-				}
-				if (selectedCircle[23] == true && selectedCircle[24] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(54, 59, 0);
-					}
-				}
-				if (selectedCircle[24] == true && selectedCircle[25] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(55, 60, 0);
-					}
-				}
-				if (selectedCircle[25] == true && selectedCircle[26] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(56, 61, 0);
-					}
-				}
-				if (selectedCircle[26] == true && selectedCircle[27] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(57, 62, 0);
-					}
-				}
-				if (selectedCircle[28] == true && selectedCircle[29] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(63, 67, 0);
-					}
-				}
-				if (selectedCircle[29] == true && selectedCircle[30] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(64, 68, 0);
-					}
-				}
-				if (selectedCircle[30] == true && selectedCircle[31] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(65, 69, 0);
-					}
-				}
-				if (selectedCircle[31] == true && selectedCircle[32] == true) {
-					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(66, 70, 0);
-					}
-				}
-
-					cout << "INTERSECCION ENTRE CIRCULOS"<<i+1 << " Y " <<i+2 << endl;
 			}
+			if (selectedCircle[5] == true && selectedCircle[6] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(24, 28, currentPlayer);
+				}
+			}
+			if (selectedCircle[6] == true && selectedCircle[7] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(25, 29, currentPlayer);
+				}
+			}
+			if (selectedCircle[7] == true && selectedCircle[8] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(26, 30, currentPlayer);
+				}
+			}
+
+
+			if (selectedCircle[8] == true && selectedCircle[9] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(25, 29, currentPlayer);
+				}
+			}
+			if (selectedCircle[9] == true && selectedCircle[10] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(31, 36, currentPlayer);
+				}
+			}
+			if (selectedCircle[10] == true && selectedCircle[11] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(32, 37, currentPlayer);
+				}
+			}
+			if (selectedCircle[11] == true && selectedCircle[12] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(33, 38, currentPlayer);
+				}
+			}
+			if (selectedCircle[12] == true && selectedCircle[13] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(34, 39, currentPlayer);
+				}
+			}
+			if (selectedCircle[13] == true && selectedCircle[14] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(35, 40, currentPlayer);
+				}
+			}
+			if (selectedCircle[15] == true && selectedCircle[16] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(41, 47, currentPlayer);
+				}
+			}
+			if (selectedCircle[16] == true && selectedCircle[17] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(42, 48, currentPlayer);
+				}
+			}
+			if (selectedCircle[17] == true && selectedCircle[18] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(43, 49, currentPlayer);
+				}
+			}
+			if (selectedCircle[18] == true && selectedCircle[19] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(44, 50, currentPlayer);
+				}
+			}
+			if (selectedCircle[19] == true && selectedCircle[20] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(45, 51, currentPlayer);
+
+				}
+			}
+			if (selectedCircle[20] == true && selectedCircle[21] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(46, 52, currentPlayer);
+				}
+			}
+			if (selectedCircle[22] == true && selectedCircle[23] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(53, 58, currentPlayer);
+				}
+			}
+			if (selectedCircle[23] == true && selectedCircle[24] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(54, 59, currentPlayer);
+				}
+			}
+			if (selectedCircle[24] == true && selectedCircle[25] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(55, 60, currentPlayer);
+				}
+			}
+			if (selectedCircle[25] == true && selectedCircle[26] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(56, 61, currentPlayer);
+				}
+			}
+			if (selectedCircle[26] == true && selectedCircle[27] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(57, 62, currentPlayer);
+				}
+			}
+			if (selectedCircle[28] == true && selectedCircle[29] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(63, 67, currentPlayer);
+				}
+			}
+			if (selectedCircle[29] == true && selectedCircle[30] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(64, 68, currentPlayer);
+				}
+			}
+			if (selectedCircle[30] == true && selectedCircle[31] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(65, 69, currentPlayer);
+				}
+			}
+			if (selectedCircle[31] == true && selectedCircle[32] == true) {
+				if (Mouse::isButtonPressed(Mouse::Left)) {
+					gph.buildRoadOnEdge(66, 70, currentPlayer);
+				}
+			}
+
+			cout << "INTERSECCION ENTRE CIRCULOS" << i + 1 << " Y " << i + 2 << endl;
+		}
 	}
 }
-void Board::detectHexDiagonalLeftSegment() {
+
+
+void Board::detectHexDiagonalLeftSegment(int currentPlayer) {
 	for (int i = 0; i < circlesBoard.size(); i++) {
 		if (i <= 3) {
 			if (selectedCircle[i] == true && selectedCircle[i + 4] == true) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x -25, circlesBoard[i].getPosition().y + 43, 10);
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 25, circlesBoard[i].getPosition().y + 43, 10);
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[1] == true && selectedCircle[5] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(20, 24, 0);
+						gph.buildRoadOnEdge(20, 24, currentPlayer);
 					}
 				}
 				if (selectedCircle[2] == true && selectedCircle[6] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(21,25, 0);
+						gph.buildRoadOnEdge(21, 25, currentPlayer);
 					}
 				}
 				if (selectedCircle[3] == true && selectedCircle[7] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(22,26, 0);
+						gph.buildRoadOnEdge(22, 26, currentPlayer);
 					}
 				}
 
@@ -1314,22 +2539,22 @@ void Board::detectHexDiagonalLeftSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[5] == true && selectedCircle[10] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(27, 32, 0);
+						gph.buildRoadOnEdge(27, 32, currentPlayer);
 					}
 				}
 				if (selectedCircle[6] == true && selectedCircle[11] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(28, 33, 0);
+						gph.buildRoadOnEdge(28, 33, currentPlayer);
 					}
 				}
 				if (selectedCircle[7] == true && selectedCircle[12] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(29, 34, 0);
+						gph.buildRoadOnEdge(29, 34, currentPlayer);
 					}
 				}
 				if (selectedCircle[8] == true && selectedCircle[13] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(30, 35, 0);
+						gph.buildRoadOnEdge(30, 35, currentPlayer);
 					}
 				}
 			}
@@ -1343,27 +2568,27 @@ void Board::detectHexDiagonalLeftSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[10] == true && selectedCircle[16] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(36, 42, 0);
+						gph.buildRoadOnEdge(36, 42, currentPlayer);
 					}
 				}
 				if (selectedCircle[11] == true && selectedCircle[17] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(37, 43, 0);
+						gph.buildRoadOnEdge(37, 43, currentPlayer);
 					}
 				}
 				if (selectedCircle[12] == true && selectedCircle[18] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(38, 44, 0);
+						gph.buildRoadOnEdge(38, 44, currentPlayer);
 					}
 				}
 				if (selectedCircle[13] == true && selectedCircle[19] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(39, 45, 0);
+						gph.buildRoadOnEdge(39, 45, currentPlayer);
 					}
 				}
 				if (selectedCircle[14] == true && selectedCircle[20] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(40, 46, 0);
+						gph.buildRoadOnEdge(40, 46, currentPlayer);
 					}
 				}
 			}
@@ -1377,27 +2602,27 @@ void Board::detectHexDiagonalLeftSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[16] == true && selectedCircle[22] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(47, 53, 0);
+						gph.buildRoadOnEdge(47, 53, currentPlayer);
 					}
 				}
 				if (selectedCircle[17] == true && selectedCircle[23] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(48,54 , 0);
+						gph.buildRoadOnEdge(48, 54, currentPlayer);
 					}
 				}
 				if (selectedCircle[18] == true && selectedCircle[24] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(49, 55, 0);
+						gph.buildRoadOnEdge(49, 55, currentPlayer);
 					}
 				}
 				if (selectedCircle[19] == true && selectedCircle[25] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(50, 56, 0);
+						gph.buildRoadOnEdge(50, 56, currentPlayer);
 					}
 				}
 				if (selectedCircle[20] == true && selectedCircle[26] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(51, 57, 0);
+						gph.buildRoadOnEdge(51, 57, currentPlayer);
 					}
 				}
 			}
@@ -1411,22 +2636,22 @@ void Board::detectHexDiagonalLeftSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[23] == true && selectedCircle[28] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(58, 63, 0);
+						gph.buildRoadOnEdge(58, 63, currentPlayer);
 					}
 				}
 				if (selectedCircle[24] == true && selectedCircle[29] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(59, 64, 0);
+						gph.buildRoadOnEdge(59, 64, currentPlayer);
 					}
 				}
 				if (selectedCircle[25] == true && selectedCircle[30] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(60, 65, 0);
+						gph.buildRoadOnEdge(60, 65, currentPlayer);
 					}
 				}
 				if (selectedCircle[26] == true && selectedCircle[31] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(61, 66, 0);
+						gph.buildRoadOnEdge(61, 66, currentPlayer);
 					}
 				}
 
@@ -1442,17 +2667,17 @@ void Board::detectHexDiagonalLeftSegment() {
 
 				if (selectedCircle[29] == true && selectedCircle[33] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(67,71 , 0);
+						gph.buildRoadOnEdge(67, 71, currentPlayer);
 					}
 				}
 				if (selectedCircle[30] == true && selectedCircle[34] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(68, 72, 0);
+						gph.buildRoadOnEdge(68, 72, currentPlayer);
 					}
 				}
 				if (selectedCircle[31] == true && selectedCircle[35] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(69,73 , 0);
+						gph.buildRoadOnEdge(69, 73, currentPlayer);
 					}
 				}
 			}
@@ -1469,29 +2694,31 @@ void Board::detectHexDiagonalLeftSegment() {
 }
 
 
-void Board::detectHexDiagonalRightSegment() {
+
+
+void Board::detectHexDiagonalRightSegment(int currentPlayer) {
 
 	for (int i = 0; i < circlesBoard.size(); i++) {
 		if (i <= 3) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y+43, 10);
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 25, circlesBoard[i].getPosition().y + 43, 10);
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 
 				if (selectedCircle[0] == true && selectedCircle[5] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(23, 20, 0);
+						gph.buildRoadOnEdge(23, 20, currentPlayer);
 					}
 				}
 				if (selectedCircle[1] == true && selectedCircle[6] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(24, 21, 0);
+						gph.buildRoadOnEdge(24, 21, currentPlayer);
 					}
 				}
 				if (selectedCircle[2] == true && selectedCircle[7] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(25, 22, 0);
+						gph.buildRoadOnEdge(25, 22, currentPlayer);
 					}
 				}
 
@@ -1504,31 +2731,31 @@ void Board::detectHexDiagonalRightSegment() {
 
 				if (selectedCircle[29] == true && selectedCircle[34] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(71, 68, 0);
+						gph.buildRoadOnEdge(71, 68, currentPlayer);
 					}
 				}
 
 				if (selectedCircle[30] == true && selectedCircle[35] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(72, 69, 0);
+						gph.buildRoadOnEdge(72, 69, currentPlayer);
 					}
 				}
 				if (selectedCircle[31] == true && selectedCircle[36] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(73, 70, 0);
+						gph.buildRoadOnEdge(73, 70, currentPlayer);
 					}
 				}
 
 
 
-				
+
 
 
 
 			}
 		}
 
-		if (i > 3 && i<=8) {
+		if (i > 3 && i <= 8) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
 				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 30, circlesBoard[i].getPosition().y + 50, 10);
 				GameWindow->draw(circleSegment);
@@ -1536,22 +2763,22 @@ void Board::detectHexDiagonalRightSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[4] == true && selectedCircle[10] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(31, 27, 0);
+						gph.buildRoadOnEdge(31, 27, currentPlayer);
 					}
 				}
 				if (selectedCircle[5] == true && selectedCircle[11] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(32, 28, 0);
+						gph.buildRoadOnEdge(32, 28, currentPlayer);
 					}
 				}
 				if (selectedCircle[6] == true && selectedCircle[12] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(33, 29, 0);
+						gph.buildRoadOnEdge(33, 29, currentPlayer);
 					}
 				}
 				if (selectedCircle[7] == true && selectedCircle[13] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(34, 30, 0);
+						gph.buildRoadOnEdge(34, 30, currentPlayer);
 					}
 				}
 			}
@@ -1565,28 +2792,28 @@ void Board::detectHexDiagonalRightSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[9] == true && selectedCircle[16] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(41, 36, 0);
+						gph.buildRoadOnEdge(41, 36, currentPlayer);
 					}
 				}
 				if (selectedCircle[10] == true && selectedCircle[17] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(42, 37, 0);
+						gph.buildRoadOnEdge(42, 37, currentPlayer);
 					}
 				}
 				if (selectedCircle[11] == true && selectedCircle[18] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(43, 38, 0);
+						gph.buildRoadOnEdge(43, 38, currentPlayer);
 					}
 				}
 				if (selectedCircle[12] == true && selectedCircle[19] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(44, 39, 0);
+						gph.buildRoadOnEdge(44, 39, currentPlayer);
 					}
 				}
 
 				if (selectedCircle[13] == true && selectedCircle[20] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(45, 40, 0);
+						gph.buildRoadOnEdge(45, 40, currentPlayer);
 					}
 				}
 			}
@@ -1600,27 +2827,27 @@ void Board::detectHexDiagonalRightSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[16] == true && selectedCircle[23] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(53, 48, 0);
+						gph.buildRoadOnEdge(53, 48, currentPlayer);
 					}
 				}
 				if (selectedCircle[17] == true && selectedCircle[24] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(54, 49, 0);
+						gph.buildRoadOnEdge(54, 49, currentPlayer);
 					}
 				}
 				if (selectedCircle[18] == true && selectedCircle[25] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(55, 50, 0);
+						gph.buildRoadOnEdge(55, 50, currentPlayer);
 					}
 				}
 				if (selectedCircle[19] == true && selectedCircle[26] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(56, 51, 0);
+						gph.buildRoadOnEdge(56, 51, currentPlayer);
 					}
 				}
 				if (selectedCircle[20] == true && selectedCircle[27] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(57, 52, 0);
+						gph.buildRoadOnEdge(57, 52, currentPlayer);
 					}
 				}
 			}
@@ -1634,22 +2861,22 @@ void Board::detectHexDiagonalRightSegment() {
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 				if (selectedCircle[23] == true && selectedCircle[29] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(63, 59, 0);
+						gph.buildRoadOnEdge(63, 59, currentPlayer);
 					}
 				}
 				if (selectedCircle[24] == true && selectedCircle[30] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(64, 60, 0);
+						gph.buildRoadOnEdge(64, 60, currentPlayer);
 					}
 				}
 				if (selectedCircle[25] == true && selectedCircle[31] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(65, 61, 0);
+						gph.buildRoadOnEdge(65, 61, currentPlayer);
 					}
 				}
 				if (selectedCircle[26] == true && selectedCircle[32] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(66, 62, 0);
+						gph.buildRoadOnEdge(66, 62, currentPlayer);
 					}
 				}
 
@@ -1665,18 +2892,18 @@ void Board::detectHexDiagonalRightSegment() {
 
 				if (selectedCircle[29] == true && selectedCircle[34] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(71, 68, 0);
+						gph.buildRoadOnEdge(71, 68, currentPlayer);
 					}
 				}
 
 				if (selectedCircle[30] == true && selectedCircle[35] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(72, 69, 0);
+						gph.buildRoadOnEdge(72, 69, currentPlayer);
 					}
 				}
 				if (selectedCircle[31] == true && selectedCircle[36] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildRoadOnEdge(73, 70, 0);
+						gph.buildRoadOnEdge(73, 70, currentPlayer);
 					}
 				}
 
@@ -1689,19 +2916,18 @@ void Board::detectHexDiagonalRightSegment() {
 		}
 		if (i > 32 && i <= 36) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x +30, circlesBoard[i].getPosition().y + 50, 10);
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 30, circlesBoard[i].getPosition().y + 50, 10);
 				GameWindow->draw(circleSegment);
 
 				cout << "INTERSECCION DIAGONAL ENTRE CIRCULOS" << i + 1 << " Y " << i + 6 << endl;
 			}
 		}
-	}   
+	}
 }
 
 
 
-
-void Board::detectHexVertice() {
+void Board::detectHexVertice(int currentPlayer) {
 	vertFound = false;
 
 	for (int i = 0; i < circlesBoard.size(); i++) {
@@ -1715,62 +2941,62 @@ void Board::detectHexVertice() {
 				vertFound = true;
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 1 << " Y " << i + 5 << endl;
 
-					while (GameWindow->pollEvent(event)) {
-						switch (event.type)
-						{
+				while (GameWindow->pollEvent(event)) {
+					switch (event.type)
+					{
 
-						case Event::MouseButtonPressed:
-							if (selectedCircle[0] == true && selectedCircle[1] == true && selectedCircle[5] == true) {
-								if (Mouse::isButtonPressed(Mouse::Left)) {
-									gph.buildSettlementOnVertex(20, 0);//Se contruye un poblado en el vertice 20
-								}
+					case Event::MouseButtonPressed:
+						if (selectedCircle[0] == true && selectedCircle[1] == true && selectedCircle[5] == true) {
+							if (Mouse::isButtonPressed(Mouse::Left)) {
+								gph.buildSettlementOnVertex(20, currentPlayer);//Se contruye un poblado en el vertice 20
 							}
-							if (selectedCircle[1] == true && selectedCircle[2] == true && selectedCircle[6] == true) {
-								if (Mouse::isButtonPressed(Mouse::Left)) {
-									gph.buildSettlementOnVertex(21, 0);//Se contruye un poblado en el vertice 20
-								}
-							}
-							if (selectedCircle[2] == true && selectedCircle[3] == true && selectedCircle[7] == true) {
-								if (Mouse::isButtonPressed(Mouse::Left)) {
-									gph.buildSettlementOnVertex(22, 0);//Se contruye un poblado en el vertice 20
-								}
-							}
-							break;
 						}
+						if (selectedCircle[1] == true && selectedCircle[2] == true && selectedCircle[6] == true) {
+							if (Mouse::isButtonPressed(Mouse::Left)) {
+								gph.buildSettlementOnVertex(21, currentPlayer);//Se contruye un poblado en el vertice 20
+							}
+						}
+						if (selectedCircle[2] == true && selectedCircle[3] == true && selectedCircle[7] == true) {
+							if (Mouse::isButtonPressed(Mouse::Left)) {
+								gph.buildSettlementOnVertex(22, currentPlayer);//Se contruye un poblado en el vertice 20
+							}
+						}
+						break;
 					}
-					
-				
+				}
 
-				
+
+
+
 			}
 		}
 
 
 		if (i <= 3) {
-			if (selectedCircle[i] == true && selectedCircle[i + 4] == true && selectedCircle[i + 5] == true ) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x-5, circlesBoard[i].getPosition().y + 56, 10);
+			if (selectedCircle[i] == true && selectedCircle[i + 4] == true && selectedCircle[i + 5] == true) {
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x - 5, circlesBoard[i].getPosition().y + 56, 10);
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
 				cout << "VERTICE ENCONTRADO" << i << " Y " << i + 4 << " Y " << i + 5 << endl;
 				if (selectedCircle[0] == true && selectedCircle[4] == true && selectedCircle[5] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(23, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(23, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[1] == true && selectedCircle[5] == true && selectedCircle[6] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(24, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(24, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[2] == true && selectedCircle[6] == true && selectedCircle[7] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(25, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(25, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[3] == true && selectedCircle[7] == true && selectedCircle[8] == true) {
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(26, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(26, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -1791,25 +3017,25 @@ void Board::detectHexVertice() {
 				if (selectedCircle[4] == true && selectedCircle[5] == true && selectedCircle[10] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(27, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(27, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[5] == true && selectedCircle[6] == true && selectedCircle[11] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(28, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(28, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[6] == true && selectedCircle[7] == true && selectedCircle[12] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(29, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(29, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[7] == true && selectedCircle[8] == true && selectedCircle[13] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(30, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(30, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 
@@ -1828,31 +3054,31 @@ void Board::detectHexVertice() {
 				if (selectedCircle[4] == true && selectedCircle[9] == true && selectedCircle[10] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(31, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(31, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[5] == true && selectedCircle[10] == true && selectedCircle[11] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(32, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(32, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[6] == true && selectedCircle[11] == true && selectedCircle[12] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(33, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(33, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[7] == true && selectedCircle[12] == true && selectedCircle[13] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(34, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(34, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[8] == true && selectedCircle[13] == true && selectedCircle[14] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(35, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(35, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -1872,31 +3098,31 @@ void Board::detectHexVertice() {
 				if (selectedCircle[9] == true && selectedCircle[10] == true && selectedCircle[16] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(36, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(36, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[10] == true && selectedCircle[11] == true && selectedCircle[17] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(37, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(37, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[11] == true && selectedCircle[12] == true && selectedCircle[18] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(38, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(38, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[12] == true && selectedCircle[13] == true && selectedCircle[19] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(39, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(39, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[13] == true && selectedCircle[14] == true && selectedCircle[20] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(40, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(40, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -1905,7 +3131,7 @@ void Board::detectHexVertice() {
 
 		if (i > 8 && i <= 14) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true && selectedCircle[i + 7] == true) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x+3, circlesBoard[i].getPosition().y + 65, 10);
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 3, circlesBoard[i].getPosition().y + 65, 10);
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
@@ -1913,37 +3139,37 @@ void Board::detectHexVertice() {
 				if (selectedCircle[9] == true && selectedCircle[15] == true && selectedCircle[16] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(41, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(41, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[10] == true && selectedCircle[16] == true && selectedCircle[17] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(42, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(42, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[11] == true && selectedCircle[17] == true && selectedCircle[18] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(43, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(43, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[12] == true && selectedCircle[18] == true && selectedCircle[19] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(44, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(44, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[13] == true && selectedCircle[19] == true && selectedCircle[20] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(45, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(45, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[14] == true && selectedCircle[20] == true && selectedCircle[21] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(46, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(46, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -1963,37 +3189,37 @@ void Board::detectHexVertice() {
 				if (selectedCircle[15] == true && selectedCircle[16] == true && selectedCircle[22] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(47, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(47, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[16] == true && selectedCircle[17] == true && selectedCircle[23] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(48, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(48, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[17] == true && selectedCircle[18] == true && selectedCircle[24] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(49, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(49, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[18] == true && selectedCircle[19] == true && selectedCircle[25] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(50, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(50, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[19] == true && selectedCircle[20] == true && selectedCircle[26] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(51, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(51, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[20] == true && selectedCircle[21] == true && selectedCircle[27] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(52, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(52, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -2002,7 +3228,7 @@ void Board::detectHexVertice() {
 
 		if (i > 14 && i <= 21) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true && selectedCircle[i + 7] == true) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x+5, circlesBoard[i].getPosition().y + 73, 10);
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 5, circlesBoard[i].getPosition().y + 73, 10);
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
@@ -2010,34 +3236,34 @@ void Board::detectHexVertice() {
 				if (selectedCircle[16] == true && selectedCircle[22] == true && selectedCircle[23] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(53, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(53, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[17] == true && selectedCircle[23] == true && selectedCircle[24] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(54, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(54, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[18] == true && selectedCircle[24] == true && selectedCircle[25] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(55, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(55, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[19] == true && selectedCircle[25] == true && selectedCircle[26] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(56, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(56, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[20] == true && selectedCircle[26] == true && selectedCircle[27] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(57, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(57, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
-			
+
 			}
 		}
 		//five circles line
@@ -2053,31 +3279,31 @@ void Board::detectHexVertice() {
 				if (selectedCircle[22] == true && selectedCircle[23] == true && selectedCircle[28] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(58, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(58, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[23] == true && selectedCircle[24] == true && selectedCircle[29] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(59, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(59, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[24] == true && selectedCircle[25] == true && selectedCircle[30] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(60, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(60, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[25] == true && selectedCircle[26] == true && selectedCircle[31] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(61, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(61, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[26] == true && selectedCircle[27] == true && selectedCircle[32] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(62, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(62, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -2086,7 +3312,7 @@ void Board::detectHexVertice() {
 
 		if (i > 21 && i <= 27) {
 			if (selectedCircle[i] == true && selectedCircle[i + 5] == true && selectedCircle[i + 6] == true) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x+2, circlesBoard[i].getPosition().y + 66, 10);
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 2, circlesBoard[i].getPosition().y + 66, 10);
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
@@ -2094,25 +3320,25 @@ void Board::detectHexVertice() {
 				if (selectedCircle[23] == true && selectedCircle[28] == true && selectedCircle[29] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(63, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(63, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[24] == true && selectedCircle[29] == true && selectedCircle[30] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(64, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(64, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[25] == true && selectedCircle[30] == true && selectedCircle[31] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(65, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(65, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[26] == true && selectedCircle[31] == true && selectedCircle[32] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(66, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(66, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -2131,34 +3357,34 @@ void Board::detectHexVertice() {
 				if (selectedCircle[28] == true && selectedCircle[29] == true && selectedCircle[33] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(67, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(67, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[29] == true && selectedCircle[30] == true && selectedCircle[34] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(68, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(68, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[30] == true && selectedCircle[31] == true && selectedCircle[35] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(69, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(69, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[31] == true && selectedCircle[32] == true && selectedCircle[36] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(70, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(70, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
 		}
 
 
-		if (i > 27 && i <= 32 ) {
+		if (i > 27 && i <= 32) {
 			if (selectedCircle[i] == true && selectedCircle[i + 4] == true && selectedCircle[i + 5] == true) {
-				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x+2, circlesBoard[i].getPosition().y + 66, 10);
+				CircleShape circleSegment = c.createCircle(circlesBoard[i].getPosition().x + 2, circlesBoard[i].getPosition().y + 66, 10);
 				GameWindow->draw(circleSegment);
 				vertFound = true;
 
@@ -2166,19 +3392,19 @@ void Board::detectHexVertice() {
 				if (selectedCircle[29] == true && selectedCircle[33] == true && selectedCircle[34] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(71, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(71, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[30] == true && selectedCircle[34] == true && selectedCircle[35] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(72, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(72, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 				if (selectedCircle[31] == true && selectedCircle[35] == true && selectedCircle[36] == true) {
 
 					if (Mouse::isButtonPressed(Mouse::Left)) {
-						gph.buildSettlementOnVertex(73, 0);//Se contruye un poblado en el vertice 20
+						gph.buildSettlementOnVertex(73, currentPlayer);//Se contruye un poblado en el vertice 20
 					}
 				}
 			}
@@ -2187,8 +3413,8 @@ void Board::detectHexVertice() {
 
 
 		/*
-		
-		
+
+
 
 		if (i > 3 && i <= 8) {
 			if (selectedCircle[i] == true && selectedCircle[i + 6] == true) {

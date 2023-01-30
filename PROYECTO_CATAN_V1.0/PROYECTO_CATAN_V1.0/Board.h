@@ -63,15 +63,27 @@ public:
 	void paintFixedElements(); //M
 	void paintCards();
 	vector<int> countCardsWool(Node*);
+
+
+	int currentPlayer(string);
+
 	void paintSettlemetsOnBoard();
+	void paintCityOnBoard();
+	void paintRoadsOnBoard();
+
+
+	void paintVerticalRoads();
+	void paintDiagonalRightRoads();
+	void paintDiagonalLeftRoads();
+
 
 	void paintTransparentRectangles();
 	int dices();
 
-	void detectHexHorizontalSegment();
-	void detectHexDiagonalRightSegment();
-	void detectHexDiagonalLeftSegment();
-	void detectHexVertice();
+	void detectHexHorizontalSegment(int);
+	void detectHexDiagonalRightSegment(int);
+	void detectHexDiagonalLeftSegment(int);
+	void detectHexVertice(int);
 
 
 	void buildTerrainOnVertexBoard();
