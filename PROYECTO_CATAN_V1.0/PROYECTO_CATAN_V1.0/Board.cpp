@@ -55,10 +55,12 @@ RectangleShape* transparentRectangles[18];
 vector<Sprite> spritesImageDetection(17);
 vector<Texture> texturedetection(17);
 
-bool dicePlayer = false;
-int diceRoll = 0;
-RectangleShape* rectangleDice1 = new RectangleShape({ 40,40 });
-RectangleShape* rectangleDice2 = new RectangleShape({ 40,40 });
+bool dicePlayer = false;//variable para saber si un jugador ya lanzo los dados
+int diceRoll = 0;//variable para realizar una cantidad de veces el aleatorio de los dados
+RectangleShape* rectangleDice1 = new RectangleShape({ 40,40 });//rectangulo para mostrar un dado
+RectangleShape* rectangleDice2 = new RectangleShape({ 40,40 });//rectangulo para mostrar un dado
+
+RectangleShape tradeRectangle({ 140,60 });//rectangulo de comercio
 
 Board::Board()
 {
@@ -168,6 +170,11 @@ Board::Board()
 	numberPlayersCardsUniversity->setString(" 0");
 	numberPlayersCardsUniversity->setCharacterSize(19);
 
+	txtComercio = new Text();
+	txtComercio->setFont(*font);
+	txtComercio->setString("Comerciar");
+	txtComercio->setCharacterSize(25);
+	txtComercio->setPosition(1120, 630);
 
 	passTurn = new Event;
 
@@ -437,12 +444,27 @@ void Board::renderMenu(ListCurrentPlayers list)
  
 	currentPlayerList = list;
  
-	Node* current;//prueba
-	current = list.First();
-
-	playersName->setString(current->player.getName());
-	//current->player.getListPlayerCards().showList();
-	//GameWindow->display();
+	Node* currentP;//prueba
+	currentP = list.First();
+	Node* player = currentP;
+	playersName->setString(currentP->player.getName());
+	numberPlayersCardsWool->setString(to_string(countCards(currentP)[0]));
+	numberPlayersCardsClay->setString(to_string(countCards(currentP)[1]));
+	numberPlayersCardsWood->setString(to_string(countCards(currentP)[2]));
+	numberPlayersCardsStone->setString(to_string(countCards(currentP)[3]));
+	numberPlayersCardsWheat->setString(to_string(countCards(currentP)[4]));
+	numberPlayersCardsMonopoly->setString(to_string(countCards(currentP)[5]));
+	numberPlayersCardsTownHall->setString(to_string(countCards(currentP)[6]));
+	numberPlayersCardsLibrary->setString(to_string(countCards(currentP)[7]));
+	numberPlayersCardsChurch->setString(to_string(countCards(currentP)[8]));
+	numberPlayersCardsMarket->setString(to_string(countCards(currentP)[9]));
+	numberPlayersCardsUniversity->setString(to_string(countCards(currentP)[10]));
+	numberPlayersCardsRoad->setString(to_string(countCards(currentP)[11]));
+	numberPlayersCardsInvention->setString(to_string(countCards(currentP)[12]));
+	numberPlayersCardsKnight->setString(to_string(countCards(currentP)[13]));
+	numberPlayersCardsArmy->setString(to_string(countCards(currentP)[14]));
+	numberPlayersCardsRoute->setString(to_string(countCards(currentP)[15]));
+	
 	while (GameWindow->isOpen()) {
 	    positionMouse = Mouse::getPosition(*GameWindow);
 		
@@ -455,26 +477,29 @@ void Board::renderMenu(ListCurrentPlayers list)
 				break;
 			case Event::KeyPressed:
 				if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+					
 					dicePlayer = false;
 					diceRoll = 0;
-					playersName->setString(current->player.getName());
-					numberPlayersCardsWool->setString(to_string(countCardsWool(current)[0]));
-					numberPlayersCardsClay->setString(to_string(countCardsWool(current)[1]));
-					numberPlayersCardsWood->setString(to_string(countCardsWool(current)[2]));
-					numberPlayersCardsStone->setString(to_string(countCardsWool(current)[3]));
-					numberPlayersCardsWheat->setString(to_string(countCardsWool(current)[4]));
-					numberPlayersCardsMonopoly->setString(to_string(countCardsWool(current)[5]));
-					numberPlayersCardsTownHall->setString(to_string(countCardsWool(current)[6]));
-					numberPlayersCardsLibrary->setString(to_string(countCardsWool(current)[7]));
-					numberPlayersCardsChurch->setString(to_string(countCardsWool(current)[8]));
-					numberPlayersCardsMarket->setString(to_string(countCardsWool(current)[9]));
-					numberPlayersCardsUniversity->setString(to_string(countCardsWool(current)[10]));
-					numberPlayersCardsRoad->setString(to_string(countCardsWool(current)[11]));
-					numberPlayersCardsInvention->setString(to_string(countCardsWool(current)[12]));
-					numberPlayersCardsKnight->setString(to_string(countCardsWool(current)[13]));
-					numberPlayersCardsArmy->setString(to_string(countCardsWool(current)[14]));
-					numberPlayersCardsRoute->setString(to_string(countCardsWool(current)[15]));
-					current = current->next;
+					currentP = currentP->next;
+					playersName->setString(currentP->player.getName());
+					player = currentP;
+
+					numberPlayersCardsWool->setString(to_string(countCards(currentP)[0]));
+					numberPlayersCardsClay->setString(to_string(countCards(currentP)[1]));
+					numberPlayersCardsWood->setString(to_string(countCards(currentP)[2]));
+					numberPlayersCardsStone->setString(to_string(countCards(currentP)[3]));
+					numberPlayersCardsWheat->setString(to_string(countCards(currentP)[4]));
+					numberPlayersCardsMonopoly->setString(to_string(countCards(currentP)[5]));
+					numberPlayersCardsTownHall->setString(to_string(countCards(currentP)[6]));
+					numberPlayersCardsLibrary->setString(to_string(countCards(currentP)[7]));
+					numberPlayersCardsChurch->setString(to_string(countCards(currentP)[8]));
+					numberPlayersCardsMarket->setString(to_string(countCards(currentP)[9]));
+					numberPlayersCardsUniversity->setString(to_string(countCards(currentP)[10]));
+					numberPlayersCardsRoad->setString(to_string(countCards(currentP)[11]));
+					numberPlayersCardsInvention->setString(to_string(countCards(currentP)[12]));
+					numberPlayersCardsKnight->setString(to_string(countCards(currentP)[13]));
+					numberPlayersCardsArmy->setString(to_string(countCards(currentP)[14]));
+					numberPlayersCardsRoute->setString(to_string(countCards(currentP)[15]));
 					
 				}
 				break;
@@ -818,7 +843,6 @@ void Board::renderMenu(ListCurrentPlayers list)
 						window->draw(s);
 						window->display();
 						while (cc < 5000) {
-							cout << "Hola perras" << endl;
 							cc++;
 						}
 					}
@@ -829,7 +853,156 @@ void Board::renderMenu(ListCurrentPlayers list)
 					
 
 				}
+				if (Mouse::isButtonPressed(Mouse::Left) && tradeRectangle.getGlobalBounds().contains((Vector2f)positionMouse)) {
+					system("cls");
+					int op = 0;
+					int opConfirm = 0;
+					int cardsToGive = 0;
+					int cardsToReceive = 0;
+					int typeOfMaterialGive = 0;
+					int typeOfMaterialReceive = 0;
+					int contDeleteCards = 0;
+					int contAddCards = 0;
+					Node* otherPlayers = player->next;
+					bool est = true;
+					ListPlayerCards listAuxPlayer;
+					ListPlayerCards listAuxOtherPlayers;
+					do {
+						system("cls");
+						cout << "	------------------" << endl;
+						cout << "	|    COMERCIO    |" << endl;
+						cout << "	------------------" << endl;
+						cout << "[ 1 = Lana, 2 = Arcilla, 3 = Madera, 4 = Mineral, 5 = Cereal ]" << endl << endl;
+						cout << "Jugador: " << player->player.getName() << endl << endl;
+						cout << "Materiales: Lana: " << countCards(player)[0] << " Madera: " << countCards(player)[2] << " Cereal: " << countCards(player)[4] << " Arcilla: " << countCards(player)[1] << " Mineral: " << countCards(player)[3] << endl << endl;
 
+						cout << "1. Comerciar con otros jugadores." << endl << "2. Comerciar con el Banco." << endl << "Opcion: ";
+						cin >> op;
+					} while ((op != 1) && (op != 2));
+
+					if (op == 1) {//comercio entre jugadores
+						do {
+							cout << endl;
+							cout << "Que tipo de material quiero: " << endl; cin >> typeOfMaterialReceive;
+						} while ((typeOfMaterialReceive != 1) && (typeOfMaterialReceive != 2) && (typeOfMaterialReceive != 3) && (typeOfMaterialReceive != 4) && (typeOfMaterialReceive != 5));
+							
+						cout << "Cuantas quiero: " << endl; cin >> cardsToReceive;
+						do {
+							cout << "Que tipo de material voy a dar: " << endl; cin >> typeOfMaterialGive;
+						} while ((typeOfMaterialGive != 1) && (typeOfMaterialGive != 2) && (typeOfMaterialGive != 3) && (typeOfMaterialGive != 4) && (typeOfMaterialGive != 5));
+							
+						cout << "Cuantas voy a dar: " << endl; cin >> cardsToGive;
+						if (typeOfMaterialGive == 1 && cardsToGive > countCards(player)[0]) {
+							cout << "cartas insuficientes";
+							cout << endl << "Vuelva al tablero pricipal!";
+						}
+						else if (typeOfMaterialGive == 2 && cardsToGive > countCards(player)[1]) {
+							cout << "cartas insuficientes";
+							cout << endl << "Vuelva al tablero pricipal!";
+						}
+						else if (typeOfMaterialGive == 3 && cardsToGive > countCards(player)[2]) {
+							cout << "cartas insuficientes";
+							cout << endl << "Vuelva al tablero pricipal!";
+						}
+						else if (typeOfMaterialGive == 4 && cardsToGive > countCards(player)[3]) {
+							cout << "cartas insuficientes";
+							cout << endl << "Vuelva al tablero pricipal!";
+						}
+						else if (typeOfMaterialGive == 5 && cardsToGive > countCards(player)[4]) {
+							cout << "cartas insuficientes";
+							cout << endl << "Vuelva al tablero pricipal!";
+						}else {
+							system("cls");
+							cout << "Confirmar intercambio!" << endl << endl;
+
+							while (est) {
+								cout << "Jugardor: " << otherPlayers->player.getName() << " Acepta el intercambio de cartas? (1 = Si, 2 = No): "; cin >> opConfirm;
+								if ((opConfirm == 1) && (countCards(otherPlayers)[typeOfMaterialReceive - 1] > cardsToReceive)) {
+									while (contDeleteCards < cardsToGive) {
+										listAuxPlayer = player->player.getListPlayerCards();
+										listAuxPlayer.deleteCard(typeOfMaterialGive);
+										player->player.setListCards(listAuxPlayer);
+
+										listAuxOtherPlayers = otherPlayers->player.getListPlayerCards();
+										listAuxOtherPlayers.addCard(typeOfMaterialGive);
+										otherPlayers->player.setListCards(listAuxOtherPlayers);
+
+										contDeleteCards++;
+									}
+									while (contAddCards < cardsToReceive) {
+										listAuxPlayer = player->player.getListPlayerCards();
+										listAuxPlayer.addCard(typeOfMaterialReceive);
+										player->player.setListCards(listAuxPlayer);
+
+										listAuxOtherPlayers = otherPlayers->player.getListPlayerCards();
+										listAuxOtherPlayers.deleteCard(typeOfMaterialReceive);
+										otherPlayers->player.setListCards(listAuxOtherPlayers);
+
+										contAddCards++;
+									}
+									cout << endl << "==> Intercambio Exitoso! <==" << endl;
+									system("pause");
+									est = false;
+								}
+								else {
+									if (opConfirm != 2) {
+										cout << endl << otherPlayers->player.getName() << " no cuenta con la cantidad necesaria de materiales para intercambiar!" << endl;
+										system("pause");
+									}
+									otherPlayers = otherPlayers->next;
+									if(otherPlayers == player)
+										est = false;
+									system("cls");
+								}
+							}
+							system("cls");
+							cout << "Vuelva al tablero pricipal!";
+						}
+					}
+
+					if (op == 2) {//comercio con el banco
+						int materialToChange = 0;
+						int materialToReceive = 0;
+						int cont1 = 0;						
+
+						cout << endl << endl;
+						cout << " La manera de comerciar con el banco es de 4:1. Se dan 4 cartas y se recibe una." << endl << endl;
+						do {
+							cout << "1 - Lana" << endl << "2 - Arcilla" << endl << "3 - Madera" << endl << "4 - Mineral" << endl << "5 - Cereal" << endl;
+							cout << "Elija que material desea recibir: "; cin >> materialToReceive;
+						} while ((materialToReceive != 1) && (materialToReceive != 2) && (materialToReceive != 3) && (materialToReceive != 4) && (materialToReceive != 5));
+						do{
+							cout << endl;
+							cout << "1 - Lana" << endl << "2 - Arcilla" << endl << "3 - Madera" << endl << "4 - Mineral" << endl << "5 - Cereal" << endl;
+							cout << "Elija que material desea dar: "; cin >> materialToChange;
+						} while ((materialToChange != 1) && (materialToChange != 2) && (materialToChange != 3) && (materialToChange != 4) && (materialToChange != 5));
+
+						cout << endl << endl;
+						if (countCards(player)[materialToChange-1] < 4) {
+							system("cls");
+							cout << "No cuentas con la cantidad suficiente de este material para intercambiar!" << endl;
+							cout << "Vuelva al tablero pricipal!" << endl;
+							system("pause");
+						}
+						else {
+							listAuxPlayer = player->player.getListPlayerCards();
+							listAuxPlayer.addCard(materialToReceive);
+							while (cont1 < 4) {
+
+								listAuxPlayer.deleteCard(materialToChange);
+								player->player.setListCards(listAuxPlayer);
+
+								cont1++;
+							} 
+							system("cls");
+							cout << endl << "==> Intercambio Exitoso! <==" << endl << endl;
+							cout << "Vuelva al tablero pricipal!";
+							system("pause");
+						}
+					}
+
+					//GameWindow->setActive(false);
+				}
 				break;
 			}
 		}
@@ -845,11 +1018,10 @@ void Board::renderMenu(ListCurrentPlayers list)
 		paintSettlemetsOnBoard();
 		paintCityOnBoard();
 		paintRoadsOnBoard();
- 
 		selectTerrain();
 		if (diceRoll < 100 && dicePlayer == true) {
 			
-			dices();
+			cout <<" SUMA DE VALORES DE LOS DADOS "<< dices();
 			diceRoll++;
 		}
 		//createGameBoard();
@@ -866,21 +1038,25 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 	float y = 210;
 	float y2 = 110;
 	float y3 = 110;
-	RectangleShape currentPlayer({ 150,60 });
+	RectangleShape currentPlayer({ 200,60 });
 	currentPlayer.setPosition({ 10,10 });
 	currentPlayer.setFillColor(Color::Blue);
+
 	
+	tradeRectangle.setPosition({ 1110,620 });
+	tradeRectangle.setFillColor(Color::Blue);
+
 	for (int i = 0; i < 5; i++) {
 
 		x->setPosition({90,y});
-	    numberPlayersCardsWool->setPosition({ 100,210 });
-		numberPlayersCardsClay->setPosition({ 100,310 });
+	    numberPlayersCardsWool->setPosition({ 100,310 });
+		numberPlayersCardsClay->setPosition({ 100,210 });
 		numberPlayersCardsWood->setPosition({ 100,410 });
 		numberPlayersCardsStone->setPosition({ 100,510 });
 		numberPlayersCardsWheat->setPosition({ 100,610 });
 
-		GameWindow->draw(*numberPlayersCardsClay);
 		GameWindow->draw(*numberPlayersCardsWool);
+		GameWindow->draw(*numberPlayersCardsClay);
 		GameWindow->draw(*numberPlayersCardsWood);
 		GameWindow->draw(*numberPlayersCardsStone);
 		GameWindow->draw(*numberPlayersCardsWheat);
@@ -926,7 +1102,9 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 	}
 
 	GameWindow->draw(currentPlayer);
+	GameWindow->draw(tradeRectangle);
 	GameWindow->draw(*titlePlayers);
+	GameWindow->draw(*txtComercio);
 
 	rectangleDice1->setPosition(260, 590);
 	rectangleDice2->setPosition(260, 632);
@@ -944,7 +1122,7 @@ void Board::paintCards()
 
 }
 
-vector<int> Board::countCardsWool(Node* nodePlayer)
+vector<int> Board::countCards(Node* nodePlayer)
 {
 	vector<int> vecCards(17);
 
@@ -1048,6 +1226,7 @@ void Board::paintTransparentRectangles()
 	transparentRectangles[17] = new RectangleShape({ 70,95 });
 	transparentRectangles[17]->setFillColor(Color::Yellow);
 	transparentRectangles[17]->setPosition({ x,y });
+	
 	GameWindow->draw(*transparentRectangles[17]);
 	GameWindow->draw(*rectangleDice1);
 	GameWindow->draw(*rectangleDice2);
@@ -1083,8 +1262,8 @@ int Board::dices()
 		rectangleDice2->setTexture(texture2);
 	}
 	//}
-	return num + num2;
-
+	return (num + 1) + (num2 + 1) ;
+	
 
 }
 int Board::currentPlayer(string nameCurrentPlayer)

@@ -1,4 +1,5 @@
 #include "Player.h"
+int idP = 0;
 
 Player::Player()
 {
@@ -9,10 +10,10 @@ Player::Player()
 
 }
 
-Player::Player(string n, int i, int a, int c, ListPlayerCards listCard)
+Player::Player(string n, int a, int c, ListPlayerCards listCard)
 {
 	name = n;
-	idPlayer = i;
+	idPlayer = idP++;
 	age = a;
 	color = c;
 	listCards = listCard;
@@ -41,4 +42,9 @@ int Player::getColor()
 ListPlayerCards Player::getListPlayerCards()
 {
 	return listCards;
+}
+
+void Player::setListCards(ListPlayerCards newList)
+{
+	listCards = newList;
 }

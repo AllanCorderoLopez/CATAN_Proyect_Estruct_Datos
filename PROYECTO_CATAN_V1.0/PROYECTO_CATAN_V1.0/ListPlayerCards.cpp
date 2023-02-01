@@ -16,10 +16,36 @@ NodeCard* ListPlayerCards::NextNode()
 	return nextNode;
 }
 
-void ListPlayerCards::addCard(int id, string name, string material)
+void ListPlayerCards::addCard(int id)
 {
-	NodeCard* node = new NodeCard(Card(id, name, material));
+	NodeCard* node = new NodeCard(Card(id));
 	insertIntoList(node);
+}
+
+void ListPlayerCards::deleteCard(int data)
+{
+	NodeCard* node;
+	NodeCard* nodeAux = first;
+	node = first;
+	while (node != NULL) {
+		if (nodeAux->card.getIdCard() == data) {
+			if (nodeAux == first) {
+				first = nodeAux->next;
+				delete nodeAux;
+			}
+			else {
+				node->next = nodeAux->next;
+				delete nodeAux;
+			}
+			node = NULL;
+			
+		}
+		else {
+			node = nodeAux;
+			nodeAux = nodeAux->next;
+
+		}
+	}
 }
 
 void ListPlayerCards::insertIntoList(NodeCard* newNode)

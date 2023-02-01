@@ -10,7 +10,7 @@ private:
 	string material;
 public:
 	Card();
-	Card(int, string, string);
+	Card(int);
 
 	int getIdCard();
 	string getNameCard();

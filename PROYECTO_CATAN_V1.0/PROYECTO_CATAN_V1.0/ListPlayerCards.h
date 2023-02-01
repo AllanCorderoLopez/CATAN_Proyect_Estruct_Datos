@@ -15,7 +15,8 @@ public:
 	ListPlayerCards();
 	NodeCard* First();
 	NodeCard* NextNode();
-	void addCard(int, string, string);
+	void addCard(int);
+	void deleteCard(int);
 	void insertIntoList(NodeCard*);
 	void showList();
 };

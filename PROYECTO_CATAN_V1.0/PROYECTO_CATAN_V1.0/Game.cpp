@@ -205,9 +205,10 @@ void Game::Register(int numberOfPlayers)
 	cout << " Edad: ";
 	cin >> player1Age;
 	ListPlayerCards listP1;
-	listP1.addCard(4, "roca", "mineral");
-	listP1.addCard(3, "tronco", "madera");
-	listP1.addCard(2, "ladrillo", "arcilla");
+	listP1.addCard(2);
+	listP1.addCard(2);
+	listP1.addCard(2);
+	listP1.addCard(2);
 	listCurrentPlayers.AddPlayerName(player1Name, player1Age, listP1);
 	cout << endl;
 
@@ -217,9 +218,9 @@ void Game::Register(int numberOfPlayers)
 	cout << " Edad: ";
 	cin >> player2Age;
 	ListPlayerCards listP2;
-	listP2.addCard(1, "oveja", "Lana");
-	listP2.addCard(3, "tronco", "madera");
-	listP2.addCard(4, "roca", "mineral");
+	listP2.addCard(1);
+	listP2.addCard(1);
+	listP2.addCard(1);
 	listCurrentPlayers.AddPlayerName(player2Name, player2Age, listP2);
 	cout << endl;
 
@@ -230,6 +231,9 @@ void Game::Register(int numberOfPlayers)
 		cout << " Edad: ";
 		cin >> player3Age;
 		ListPlayerCards listP3;
+		listP3.addCard(3);
+		listP3.addCard(3);
+		listP3.addCard(3);
 		listCurrentPlayers.AddPlayerName(player3Name, player3Age, listP3);
 	}
 	else if (numberOfPlayers == 4) {
@@ -239,6 +243,9 @@ void Game::Register(int numberOfPlayers)
 		cout << " Edad: ";
 		cin >> player3Age;
 		ListPlayerCards listP3;
+		listP3.addCard(3);
+		listP3.addCard(3);
+		listP3.addCard(3);
 		listCurrentPlayers.AddPlayerName(player3Name, player3Age, listP3);
 		cout << endl;
 
@@ -248,6 +255,9 @@ void Game::Register(int numberOfPlayers)
 		cout << " Edad: ";
 		cin >> player4Age;
 		ListPlayerCards listP4;
+		listP4.addCard(4);
+		listP4.addCard(4);
+		listP4.addCard(4);
 		listCurrentPlayers.AddPlayerName(player4Name, player4Age, listP4);
 		cout << endl;
 
@@ -262,21 +272,6 @@ void Game::Register(int numberOfPlayers)
 
 	Board boardGame;
 	boardGame.renderMenu(listCurrentPlayers);
-	/*logWindow = new RenderWindow(VideoMode(700, 700), "CATAN");
-	while (logWindow->isOpen()) {
-		Event event;
-		while (logWindow->pollEvent(event)) {
-			switch (event.type)
-			{
-			case Event::Closed:
-				logWindow->close();
-				break;
-			}
-		}
-
-		logWindow->clear(sf::Color::Black);
-		logWindow->display();
-	}*/
 }
 
 void Game::loadGame()

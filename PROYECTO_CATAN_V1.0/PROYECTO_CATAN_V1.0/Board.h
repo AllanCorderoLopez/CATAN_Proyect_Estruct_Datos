@@ -24,6 +24,7 @@ private:
 	Text* playersName;
 	Event* passTurn;
 	Text* x;
+	Text* txtComercio;
 
 	Text* numberPlayersCardsWool;
 	Text* numberPlayersCardsClay;
@@ -62,7 +63,7 @@ public:
 	void loadImages();
 	void paintFixedElements(); //M
 	void paintCards();
-	vector<int> countCardsWool(Node*);
+	vector<int> countCards(Node*);
 
 
 	int currentPlayer(string);

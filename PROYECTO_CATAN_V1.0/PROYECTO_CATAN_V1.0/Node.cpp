@@ -86,7 +86,7 @@ void ListCurrentPlayers::CreatePictures()
 
 void ListCurrentPlayers::AddPlayerName(string namePlayer, int agePlayer, ListPlayerCards list)
 {
-	Node* node = new Node(Player(namePlayer, 1, agePlayer, 0, list));
+	Node* node = new Node(Player(namePlayer, agePlayer, 0, list));
 	insertList(node);
 }
 

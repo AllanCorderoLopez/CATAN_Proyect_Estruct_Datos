@@ -15,13 +15,14 @@ private:
 
 public:
 	Player();
-	Player(string, int, int, int, ListPlayerCards);
+	Player(string, int, int, ListPlayerCards);
 
 	string getName();
 	int getIdPlayer();
 	int getAge();
 	int getColor();
 	ListPlayerCards getListPlayerCards();
+	void setListCards(ListPlayerCards);
 
 
 
