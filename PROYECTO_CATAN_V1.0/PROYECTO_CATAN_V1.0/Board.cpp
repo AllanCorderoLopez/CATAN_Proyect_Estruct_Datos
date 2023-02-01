@@ -1016,7 +1016,9 @@ void Board::renderMenu(ListCurrentPlayers list)
 				if (Mouse::isButtonPressed(Mouse::Left) && saveRectangle.getGlobalBounds().contains((Vector2f)positionMouse)) {
 					//btnGuardar
 					ofstream archivo;
-					
+					archivo.open("datos.txt", ios::app);
+					archivo.write((char*)&currentP, sizeof(currentP));
+					archivo.close();
 				}
 				break;
 			}
@@ -1223,7 +1225,7 @@ vector<int> Board::countCards(Node* nodePlayer)
 }
 
 void Board::paintTransparentRectangles()
-{
+{  
 	Texture* t1 = new Texture();
 	t1->loadFromFile("RECURSOS/DADOS/dado1.png");
 	rectangleDice1->setTexture(t1);
