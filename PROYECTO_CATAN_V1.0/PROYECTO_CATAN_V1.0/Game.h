@@ -13,7 +13,7 @@ private:
 	RenderWindow* firstMenu;
 	RenderWindow* secondMenu;
 	RenderWindow* loadGameWindow;
-	//RenderWindow* logWindow;
+	RenderWindow* levelsWindow;
 
 	ListCurrentPlayers listCurrentPlayers;
 
@@ -21,6 +21,7 @@ private:
 	RectangleShape* optionsfirstMenu[2];
 	RectangleShape* optionsSecondMenu[3];
 	RectangleShape* registrationFields[2];
+	RectangleShape* optionsOfLeves[2];
 
 
 	Font* fontTitle;
@@ -34,6 +35,9 @@ private:
 	Text* labelThreePlayers;
 	Text* labelFourPlayers;
 
+	Text* labelBegginerLevel;
+	Text* labelAdvancedLevel;
+
 	Vector2i positionMouse;
 
 public:
@@ -45,6 +49,7 @@ public:
 	void numberOfPlayers();
 	void Register(int);
 	void loadGame();
+	void chooseLevel();
 	ListCurrentPlayers getList();
 };
 

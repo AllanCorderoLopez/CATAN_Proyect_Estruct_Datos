@@ -61,6 +61,7 @@ RectangleShape* rectangleDice1 = new RectangleShape({ 40,40 });//rectangulo para
 RectangleShape* rectangleDice2 = new RectangleShape({ 40,40 });//rectangulo para mostrar un dado
 
 RectangleShape tradeRectangle({ 140,60 });//rectangulo de comercio
+RectangleShape saveRectangle({ 140,60 });//rectangulo de guardar partida
 
 Board::Board()
 {
@@ -175,6 +176,12 @@ Board::Board()
 	txtComercio->setString("Comerciar");
 	txtComercio->setCharacterSize(25);
 	txtComercio->setPosition(1120, 630);
+
+	txtSave = new Text();
+	txtSave->setFont(*font);
+	txtSave->setString("Guardar");
+	txtSave->setCharacterSize(25);
+	txtSave->setPosition(1130, 570);
 
 	passTurn = new Event;
 
@@ -1003,6 +1010,9 @@ void Board::renderMenu(ListCurrentPlayers list)
 
 					//GameWindow->setActive(false);
 				}
+				if (Mouse::isButtonPressed(Mouse::Left) && saveRectangle.getGlobalBounds().contains((Vector2f)positionMouse)) {
+
+				}
 				break;
 			}
 		}
@@ -1042,7 +1052,9 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 	currentPlayer.setPosition({ 10,10 });
 	currentPlayer.setFillColor(Color::Blue);
 
-	
+	saveRectangle.setPosition(1110, 555);
+	saveRectangle.setFillColor(Color::Blue);
+
 	tradeRectangle.setPosition({ 1110,620 });
 	tradeRectangle.setFillColor(Color::Blue);
 
@@ -1103,8 +1115,10 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 
 	GameWindow->draw(currentPlayer);
 	GameWindow->draw(tradeRectangle);
+	GameWindow->draw(saveRectangle);
 	GameWindow->draw(*titlePlayers);
 	GameWindow->draw(*txtComercio);
+	GameWindow->draw(*txtSave);
 
 	rectangleDice1->setPosition(260, 590);
 	rectangleDice2->setPosition(260, 632);

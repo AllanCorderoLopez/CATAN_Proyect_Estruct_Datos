@@ -6,6 +6,7 @@
 #include "Game.h"
 #include "BoardGraph.h"
 #include "BoardVertex.h"
+#include <fstream>
 
 using namespace sf;
 using namespace std;
@@ -25,6 +26,7 @@ private:
 	Event* passTurn;
 	Text* x;
 	Text* txtComercio;
+	Text* txtSave;
 
 	Text* numberPlayersCardsWool;
 	Text* numberPlayersCardsClay;

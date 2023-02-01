@@ -59,10 +59,24 @@ Game::Game()
 	labelFourPlayers->setCharacterSize(25);
 	labelFourPlayers->setFillColor(sf::Color::Black);
 
+	labelBegginerLevel = new Text();//
+	labelBegginerLevel->setFont(*fontOptions);
+	labelBegginerLevel->setString("Begginer Level");
+	labelBegginerLevel->setPosition({ 212,185 });
+	labelBegginerLevel->setCharacterSize(25);
+	labelBegginerLevel->setFillColor(sf::Color::Black);
+
+	labelAdvancedLevel = new Text();//
+	labelAdvancedLevel->setFont(*fontOptions);
+	labelAdvancedLevel->setString("Advanced Level");
+	labelAdvancedLevel->setPosition({ 212,265 });
+	labelAdvancedLevel->setCharacterSize(25);
+	labelAdvancedLevel->setFillColor(sf::Color::Black);
+
 	firstMenu = NULL;
 	secondMenu = NULL;
 	loadGameWindow = NULL;
-	//logWindow = NULL;
+	levelsWindow = NULL;
 
 	for (int i = 0; i < 2; i++) {
 		optionsfirstMenu[i] = new RectangleShape({ 210,60 });
@@ -79,7 +93,12 @@ Game::Game()
 	optionsSecondMenu[1]->setPosition({ 195,230 });
 	optionsSecondMenu[2]->setPosition({ 195,310 });
 
-
+	for (int i = 0; i < 2; i++) {
+		optionsOfLeves[i] = new RectangleShape({ 210,60 });
+		optionsOfLeves[i]->setFillColor(Color::White);
+	}
+	optionsOfLeves[0]->setPosition({ 195,170 });
+	optionsOfLeves[1]->setPosition({ 195,250 });
 }
 
 void Game::startGame()
@@ -104,8 +123,7 @@ void Game::gameType()
 
 			case Event::KeyPressed:
 				if (Keyboard::isKeyPressed(Keyboard::Enter)) {
-					firstMenu->close();
-					numberOfPlayers();
+					
 
 				}
 				break;
@@ -113,7 +131,7 @@ void Game::gameType()
 			case Event::MouseButtonPressed:
 				if (Mouse::isButtonPressed(Mouse::Left) && optionsfirstMenu[0]->getGlobalBounds().contains((Vector2f)positionMouse)) {
 					firstMenu->close();
-					numberOfPlayers();
+					chooseLevel();
 
 				}
 				else if (Mouse::isButtonPressed(Mouse::Left) && optionsfirstMenu[1]->getGlobalBounds().contains((Vector2f)positionMouse)) {
@@ -278,6 +296,55 @@ void Game::loadGame()
 {
 
 
+}
+
+void Game::chooseLevel()
+{
+	levelsWindow = new RenderWindow(VideoMode(600, 500), "CATAN");
+	while (levelsWindow->isOpen()) {
+		Event event;
+		positionMouse = Mouse::getPosition(*levelsWindow);
+
+		while (levelsWindow->pollEvent(event)) {
+
+			switch (event.type)
+			{
+			case Event::Closed:
+				levelsWindow->close();
+				break;
+
+			case Event::KeyPressed:
+				if (Keyboard::isKeyPressed(Keyboard::Enter)) {
+
+
+				}
+				break;
+
+			case Event::MouseButtonPressed:
+				if (Mouse::isButtonPressed(Mouse::Left) && optionsOfLeves[0]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					
+
+				}
+				else if (Mouse::isButtonPressed(Mouse::Left) && optionsOfLeves[1]->getGlobalBounds().contains((Vector2f)positionMouse)) {
+					levelsWindow->close();
+					numberOfPlayers();
+				}
+				break;
+			}
+		}
+		levelsWindow->clear(sf::Color::Black);
+
+		for (int i = 0; i < 2; i++) {
+			levelsWindow->draw(*optionsOfLeves[i]);
+		}
+
+		levelsWindow->draw(*titleGame);
+		levelsWindow->draw(*labelBegginerLevel);
+		levelsWindow->draw(*labelAdvancedLevel);
+
+		levelsWindow->display();
+
+	}
 }
 
 ListCurrentPlayers Game::getList()
