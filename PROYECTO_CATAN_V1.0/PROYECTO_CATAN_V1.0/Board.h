@@ -63,7 +63,7 @@ public:
 	void paintGameBoard();
 	void selectTerrain();
 	void loadImages();
-	void paintFixedElements(); //M
+	void paintFixedElements(Node*); //M
 	void paintCards();
 	vector<int> countCards(Node*);
 

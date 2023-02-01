@@ -41,7 +41,7 @@ public:
 	Node* Last();
 	Node* NextNode();
 	void CreatePictures();
-	void AddPlayerName(string, int, ListPlayerCards);
+	void AddPlayerName(string, int, int, ListPlayerCards);
 	void insertList(Node*);
 	void showList();
 

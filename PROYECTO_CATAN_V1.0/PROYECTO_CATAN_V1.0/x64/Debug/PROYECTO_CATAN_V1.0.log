@@ -1,20 +1,20 @@
 ﻿  Board.cpp
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(235,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(329,28): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(331,27): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(333,33): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(335,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(337,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2509,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(238,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(332,28): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(334,27): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(336,33): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(338,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(340,34): warning C4244: 'argumento': conversión de 'int' a 'float'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2529,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
           with
           [
               T=float
           ]
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2510,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2530,10): warning C4244: 'inicializando': conversión de 'T' a 'int'; posible pérdida de datos
           with
           [
               T=float
           ]
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2514,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
-D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2515,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2534,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
+D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\PROYECTO_CATAN_V1.0\Board.cpp(2535,12): warning C4244: 'inicializando': conversión de 'int' a 'float'; posible pérdida de datos
   PROYECTO_CATAN_V1.0.vcxproj -> D:\DOCUMENTOS\Estructuras de Daros (Verano)\CATAN_Proyect_Estruct_Datos\PROYECTO_CATAN_V1.0\x64\Debug\PROYECTO_CATAN_V1.0.exe

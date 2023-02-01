@@ -60,6 +60,7 @@ int diceRoll = 0;//variable para realizar una cantidad de veces el aleatorio de 
 RectangleShape* rectangleDice1 = new RectangleShape({ 40,40 });//rectangulo para mostrar un dado
 RectangleShape* rectangleDice2 = new RectangleShape({ 40,40 });//rectangulo para mostrar un dado
 
+RectangleShape playerColorRectangle({ 200,60 });//rectangulo de color de cada jugador
 RectangleShape tradeRectangle({ 140,60 });//rectangulo de comercio
 RectangleShape saveRectangle({ 140,60 });//rectangulo de guardar partida
 
@@ -73,18 +74,20 @@ Board::Board()
 
 	font = new Font();
 	font->loadFromFile("Chickenic.ttf");
-
+	 
 	titlePlayers = new Text();
 	titlePlayers->setFont(*font);
 	titlePlayers->setString("Jugador: ");
 	titlePlayers->setPosition({ 10,5 });
 	titlePlayers->setCharacterSize(25);
+	titlePlayers->setFillColor(Color::Black);
 
 	playersName = new Text();
 	playersName->setFont(*font);
 	playersName->setString(" ");
 	playersName->setPosition({ 15,35 });
 	playersName->setCharacterSize(25);
+	playersName->setFillColor(Color::Black);
 
 	x = new Text();
 	x->setFont(*font);
@@ -1011,7 +1014,9 @@ void Board::renderMenu(ListCurrentPlayers list)
 					//GameWindow->setActive(false);
 				}
 				if (Mouse::isButtonPressed(Mouse::Left) && saveRectangle.getGlobalBounds().contains((Vector2f)positionMouse)) {
-
+					//btnGuardar
+					ofstream archivo;
+					
 				}
 				break;
 			}
@@ -1019,7 +1024,7 @@ void Board::renderMenu(ListCurrentPlayers list)
 		GameWindow->clear(sf::Color::Black);
 		renderTerrains();
 		
-		paintFixedElements();
+		paintFixedElements(currentP);
 		GameWindow->draw(*playersName);
 		createGameBoard();
  
@@ -1043,14 +1048,26 @@ void Board::renderMenu(ListCurrentPlayers list)
 }
 
 
-void Board::paintFixedElements()//pinta los labels y recuadros
+void Board::paintFixedElements(Node* currentPla)//pinta los labels y recuadros
 {
 	float y = 210;
 	float y2 = 110;
 	float y3 = 110;
-	RectangleShape currentPlayer({ 200,60 });
-	currentPlayer.setPosition({ 10,10 });
-	currentPlayer.setFillColor(Color::Blue);
+	
+	playerColorRectangle.setPosition({ 10,10 });
+	if (currentPla->player.getColor() == 1) {
+		playerColorRectangle.setFillColor(Color::Blue);
+	}
+	if (currentPla->player.getColor() == 2) {
+		playerColorRectangle.setFillColor(Color::Yellow);
+	}
+	if (currentPla->player.getColor() == 3) {
+		playerColorRectangle.setFillColor(Color::White);
+	}
+	if (currentPla->player.getColor() == 4) {
+		playerColorRectangle.setFillColor(Color::Red);
+	}
+	
 
 	saveRectangle.setPosition(1110, 555);
 	saveRectangle.setFillColor(Color::Blue);
@@ -1113,7 +1130,7 @@ void Board::paintFixedElements()//pinta los labels y recuadros
 		y3 = y3 + 100;
 	}
 
-	GameWindow->draw(currentPlayer);
+	GameWindow->draw(playerColorRectangle);
 	GameWindow->draw(tradeRectangle);
 	GameWindow->draw(saveRectangle);
 	GameWindow->draw(*titlePlayers);

@@ -215,68 +215,134 @@ void Game::Register(int numberOfPlayers)
 	int player3Age = 0;
 	int player4Age = 0;
 
+	int player1Color = 0;
+	int player2Color = 0;
+	int player3Color = 0;
+	int player4Color = 0;
+
 	cout << "\t\t-- Digite los datos de cada jugador  --" << endl << endl;
+
+	if (numberOfPlayers == 2) {
+		cout << "Colores para cada jugador: 1.Azul, 2.Amarillo" << endl << endl;
+	}
+	else if (numberOfPlayers == 3) {
+		cout << "Colores para cada jugador: 1.Azul, 2.Amarillo, 3.Blanco" << endl << endl;
+	}
+	else {
+		cout << "Colores para cada jugador: 1.Azul, 2.Amarillo, 3.Blanco, 4.Rojo" << endl << endl;
+	}
 
 	cout << "\tJugador 1: " << endl << endl;
 	cout << " Nombre: ";
 	cin >> player1Name;
 	cout << " Edad: ";
 	cin >> player1Age;
+	cout << " Color: ";
+	if (numberOfPlayers == 4) {
+		do {
+			cin >> player1Color;
+		} while ((player1Color != 1) && (player1Color != 2) && (player1Color != 3) && (player1Color != 4));
+	} else if (numberOfPlayers == 3) {
+		do {
+			cin >> player1Color;
+		} while ((player1Color != 1) && (player1Color != 2) && (player1Color != 3));
+	}
+	else {
+		do {
+			cin >> player1Color;
+		} while ((player1Color != 1) && (player1Color != 2));
+	}
 	ListPlayerCards listP1;
 	listP1.addCard(2);
 	listP1.addCard(2);
 	listP1.addCard(2);
 	listP1.addCard(2);
-	listCurrentPlayers.AddPlayerName(player1Name, player1Age, listP1);
+	listCurrentPlayers.AddPlayerName(player1Name, player1Age, player1Color, listP1);
 	cout << endl;
 
 	cout << "\tJugador 2: " << endl << endl;
 	cout << " Nombre: ";
-	cin >> player2Name;
+	do {
+		cin >> player2Name;
+	} while (player2Name._Equal(player1Name));
 	cout << " Edad: ";
 	cin >> player2Age;
+	cout << " Color: ";
+	if (numberOfPlayers == 4) {
+		do {
+			cin >> player2Color;
+		} while ((player2Color != 1) && (player2Color != 2) && (player2Color != 3) && (player2Color != 4) && (player2Color != player1Color) || (player2Color == player1Color));
+	}
+	else if (numberOfPlayers == 3) {
+		do {
+			cin >> player2Color;
+		} while ((player2Color != 1) && (player2Color != 2) && (player2Color != 3) && (player2Color != player1Color) || (player2Color == player1Color));
+	}
+	else {
+		do {
+			cin >> player2Color;
+		} while ((player2Color != 1) && (player2Color != 2) || (player2Color == player1Color));
+	}
 	ListPlayerCards listP2;
 	listP2.addCard(1);
 	listP2.addCard(1);
 	listP2.addCard(1);
-	listCurrentPlayers.AddPlayerName(player2Name, player2Age, listP2);
+	listCurrentPlayers.AddPlayerName(player2Name, player2Age, player2Color, listP2);
 	cout << endl;
 
 	if (numberOfPlayers == 3) {
 		cout << "Jugador 3: " << endl << endl;
 		cout << " Nombre: ";
-		cin >> player3Name;
+		do {
+			cin >> player3Name;
+		} while (player3Name._Equal(player1Name) && player3Name._Equal(player2Name));
 		cout << " Edad: ";
 		cin >> player3Age;
+		cout << " Color: ";
+		do {
+			cin >> player3Color;
+		} while ((player3Color != 1) && (player3Color != 2) && (player3Color != 3) || (player3Color == player2Color) || (player3Color == player1Color));
 		ListPlayerCards listP3;
 		listP3.addCard(3);
 		listP3.addCard(3);
 		listP3.addCard(3);
-		listCurrentPlayers.AddPlayerName(player3Name, player3Age, listP3);
+		listCurrentPlayers.AddPlayerName(player3Name, player3Age, player3Color, listP3);
 	}
 	else if (numberOfPlayers == 4) {
 		cout << "\tJugador 3: " << endl << endl;
 		cout << " Nombre: ";
-		cin >> player3Name;
+		do {
+			cin >> player3Name;
+		} while (player3Name._Equal(player1Name) && player3Name._Equal(player2Name));
 		cout << " Edad: ";
 		cin >> player3Age;
+		cout << " Color: ";
+		do {
+			cin >> player3Color;
+		} while ((player3Color != 1) && (player3Color != 2) && (player3Color != 3) && (player3Color != 4) || (player3Color == player2Color) || (player3Color == player1Color));
 		ListPlayerCards listP3;
 		listP3.addCard(3);
 		listP3.addCard(3);
 		listP3.addCard(3);
-		listCurrentPlayers.AddPlayerName(player3Name, player3Age, listP3);
+		listCurrentPlayers.AddPlayerName(player3Name, player3Age, player3Color, listP3);
 		cout << endl;
 
 		cout << "\tJugador 4: " << endl << endl;
 		cout << " Nombre: ";
-		cin >> player4Name;
+		do {
+			cin >> player4Name;
+		} while (player4Name._Equal(player1Name) && player4Name._Equal(player2Name) && player4Name._Equal(player3Name));
 		cout << " Edad: ";
 		cin >> player4Age;
+		cout << " Color: ";
+		do {
+			cin >> player4Color;
+		} while ((player4Color != 1) && (player4Color != 2) && (player4Color != 3) && (player4Color != 4) || (player4Color == player3Color) || (player4Color == player2Color) || (player4Color == player1Color));
 		ListPlayerCards listP4;
 		listP4.addCard(4);
 		listP4.addCard(4);
 		listP4.addCard(4);
-		listCurrentPlayers.AddPlayerName(player4Name, player4Age, listP4);
+		listCurrentPlayers.AddPlayerName(player4Name, player4Age, player4Color, listP4);
 		cout << endl;
 
 
